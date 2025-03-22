@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
+import BookAppointment from "../components/BookAppointment";
 
 const DoctorsList = () => {
   const { user } = useAuth();
@@ -10,6 +11,8 @@ const DoctorsList = () => {
   const [specialty, setSpecialty] = useState("");
   const [specialties, setSpecialties] = useState([]);
   const [verificationFilter, setVerificationFilter] = useState("all");
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
 
   useEffect(() => {
     fetchDoctors();
@@ -67,6 +70,19 @@ const DoctorsList = () => {
       console.error("Error verifying doctor:", error);
       toast.error("Failed to update doctor verification status");
     }
+  };
+
+  const handleBookAppointment = (doctorId) => {
+    setSelectedDoctorId(doctorId);
+    setShowBookingModal(true);
+  };
+
+  const handleBookingSuccess = () => {
+    setShowBookingModal(false);
+    setSelectedDoctorId(null);
+    toast.success(
+      "Appointment booked successfully! View it in My Appointments"
+    );
   };
 
   const renderDoctorCard = (doctor) => (
@@ -130,6 +146,18 @@ const DoctorsList = () => {
               </button>
             </div>
           )}
+
+          {/* Patient booking action */}
+          {user?.role === "patient" && doctor.isVerified && (
+            <div className="mt-4">
+              <button
+                onClick={() => handleBookAppointment(doctor._id)}
+                className="btn btn-primary"
+              >
+                Book Appointment
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -186,6 +214,40 @@ const DoctorsList = () => {
           <p className="text-xl text-gray-600">
             No doctors found matching your criteria
           </p>
+        </div>
+      )}
+
+      {/* Booking Modal */}
+      {showBookingModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Book an Appointment</h2>
+              <button
+                onClick={() => setShowBookingModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <BookAppointment
+              doctorId={selectedDoctorId}
+              onSuccess={handleBookingSuccess}
+            />
+          </div>
         </div>
       )}
     </div>

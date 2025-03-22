@@ -11,6 +11,8 @@ import PatientsList from "./pages/PatientsList";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import Appointments from "./pages/Appointments";
+import ManageAvailability from "./pages/ManageAvailability";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -78,6 +80,24 @@ const App = () => {
             element={
               <ProtectedRoute adminOnly={true}>
                 <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/appointments"
+            element={
+              <ProtectedRoute>
+                <Appointments />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/manage-availability"
+            element={
+              <ProtectedRoute>
+                <ManageAvailability />
               </ProtectedRoute>
             }
           />

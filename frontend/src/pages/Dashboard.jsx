@@ -103,8 +103,12 @@ const Dashboard = () => {
       <div className="card">
         <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button className="btn btn-primary">Manage Availability</button>
-          <button className="btn btn-secondary">View Appointments</button>
+          <a href="/manage-availability" className="btn btn-primary">
+            Manage Availability
+          </a>
+          <a href="/appointments" className="btn btn-secondary">
+            View Appointments
+          </a>
         </div>
       </div>
     </div>
@@ -115,8 +119,12 @@ const Dashboard = () => {
       <div className="card">
         <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button className="btn btn-primary">Find a Doctor</button>
-          <button className="btn btn-secondary">My Appointments</button>
+          <a href="/doctors" className="btn btn-primary">
+            Find a Doctor
+          </a>
+          <a href="/appointments" className="btn btn-secondary">
+            My Appointments
+          </a>
         </div>
       </div>
 
