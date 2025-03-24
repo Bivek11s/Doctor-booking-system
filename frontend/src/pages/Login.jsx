@@ -25,7 +25,6 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    // Validation
     if (!formData.emailOrPhone || !formData.password) {
       return setError("Please fill in all fields");
     }
@@ -42,54 +41,46 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <div className="card">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Login</h2>
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
+        {error && <div style={styles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Email or Phone</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Email or Phone</label>
             <input
               type="text"
               name="emailOrPhone"
               value={formData.emailOrPhone}
               onChange={handleChange}
-              className="form-input"
+              style={styles.input}
               placeholder="Enter your email or phone"
             />
           </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-2">Password</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="form-input"
+              style={styles.input}
               placeholder="Enter your password"
             />
           </div>
 
-          <button
-            type="submit"
-            className="btn btn-primary w-full"
-            disabled={loading}
-          >
+          <button type="submit" style={styles.button} disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div style={styles.registerLink}>
           <p>
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">
+            <Link to="/register" style={styles.link}>
               Register here
             </Link>
           </p>
@@ -97,6 +88,77 @@ const Login = () => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    maxWidth: "400px",
+    margin: "50px auto",
+    display: "flex",
+    justifyContent: "center",
+  },
+  card: {
+    backgroundColor: "#f7f9fc",
+    padding: "24px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    width: "100%",
+    textAlign: "center",
+  },
+  title: {
+    fontSize: "24px",
+    fontWeight: "bold",
+    marginBottom: "20px",
+    color: "#333",
+  },
+  error: {
+    backgroundColor: "#f8d7da",
+    color: "#721c24",
+    padding: "10px",
+    borderRadius: "5px",
+    marginBottom: "15px",
+    fontSize: "14px",
+  },
+  formGroup: {
+    marginBottom: "15px",
+    textAlign: "left",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: "5px",
+    display: "block",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    fontSize: "16px",
+  },
+  button: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "5px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    fontSize: "16px",
+    cursor: "pointer",
+    transition: "background 0.3s",
+  },
+  buttonHover: {
+    backgroundColor: "#0056b3",
+  },
+  registerLink: {
+    marginTop: "15px",
+    fontSize: "14px",
+  },
+  link: {
+    color: "#007bff",
+    textDecoration: "underline",
+    cursor: "pointer",
+  },
 };
 
 export default Login;

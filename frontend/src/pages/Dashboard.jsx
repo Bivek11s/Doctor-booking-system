@@ -48,107 +48,115 @@ const Dashboard = () => {
     fetchStats();
   }, [user]);
 
+  const styles = {
+    card: {
+      padding: "20px",
+      borderRadius: "10px",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      backgroundColor: "#FFFFFF",
+      textAlign: "center",
+    },
+    cardBlue: {
+      backgroundColor: "#E3F2FD", // Light Blue
+      color: "#1565C0", // Dark Blue
+    },
+    cardGreen: {
+      backgroundColor: "#E8F5E9", // Light Green
+      color: "#2E7D32", // Dark Green
+    },
+    cardYellow: {
+      backgroundColor: "#FFFDE7", // Light Yellow
+      color: "#F9A825", // Dark Yellow
+    },
+    btn: {
+      padding: "10px 15px",
+      borderRadius: "5px",
+      textDecoration: "none",
+      textAlign: "center",
+      display: "inline-block",
+      margin: "5px",
+    },
+    btnPrimary: {
+      backgroundColor: "#1565C0", // Dark Blue
+      color: "#FFFFFF",
+    },
+    btnSecondary: {
+      backgroundColor: "#2E7D32", // Dark Green
+      color: "#FFFFFF",
+    },
+    btnDanger: {
+      backgroundColor: "#C62828", // Dark Red
+      color: "#FFFFFF",
+    },
+  };
+
   const renderAdminDashboard = () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div className="card bg-blue-50">
-        <h3 className="text-lg font-semibold mb-2">Total Doctors</h3>
-        <p className="text-3xl font-bold text-blue-600">{stats.doctorsCount}</p>
-        <p className="mt-2 text-sm text-gray-600">
-          Registered doctors in the system
-        </p>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px" }}>
+      <div style={{ ...styles.card, ...styles.cardBlue }}>
+        <h3>Total Doctors</h3>
+        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.doctorsCount}</p>
+        <p>Registered doctors in the system</p>
       </div>
 
-      <div className="card bg-green-50">
-        <h3 className="text-lg font-semibold mb-2">Total Patients</h3>
-        <p className="text-3xl font-bold text-green-600">
-          {stats.patientsCount}
-        </p>
-        <p className="mt-2 text-sm text-gray-600">
-          Registered patients in the system
-        </p>
+      <div style={{ ...styles.card, ...styles.cardGreen }}>
+        <h3>Total Patients</h3>
+        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.patientsCount}</p>
+        <p>Registered patients in the system</p>
       </div>
 
-      <div className="card bg-yellow-50">
-        <h3 className="text-lg font-semibold mb-2">Pending Approvals</h3>
-        <p className="text-3xl font-bold text-yellow-600">
-          {stats.pendingDoctors}
-        </p>
-        <p className="mt-2 text-sm text-gray-600">
-          Doctors waiting for verification
-        </p>
+      <div style={{ ...styles.card, ...styles.cardYellow }}>
+        <h3>Pending Approvals</h3>
+        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.pendingDoctors}</p>
+        <p>Doctors waiting for verification</p>
       </div>
     </div>
   );
 
   const renderDoctorDashboard = () => (
-    <div className="space-y-6">
-      <div className="card bg-blue-50">
-        <h3 className="text-lg font-semibold mb-2">Your Status</h3>
-        <div className="flex items-center mt-2">
-          <span
-            className={`badge ${
-              user.isVerified ? "badge-success" : "badge-warning"
-            } mr-2`}
-          >
-            {user.isVerified ? "Verified" : "Pending Verification"}
-          </span>
-          <p className="text-sm text-gray-600">
-            {user.isVerified
-              ? "You are verified and can now manage appointments"
-              : "Your account is pending verification by an admin"}
-          </p>
-        </div>
+    <div>
+      <div style={{ ...styles.card, ...styles.cardBlue }}>
+        <h3>Your Status</h3>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>
+          {user.isVerified ? "Verified" : "Pending Verification"}
+        </p>
+        <p>{user.isVerified ? "You can now manage appointments" : "Your account is pending admin verification"}</p>
       </div>
 
-      <div className="card">
-        <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <a href="/manage-availability" className="btn btn-primary">
-            Manage Availability
-          </a>
-          <a href="/appointments" className="btn btn-secondary">
-            View Appointments
-          </a>
-        </div>
+      <div style={styles.card}>
+        <h3>Quick Actions</h3>
+        <a href="/manage-availability" style={{ ...styles.btn, ...styles.btnPrimary }}>Manage Availability</a>
+        <a href="/appointments" style={{ ...styles.btn, ...styles.btnSecondary }}>View Appointments</a>
       </div>
     </div>
   );
 
   const renderPatientDashboard = () => (
-    <div className="space-y-6">
-      <div className="card">
-        <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <a href="/doctors" className="btn btn-primary">
-            Find a Doctor
-          </a>
-          <a href="/appointments" className="btn btn-secondary">
-            My Appointments
-          </a>
-        </div>
+    <div>
+      <div style={styles.card}>
+        <h3>Quick Actions</h3>
+        <a href="/doctors" style={{ ...styles.btn, ...styles.btnPrimary }}>Find a Doctor</a>
+        <a href="/appointments" style={{ ...styles.btn, ...styles.btnSecondary }}>My Appointments</a>
       </div>
 
-      <div className="card bg-blue-50">
-        <h3 className="text-lg font-semibold mb-2">Available Doctors</h3>
-        <p className="text-3xl font-bold text-blue-600">{stats.doctorsCount}</p>
-        <p className="mt-2 text-sm text-gray-600">
-          Doctors available for appointments
-        </p>
+      <div style={{ ...styles.card, ...styles.cardBlue }}>
+        <h3>Available Doctors</h3>
+        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.doctorsCount}</p>
+        <p>Doctors available for appointments</p>
       </div>
     </div>
   );
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <div style={{ width: "50px", height: "50px", border: "4px solid #1565C0", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" }}></div>
       </div>
     );
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Welcome, {user?.email}</h1>
+      <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>Welcome, {user?.email}</h1>
 
       {user?.role === "admin" && renderAdminDashboard()}
       {user?.role === "doctor" && renderDoctorDashboard()}

@@ -9,11 +9,9 @@ const PatientsList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Only doctors and admins should access this page
     if (user?.role !== "doctor" && user?.role !== "admin") {
       return;
     }
-
     fetchPatients();
   }, [user]);
 
@@ -31,26 +29,26 @@ const PatientsList = () => {
   };
 
   const renderPatientCard = (patient) => (
-    <div key={patient._id} className="card mb-4">
-      <div className="flex flex-col md:flex-row">
-        <div className="md:w-1/4 mb-4 md:mb-0">
+    <div key={patient._id} style={styles.card}>
+      <div style={styles.cardContent}>
+        <div style={styles.imageWrapper}>
           <img
             src={patient.profilePic}
             alt={patient.email}
-            className="w-24 h-24 rounded-full object-cover mx-auto"
+            style={styles.image}
           />
         </div>
 
-        <div className="md:w-3/4">
-          <h3 className="text-xl font-semibold">{patient.email}</h3>
-          <p className="text-gray-600 mb-2">Phone: {patient.phone}</p>
+        <div style={styles.info}>
+          <h3 style={styles.name}>{patient.email}</h3>
+          <p style={styles.text}>Phone: {patient.phone}</p>
 
-          <div className="mb-2">
-            <span className="font-medium">Gender:</span> {patient.gender}
+          <div style={styles.detail}>
+            <span style={styles.label}>Gender:</span> {patient.gender}
           </div>
 
-          <div className="mb-2">
-            <span className="font-medium">Date of Birth:</span>{" "}
+          <div style={styles.detail}>
+            <span style={styles.label}>Date of Birth:</span>{" "}
             {new Date(patient.dateOfBirth).toLocaleDateString()}
           </div>
         </div>
@@ -60,28 +58,124 @@ const PatientsList = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div style={styles.loaderWrapper}>
+        <div style={styles.loader}></div>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Patients Directory</h1>
+    <div style={styles.container}>
+      <h1 style={styles.title}>Patients Directory</h1>
 
       {patients.length > 0 ? (
         <div>
-          <p className="mb-4">Showing {patients.length} patient(s)</p>
+          <p style={styles.count}>Showing {patients.length} patient(s)</p>
           {patients.map(renderPatientCard)}
         </div>
       ) : (
-        <div className="text-center py-8">
-          <p className="text-xl text-gray-600">No patients found</p>
+        <div style={styles.noPatients}>
+          <p style={styles.noPatientsText}>No patients found</p>
         </div>
       )}
     </div>
   );
 };
+
+const styles = {
+  container: {
+    padding: "20px",
+    backgroundColor: "#f7f9fc",
+    minHeight: "100vh",
+  },
+  title: {
+    fontSize: "2rem",
+    fontWeight: "bold",
+    marginBottom: "20px",
+    color: "#333",
+  },
+  count: {
+    marginBottom: "15px",
+    fontSize: "1rem",
+    color: "#555",
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    padding: "15px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    marginBottom: "15px",
+  },
+  cardContent: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  imageWrapper: {
+    flexShrink: 0,
+    marginRight: "20px",
+  },
+  image: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    objectFit: "cover",
+  },
+  info: {
+    flex: 1,
+  },
+  name: {
+    fontSize: "1.2rem",
+    fontWeight: "600",
+    color: "#007bff",
+    marginBottom: "5px",
+  },
+  text: {
+    fontSize: "1rem",
+    color: "#666",
+    marginBottom: "5px",
+  },
+  detail: {
+    fontSize: "1rem",
+    color: "#444",
+    marginBottom: "5px",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#333",
+  },
+  loaderWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "64vh",
+  },
+  loader: {
+    width: "50px",
+    height: "50px",
+    border: "5px solid #ddd",
+    borderTop: "5px solid #007bff",
+    borderRadius: "50%",
+    animation: "spin 1s linear infinite",
+  },
+  noPatients: {
+    textAlign: "center",
+    padding: "20px",
+  },
+  noPatientsText: {
+    fontSize: "1.2rem",
+    color: "#888",
+  },
+};
+
+// Add keyframes animation for loader
+const styleSheet = document.styleSheets[0];
+styleSheet.insertRule(
+  `@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }`,
+  styleSheet.cssRules.length
+);
 
 export default PatientsList;

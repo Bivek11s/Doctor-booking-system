@@ -16,6 +16,7 @@ const Register = () => {
     profilePic: null,
     qualificationProof: null,
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +43,6 @@ const Register = () => {
     e.preventDefault();
     setError("");
 
-    // Validation
     if (
       !formData.fullName ||
       !formData.email ||
@@ -69,8 +69,6 @@ const Register = () => {
 
     try {
       setLoading(true);
-
-      // Create FormData object for file upload
       const submitData = new FormData();
       for (const key in formData) {
         if (key !== "confirmPassword" && formData[key] !== null) {
@@ -87,202 +85,161 @@ const Register = () => {
     }
   };
 
-  return (
-    <div className="max-w-md mx-auto mt-10">
-      <div className="card">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+  // Inline CSS
+  const styles = {
+    container: {
+      maxWidth: "500px",
+      margin: "50px auto",
+      padding: "20px",
+      borderRadius: "8px",
+      backgroundColor: "#EEF1DA", // Pale cream
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    },
+    heading: {
+      fontSize: "24px",
+      fontWeight: "bold",
+      textAlign: "center",
+      color: "#ADB2D4", // Muted lavender
+    },
+    input: {
+      width: "100%",
+      padding: "10px",
+      marginBottom: "10px",
+      borderRadius: "5px",
+      border: "1px solid #C7D9DD", // Soft pastel blue
+      backgroundColor: "#D5E5D5", // Light pastel green
+      color: "#333",
+    },
+    button: {
+      width: "100%",
+      padding: "12px",
+      backgroundColor: "#ADB2D4", // Muted lavender
+      color: "white",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      fontSize: "16px",
+    },
+    buttonDisabled: {
+      backgroundColor: "#C7D9DD", // Softer tone when disabled
+      cursor: "not-allowed",
+    },
+    errorBox: {
+      backgroundColor: "#FFC0C0",
+      color: "#721c24",
+      padding: "10px",
+      borderRadius: "5px",
+      marginBottom: "10px",
+      textAlign: "center",
+    },
+    link: {
+      color: "#ADB2D4",
+      textDecoration: "underline",
+      cursor: "pointer",
+    },
+  };
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
+  return (
+    <div style={styles.container}>
+      <h2 style={styles.heading}>Register</h2>
+
+      {error && <div style={styles.errorBox}>{error}</div>}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="fullName"
+          placeholder="Full Name"
+          value={formData.fullName}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+        <select name="gender" value={formData.gender} onChange={handleChange} style={styles.input} required>
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+        <input
+          type="date"
+          name="dateOfBirth"
+          value={formData.dateOfBirth}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+        <select name="role" value={formData.role} onChange={handleChange} style={styles.input} required>
+          <option value="patient">Patient</option>
+          <option value="doctor">Doctor</option>
+        </select>
+
+        {formData.role === "doctor" && (
+          <input
+            type="text"
+            name="doctorSpecialty"
+            placeholder="Specialty"
+            value={formData.doctorSpecialty}
+            onChange={handleChange}
+            style={styles.input}
+            required
+          />
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Full Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              className="form-input"
-              placeholder="Enter your full name"
-              required
-            />
-          </div>
+        <input type="file" name="profilePic" onChange={handleFileChange} style={styles.input} accept="image/*" />
 
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Email <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="form-input"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
+        {formData.role === "doctor" && (
+          <input type="file" name="qualificationProof" onChange={handleFileChange} style={styles.input} accept="image/*, application/pdf" required />
+        )}
 
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Phone <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="form-input"
-              placeholder="Enter your phone number"
-              required
-            />
-          </div>
+        <button type="submit" style={{ ...styles.button, ...(loading ? styles.buttonDisabled : {}) }} disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
+      </form>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Password <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="form-input"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Confirm Password <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="form-input"
-              placeholder="Confirm your password"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Gender <span className="text-red-500">*</span>
-            </label>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="form-input"
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Date of Birth <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="date"
-              name="dateOfBirth"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
-              className="form-input"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Role <span className="text-red-500">*</span>
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="form-input"
-              required
-            >
-              <option value="patient">Patient</option>
-              <option value="doctor">Doctor</option>
-            </select>
-          </div>
-
-          {formData.role === "doctor" && (
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">
-                Specialty <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="doctorSpecialty"
-                value={formData.doctorSpecialty}
-                onChange={handleChange}
-                className="form-input"
-                placeholder="Enter your medical specialty"
-                required={formData.role === "doctor"}
-              />
-            </div>
-          )}
-
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Profile Picture</label>
-            <input
-              type="file"
-              name="profilePic"
-              onChange={handleFileChange}
-              className="form-input"
-              accept="image/*"
-            />
-          </div>
-
-          {formData.role === "doctor" && (
-            <div className="mb-6">
-              <label className="block text-gray-700 mb-2">
-                Qualification Proof <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="file"
-                name="qualificationProof"
-                onChange={handleFileChange}
-                className="form-input"
-                accept="image/*, application/pdf"
-                required={formData.role === "doctor"}
-              />
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="btn btn-primary w-full"
-            disabled={loading}
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </form>
-
-        <div className="mt-4 text-center">
-          <p>
-            Already have an account?{" "}
-            <Link to="/login" className="text-blue-600 hover:underline">
-              Login here
-            </Link>
-          </p>
-        </div>
+      <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <p>
+          Already have an account?{" "}
+          <Link to="/login" style={styles.link}>
+            Login here
+          </Link>
+        </p>
       </div>
     </div>
   );

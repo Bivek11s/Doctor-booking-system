@@ -18,16 +18,10 @@ const Appointments = () => {
     try {
       setLoading(true);
       let url = "/api/appointments";
-
-      // Add status filter if selected
-      if (statusFilter !== "all") {
-        url += `?status=${statusFilter}`;
-      }
-
+      if (statusFilter !== "all") url += `?status=${statusFilter}`;
       const response = await axios.get(url);
       setAppointments(response.data.appointments);
     } catch (error) {
-      console.error("Error fetching appointments:", error);
       toast.error("Failed to load appointments");
     } finally {
       setLoading(false);
@@ -36,29 +30,30 @@ const Appointments = () => {
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     try {
-      await axios.put(`/api/appointments/${appointmentId}/status`, {
-        status: newStatus,
-      });
-
+      await axios.put(`/api/appointments/${appointmentId}/status`, { status: newStatus });
       toast.success(`Appointment ${newStatus} successfully`);
-      fetchAppointments(); // Refresh the list
+      fetchAppointments();
     } catch (error) {
-      console.error("Error updating appointment status:", error);
       toast.error("Failed to update appointment status");
     }
   };
 
   const renderStatusBadge = (status) => {
-    const statusClasses = {
-      scheduled: "bg-blue-100 text-blue-800",
-      completed: "bg-green-100 text-green-800",
-      cancelled: "bg-red-100 text-red-800",
+    const statusColors = {
+      scheduled: { background: "#B3B3E6", color: "#4A4A7D" },
+      completed: { background: "#E6F2E6", color: "#2D6A2E" },
+      cancelled: { background: "#F9B3B3", color: "#8B0000" },
     };
 
     return (
-      <span
-        className={`px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status]}`}
-      >
+      <span style={{ 
+        padding: "6px 12px", 
+        borderRadius: "10px", 
+        fontSize: "12px", 
+        fontWeight: "bold",
+        backgroundColor: statusColors[status].background, 
+        color: statusColors[status].color 
+      }}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     );
@@ -68,7 +63,6 @@ const Appointments = () => {
     const appointmentDate = new Date(appointment.appointmentDate);
     const formattedDate = format(appointmentDate, "MMMM d, yyyy");
 
-    // Format time (convert 24h to 12h format)
     const [hours, minutes] = appointment.appointmentTime.split(":");
     const hour = parseInt(hours, 10);
     const ampm = hour >= 12 ? "PM" : "AM";
@@ -76,91 +70,63 @@ const Appointments = () => {
     const formattedTime = `${hour12}:${minutes} ${ampm}`;
 
     return (
-      <div key={appointment._id} className="card mb-4">
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/4 mb-4 md:mb-0">
-            {user.role === "patient" ? (
-              // Show doctor info for patients
-              <div className="text-center">
-                <img
-                  src={appointment.doctor.profilePic}
-                  alt={`Dr. ${appointment.doctor.email}`}
-                  className="w-24 h-24 rounded-full object-cover mx-auto mb-2"
-                />
-                <h4 className="font-medium">{appointment.doctor.email}</h4>
-                <p className="text-sm text-gray-600">
-                  {appointment.doctor.doctorSpecialty}
-                </p>
-              </div>
-            ) : (
-              // Show patient info for doctors
-              <div className="text-center">
-                <img
-                  src={appointment.patient.profilePic}
-                  alt={appointment.patient.email}
-                  className="w-24 h-24 rounded-full object-cover mx-auto mb-2"
-                />
-                <h4 className="font-medium">{appointment.patient.email}</h4>
-                <p className="text-sm text-gray-600">
-                  {appointment.patient.phone}
-                </p>
-              </div>
-            )}
+      <div key={appointment._id} style={{ 
+        backgroundColor: "#E6F2E6", 
+        padding: "20px", 
+        borderRadius: "10px", 
+        marginBottom: "20px", 
+        boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)" 
+      }}>
+        <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+          <div style={{ textAlign: "center" }}>
+            <img
+              src={user.role === "patient" ? appointment.doctor.profilePic : appointment.patient.profilePic}
+              alt="Profile"
+              style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover" }}
+            />
+            <h4 style={{ fontWeight: "bold", marginTop: "10px" }}>
+              {user.role === "patient" ? appointment.doctor.email : appointment.patient.email}
+            </h4>
+            <p style={{ fontSize: "14px", color: "#666" }}>
+              {user.role === "patient" ? appointment.doctor.doctorSpecialty : appointment.patient.phone}
+            </p>
           </div>
 
-          <div className="md:w-3/4">
-            <div className="flex justify-between items-start mb-2">
-              <div>
-                <h3 className="text-xl font-semibold">
-                  Appointment on {formattedDate}
-                </h3>
-                <p className="text-gray-600">Time: {formattedTime}</p>
-              </div>
-              <div>{renderStatusBadge(appointment.status)}</div>
+          <div style={{ flexGrow: "1" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>Appointment on {formattedDate}</h3>
+              {renderStatusBadge(appointment.status)}
             </div>
-
-            <div className="mb-3">
-              <h4 className="font-medium">Reason:</h4>
-              <p>{appointment.reason}</p>
-            </div>
-
+            <p style={{ marginBottom: "10px" }}>Time: {formattedTime}</p>
+            <p style={{ fontWeight: "bold" }}>Reason:</p>
+            <p style={{ marginBottom: "10px" }}>{appointment.reason}</p>
             {appointment.notes && (
-              <div className="mb-3">
-                <h4 className="font-medium">Notes:</h4>
+              <>
+                <p style={{ fontWeight: "bold" }}>Notes:</p>
                 <p>{appointment.notes}</p>
-              </div>
+              </>
             )}
 
-            {/* Actions based on role and appointment status */}
             {appointment.status === "scheduled" && (
-              <div className="mt-4">
+              <div style={{ marginTop: "10px" }}>
                 {user.role === "patient" && (
-                  <button
-                    onClick={() =>
-                      handleStatusChange(appointment._id, "cancelled")
-                    }
-                    className="btn btn-danger"
-                  >
+                  <button 
+                    onClick={() => handleStatusChange(appointment._id, "cancelled")} 
+                    style={{ backgroundColor: "#F9B3B3", color: "#fff", padding: "10px 15px", borderRadius: "5px", border: "none", cursor: "pointer" }}>
                     Cancel Appointment
                   </button>
                 )}
 
                 {user.role === "doctor" && (
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() =>
-                        handleStatusChange(appointment._id, "completed")
-                      }
-                      className="btn btn-success"
-                    >
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    <button 
+                      onClick={() => handleStatusChange(appointment._id, "completed")} 
+                      style={{ backgroundColor: "#B3B3E6", color: "#fff", padding: "10px 15px", borderRadius: "5px", border: "none", cursor: "pointer" }}>
                       Mark as Completed
                     </button>
-                    <button
-                      onClick={() =>
-                        handleStatusChange(appointment._id, "cancelled")
-                      }
-                      className="btn btn-danger"
-                    >
+                    <button 
+                      onClick={() => handleStatusChange(appointment._id, "cancelled")} 
+                      style={{ backgroundColor: "#F9B3B3", color: "#fff", padding: "10px 15px", borderRadius: "5px", border: "none", cursor: "pointer" }}>
                       Cancel Appointment
                     </button>
                   </div>
@@ -174,16 +140,15 @@ const Appointments = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">My Appointments</h1>
+    <div style={{ backgroundColor: "#D8E6EC", minHeight: "100vh", padding: "20px" }}>
+      <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px", color: "#4A4A7D" }}>My Appointments</h1>
 
-      <div className="mb-6">
-        <label className="block text-gray-700 mb-2">Filter by Status</label>
+      <div style={{ marginBottom: "20px" }}>
+        <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>Filter by Status</label>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="form-input"
-        >
+          style={{ padding: "10px", width: "100%", borderRadius: "5px", border: "1px solid #B3B3E6" }}>
           <option value="all">All Appointments</option>
           <option value="scheduled">Scheduled</option>
           <option value="completed">Completed</option>
@@ -192,20 +157,13 @@ const Appointments = () => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "64px" }}>
+          <div style={{ border: "4px solid #B3B3E6", borderRadius: "50%", width: "50px", height: "50px", animation: "spin 1s linear infinite" }}></div>
         </div>
       ) : appointments.length > 0 ? (
-        <div>
-          <p className="mb-4">Showing {appointments.length} appointment(s)</p>
-          {appointments.map(renderAppointmentCard)}
-        </div>
+        <div>{appointments.map(renderAppointmentCard)}</div>
       ) : (
-        <div className="text-center py-8">
-          <p className="text-xl text-gray-600">
-            No appointments found matching your criteria
-          </p>
-        </div>
+        <p style={{ textAlign: "center", color: "#666", padding: "10px 0" }}>No appointments found</p>
       )}
     </div>
   );

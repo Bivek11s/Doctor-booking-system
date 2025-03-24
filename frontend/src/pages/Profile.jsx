@@ -20,7 +20,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      // Format date to YYYY-MM-DD for input type="date"
       const formattedDate = user.dateOfBirth
         ? new Date(user.dateOfBirth).toISOString().split("T")[0]
         : "";
@@ -52,7 +51,6 @@ const Profile = () => {
       [name]: files[0],
     }));
 
-    // Create preview for profile picture
     if (name === "profilePic" && files[0]) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -68,8 +66,6 @@ const Profile = () => {
 
     try {
       setLoading(true);
-
-      // Create FormData object for file upload
       const submitData = new FormData();
       for (const key in formData) {
         if (formData[key] !== null && formData[key] !== undefined) {
@@ -89,9 +85,7 @@ const Profile = () => {
         },
       });
 
-      // Update user data in context
       updateUserData(response.data.user);
-
       toast.success("Profile updated successfully");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update profile");
@@ -103,194 +97,112 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="text-center py-8">
-        <p className="text-xl text-gray-600">
-          Please login to view your profile
-        </p>
+      <div style={styles.noUser}>
+        <p style={styles.noUserText}>Please login to view your profile</p>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Your Profile</h1>
+    <div style={styles.container}>
+      <h1 style={styles.title}>Your Profile</h1>
 
-      <div className="card">
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
+      <div style={styles.card}>
+        {error && <div style={styles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="md:w-1/3 mb-6 md:mb-0">
-              <div className="flex flex-col items-center">
-                <img
-                  src={
-                    previewProfilePic ||
-                    "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                  }
-                  alt="Profile"
-                  className="w-40 h-40 rounded-full object-cover mb-4"
-                />
+          <div style={styles.formGroup}>
+            <div style={styles.profileSection}>
+              <img
+                src={
+                  previewProfilePic ||
+                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                }
+                alt="Profile"
+                style={styles.profilePic}
+              />
 
-                <div className="w-full">
-                  <label className="block text-gray-700 mb-2">
-                    Profile Picture
-                  </label>
-                  <input
-                    type="file"
-                    name="profilePic"
-                    onChange={handleFileChange}
-                    className="form-input"
-                    accept="image/*"
-                  />
-                </div>
-
-                {user.role === "doctor" && (
-                  <div className="w-full mt-4">
-                    <label className="block text-gray-700 mb-2">
-                      Qualification Proof
-                    </label>
-                    <input
-                      type="file"
-                      name="qualificationProof"
-                      onChange={handleFileChange}
-                      className="form-input"
-                      accept="image/*, application/pdf"
-                    />
-
-                    {user.qualificationProof && (
-                      <a
-                        href={user.qualificationProof}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline text-sm block mt-2"
-                      >
-                        View Current Document
-                      </a>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="md:w-2/3">
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder="Enter your full name"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="form-input"
-                  disabled
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  Email cannot be changed
-                </p>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Gender</label>
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  className="form-input"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">
-                  Date of Birth
-                </label>
-                <input
-                  type="date"
-                  name="dateOfBirth"
-                  value={formData.dateOfBirth}
-                  onChange={handleChange}
-                  className="form-input"
-                />
-              </div>
+              <label style={styles.label}>Profile Picture</label>
+              <input
+                type="file"
+                name="profilePic"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
 
               {user.role === "doctor" && (
-                <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Specialty</label>
+                <>
+                  <label style={styles.label}>Qualification Proof</label>
                   <input
-                    type="text"
-                    name="doctorSpecialty"
-                    value={formData.doctorSpecialty}
-                    onChange={handleChange}
-                    className="form-input"
+                    type="file"
+                    name="qualificationProof"
+                    onChange={handleFileChange}
+                    accept="image/*, application/pdf"
                   />
-                </div>
+                  {user.qualificationProof && (
+                    <a
+                      href={user.qualificationProof}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={styles.link}
+                    >
+                      View Current Document
+                    </a>
+                  )}
+                </>
+              )}
+            </div>
+
+            <div style={styles.detailsSection}>
+              <label style={styles.label}>Full Name</label>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                style={styles.input}
+                placeholder="Enter your full name"
+                required
+              />
+
+              <label style={styles.label}>Email</label>
+              <input type="email" value={formData.email} disabled style={styles.input} />
+              <p style={styles.note}>Email cannot be changed</p>
+
+              <label style={styles.label}>Phone</label>
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} style={styles.input} />
+
+              <label style={styles.label}>Gender</label>
+              <select name="gender" value={formData.gender} onChange={handleChange} style={styles.input}>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+
+              <label style={styles.label}>Date of Birth</label>
+              <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} style={styles.input} />
+
+              {user.role === "doctor" && (
+                <>
+                  <label style={styles.label}>Specialty</label>
+                  <input type="text" name="doctorSpecialty" value={formData.doctorSpecialty} onChange={handleChange} style={styles.input} />
+                </>
               )}
 
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Role</label>
-                <input
-                  type="text"
-                  value={user.role}
-                  className="form-input"
-                  disabled
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  Role cannot be changed
-                </p>
-              </div>
+              <label style={styles.label}>Role</label>
+              <input type="text" value={user.role} disabled style={styles.input} />
+              <p style={styles.note}>Role cannot be changed</p>
 
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">
-                  Verification Status
-                </label>
-                <div
-                  className={`badge ${
-                    user.isVerified ? "badge-success" : "badge-warning"
-                  } inline-block`}
-                >
-                  {user.isVerified ? "Verified" : "Pending Verification"}
-                </div>
+              <label style={styles.label}>Verification Status</label>
+              <div style={user.isVerified ? styles.verifiedBadge : styles.pendingBadge}>
+                {user.isVerified ? "Verified" : "Pending Verification"}
               </div>
             </div>
           </div>
 
-          <div className="mt-6 text-right">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={loading}
-            >
+          <div style={styles.buttonWrapper}>
+            <button type="submit" style={styles.button} disabled={loading}>
               {loading ? "Updating..." : "Update Profile"}
             </button>
           </div>
@@ -298,6 +210,75 @@ const Profile = () => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    padding: "20px",
+    backgroundColor: "#f7f9fc",
+    minHeight: "100vh",
+  },
+  title: {
+    fontSize: "2rem",
+    fontWeight: "bold",
+    marginBottom: "20px",
+    color: "#333",
+  },
+  card: {
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  },
+  error: {
+    color: "red",
+    marginBottom: "10px",
+  },
+  formGroup: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "20px",
+  },
+  profileSection: {
+    flex: "1",
+    textAlign: "center",
+  },
+  profilePic: {
+    width: "120px",
+    height: "120px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    marginBottom: "10px",
+  },
+  detailsSection: {
+    flex: "2",
+  },
+  label: {
+    fontWeight: "bold",
+    marginBottom: "5px",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    marginBottom: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+  },
+  note: {
+    fontSize: "12px",
+    color: "#777",
+  },
+  buttonWrapper: {
+    textAlign: "right",
+    marginTop: "20px",
+  },
+  button: {
+    backgroundColor: "#007bff",
+    color: "#fff",
+    padding: "10px 15px",
+    borderRadius: "5px",
+    border: "none",
+  },
 };
 
 export default Profile;

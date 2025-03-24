@@ -23,26 +23,19 @@ const DoctorsList = () => {
       setLoading(true);
       let url = "/api/users?role=doctor";
 
-      // Add specialty filter if selected
-      if (specialty) {
-        url += `&specialty=${specialty}`;
-      }
-
-      // Add verification filter if selected
-      if (verificationFilter !== "all") {
+      if (specialty) url += `&specialty=${specialty}`;
+      if (verificationFilter !== "all")
         url += `&isVerified=${verificationFilter === "verified"}`;
-      }
 
       const response = await axios.get(url);
       setDoctors(response.data.users);
 
-      // Extract unique specialties for filter dropdown
       if (!specialty) {
         const uniqueSpecialties = [
           ...new Set(
             response.data.users
               .map((doctor) => doctor.doctorSpecialty)
-              .filter((specialty) => specialty)
+              .filter((spec) => spec)
           ),
         ];
         setSpecialties(uniqueSpecialties);
@@ -65,7 +58,7 @@ const DoctorsList = () => {
       toast.success(
         `Doctor ${isApproved ? "approved" : "rejected"} successfully`
       );
-      fetchDoctors(); // Refresh the list
+      fetchDoctors();
     } catch (error) {
       console.error("Error verifying doctor:", error);
       toast.error("Failed to update doctor verification status");
@@ -80,84 +73,59 @@ const DoctorsList = () => {
   const handleBookingSuccess = () => {
     setShowBookingModal(false);
     setSelectedDoctorId(null);
-    toast.success(
-      "Appointment booked successfully! View it in My Appointments"
-    );
+    toast.success("Appointment booked successfully!");
   };
 
   const renderDoctorCard = (doctor) => (
-    <div key={doctor._id} className="card mb-4">
-      <div className="flex flex-col md:flex-row">
-        <div className="md:w-1/4 mb-4 md:mb-0">
-          <img
-            src={doctor.profilePic}
-            alt={`Dr. ${doctor.email}`}
-            className="w-32 h-32 rounded-full object-cover mx-auto"
-          />
-        </div>
-
-        <div className="md:w-3/4">
-          <h3 className="text-xl font-semibold">{doctor.fullName}</h3>
-          <p className="text-gray-600 mb-2">Email: {doctor.email}</p>
-          <p className="text-gray-600 mb-2">Phone: {doctor.phone}</p>
-
-          <div className="mb-2">
-            <span className="font-medium">Specialty:</span>{" "}
+    <div key={doctor._id} style={styles.card}>
+      <div style={styles.cardContent}>
+        <img
+          src={doctor.profilePic}
+          alt={`Dr. ${doctor.email}`}
+          style={styles.profilePic}
+        />
+        <div>
+          <h3 style={styles.name}>{doctor.fullName}</h3>
+          <p style={styles.text}>Email: {doctor.email}</p>
+          <p style={styles.text}>Phone: {doctor.phone}</p>
+          <p style={styles.text}>
+            <span style={styles.label}>Specialty:</span>{" "}
             {doctor.doctorSpecialty || "Not specified"}
-          </div>
-
-          <div className="mb-2">
-            <span className="font-medium">Status:</span>
+          </p>
+          <p style={styles.text}>
+            <span style={styles.label}>Status:</span>{" "}
             <span
-              className={`ml-2 badge ${
-                doctor.isVerified ? "badge-success" : "badge-warning"
-              }`}
+              style={{
+                ...styles.badge,
+                backgroundColor: doctor.isVerified ? "#1e824c" : "#f4d03f",
+                color: doctor.isVerified ? "#fff" : "#000",
+              }}
             >
-              {doctor.isVerified ? "Verified" : "Pending Verification"}
+              {doctor.isVerified ? "Verified" : "Pending"}
             </span>
-          </div>
+          </p>
 
           {doctor.qualificationProof && (
-            <div className="mb-4">
-              <a
-                href={doctor.qualificationProof}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                View Qualification Document
-              </a>
-            </div>
+            <a href={doctor.qualificationProof} target="_blank" rel="noopener noreferrer" style={styles.link}>
+              View Qualification Document
+            </a>
           )}
 
-          {/* Admin actions for doctor verification */}
           {user?.role === "admin" && !doctor.isVerified && (
-            <div className="flex space-x-2 mt-2">
-              <button
-                onClick={() => handleVerifyDoctor(doctor._id, true)}
-                className="btn btn-primary"
-              >
+            <div style={styles.buttonContainer}>
+              <button onClick={() => handleVerifyDoctor(doctor._id, true)} style={styles.approveBtn}>
                 Approve
               </button>
-              <button
-                onClick={() => handleVerifyDoctor(doctor._id, false)}
-                className="btn btn-danger"
-              >
+              <button onClick={() => handleVerifyDoctor(doctor._id, false)} style={styles.rejectBtn}>
                 Reject
               </button>
             </div>
           )}
 
-          {/* Patient booking action */}
           {user?.role === "patient" && doctor.isVerified && (
-            <div className="mt-4">
-              <button
-                onClick={() => handleBookAppointment(doctor._id)}
-                className="btn btn-primary"
-              >
-                Book Appointment
-              </button>
-            </div>
+            <button onClick={() => handleBookAppointment(doctor._id)} style={styles.bookBtn}>
+              Book Appointment
+            </button>
           )}
         </div>
       </div>
@@ -166,18 +134,12 @@ const DoctorsList = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Doctors Directory</h1>
+      <h1 style={styles.header}>Doctors Directory</h1>
 
-      <div className="mb-6 flex flex-col md:flex-row md:items-center md:space-x-4">
-        <div className="mb-4 md:mb-0">
-          <label className="block text-gray-700 mb-2">
-            Filter by Specialty
-          </label>
-          <select
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
-            className="form-input"
-          >
+      <div style={styles.filterContainer}>
+        <div>
+          <label style={styles.label}>Filter by Specialty</label>
+          <select value={specialty} onChange={(e) => setSpecialty(e.target.value)} style={styles.select}>
             <option value="">All Specialties</option>
             {specialties.map((spec) => (
               <option key={spec} value={spec}>
@@ -188,12 +150,8 @@ const DoctorsList = () => {
         </div>
 
         <div>
-          <label className="block text-gray-700 mb-2">Filter by Status</label>
-          <select
-            value={verificationFilter}
-            onChange={(e) => setVerificationFilter(e.target.value)}
-            className="form-input"
-          >
+          <label style={styles.label}>Filter by Status</label>
+          <select value={verificationFilter} onChange={(e) => setVerificationFilter(e.target.value)} style={styles.select}>
             <option value="all">All Doctors</option>
             <option value="verified">Verified Only</option>
             <option value="pending">Pending Verification</option>
@@ -202,57 +160,43 @@ const DoctorsList = () => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div style={styles.loadingContainer}>
+          <div style={styles.spinner}></div>
         </div>
       ) : doctors.length > 0 ? (
-        <div>
-          <p className="mb-4">Showing {doctors.length} doctor(s)</p>
-          {doctors.map(renderDoctorCard)}
-        </div>
+        doctors.map(renderDoctorCard)
       ) : (
-        <div className="text-center py-8">
-          <p className="text-xl text-gray-600">
-            No doctors found matching your criteria
-          </p>
-        </div>
-      )}
-
-      {/* Booking Modal */}
-      {showBookingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Book an Appointment</h2>
-              <button
-                onClick={() => setShowBookingModal(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <BookAppointment
-              doctorId={selectedDoctorId}
-              onSuccess={handleBookingSuccess}
-            />
-          </div>
-        </div>
+        <p style={styles.noDoctors}>No doctors found</p>
       )}
     </div>
   );
+};
+
+const styles = {
+  header: { fontSize: "24px", fontWeight: "bold", marginBottom: "20px" },
+  filterContainer: { display: "flex", gap: "20px", marginBottom: "20px" },
+  label: { fontWeight: "bold", color: "#333" },
+  select: { padding: "8px", borderRadius: "5px", border: "1px solid #ccc" },
+  card: {
+    backgroundColor: "#f7f9fc",
+    padding: "16px",
+    borderRadius: "10px",
+    marginBottom: "20px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+  cardContent: { display: "flex", alignItems: "center", gap: "20px" },
+  profilePic: { width: "80px", height: "80px", borderRadius: "50%" },
+  name: { fontSize: "18px", fontWeight: "bold" },
+  text: { color: "#555", margin: "5px 0" },
+  link: { color: "#007bff", textDecoration: "underline", fontSize: "14px" },
+  badge: { padding: "5px 10px", borderRadius: "5px", fontWeight: "bold" },
+  buttonContainer: { display: "flex", gap: "10px", marginTop: "10px" },
+  approveBtn: { backgroundColor: "#1e824c", color: "#fff", padding: "8px 12px", border: "none", borderRadius: "5px" },
+  rejectBtn: { backgroundColor: "#d9534f", color: "#fff", padding: "8px 12px", border: "none", borderRadius: "5px" },
+  bookBtn: { backgroundColor: "#007bff", color: "#fff", padding: "8px 12px", border: "none", borderRadius: "5px", marginTop: "10px" },
+  loadingContainer: { display: "flex", justifyContent: "center", alignItems: "center", height: "200px" },
+  spinner: { width: "40px", height: "40px", border: "4px solid #007bff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" },
+  noDoctors: { textAlign: "center", fontSize: "16px", color: "#777" },
 };
 
 export default DoctorsList;
