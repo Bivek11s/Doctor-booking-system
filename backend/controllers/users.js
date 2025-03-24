@@ -46,7 +46,7 @@ const getUserById = async (req, res) => {
 // Update user
 const updateUser = async (req, res) => {
   const { userId } = req.params;
-  const updates = req.body;
+  const { fullName, ...updates } = req.body;
   const files = req.files;
 
   try {
@@ -73,7 +73,7 @@ const updateUser = async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: updates },
+      { $set: { ...updates, ...(fullName && { fullName }) } },
       { new: true }
     ).select("-password");
 

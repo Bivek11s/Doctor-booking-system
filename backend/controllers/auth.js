@@ -3,15 +3,23 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
 const register = async (req, res) => {
-  const { email, phone, password, role, doctorSpecialty, gender, dateOfBirth } =
-    req.body;
+  const {
+    email,
+    phone,
+    password,
+    role,
+    doctorSpecialty,
+    gender,
+    dateOfBirth,
+    fullName,
+  } = req.body;
   const files = req.files; // From Multer (multiple files)
 
   //validation
-  if (!email || !phone || !password || !gender || !dateOfBirth) {
+  if (!email || !phone || !password || !gender || !dateOfBirth || !fullName) {
     return res.status(400).json({
       message:
-        "Please provide email, phone, password, gender, and date of birth",
+        "Please provide email, phone, password, gender, date of birth, and full name",
     });
   }
   if (role === "doctor" && (!doctorSpecialty || !files?.qualificationProof)) {
@@ -48,6 +56,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       gender,
       dateOfBirth,
+      fullName,
       role: role || "patient",
       doctorSpecialty: role === "doctor" ? doctorSpecialty : undefined,
       profilePic: profilePicUrl,
@@ -63,6 +72,7 @@ const register = async (req, res) => {
         phone: user.phone,
         gender: user.gender,
         dateOfBirth: user.dateOfBirth,
+        fullName: user.fullName,
         role: user.role,
         isVerified: user.isVerified,
         doctorSpecialty: user.doctorSpecialty,
@@ -111,6 +121,7 @@ const login = async (req, res) => {
         phone: user.phone,
         gender: user.gender,
         dateOfBirth: user.dateOfBirth,
+        fullName: user.fullName,
         role: user.role,
         isVerified: user.isVerified,
         doctorSpecialty: user.doctorSpecialty,

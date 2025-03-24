@@ -82,8 +82,8 @@ const createAppointment = async (req, res) => {
 
     // Populate doctor and patient details
     const populatedAppointment = await Appointment.findById(appointment._id)
-      .populate("doctor", "email phone profilePic doctorSpecialty")
-      .populate("patient", "email phone profilePic");
+      .populate("doctor", "fullName email phone profilePic doctorSpecialty")
+      .populate("patient", "fullName email phone profilePic");
 
     res.status(201).json({
       appointment: populatedAppointment,
@@ -121,8 +121,8 @@ const getAppointments = async (req, res) => {
     }
 
     const appointments = await Appointment.find(query)
-      .populate("doctor", "email phone profilePic doctorSpecialty")
-      .populate("patient", "email phone profilePic")
+      .populate("doctor", "fullName email phone profilePic doctorSpecialty")
+      .populate("patient", "fullName email phone profilePic")
       .sort({ appointmentDate: 1, appointmentTime: 1 });
 
     res.status(200).json({
@@ -144,8 +144,8 @@ const getAppointmentById = async (req, res) => {
 
   try {
     const appointment = await Appointment.findById(appointmentId)
-      .populate("doctor", "email phone profilePic doctorSpecialty")
-      .populate("patient", "email phone profilePic");
+      .populate("doctor", "fullName email phone profilePic doctorSpecialty")
+      .populate("patient", "fullName email phone profilePic");
 
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found" });
@@ -227,8 +227,8 @@ const updateAppointmentStatus = async (req, res) => {
 
     // Populate doctor and patient details
     const updatedAppointment = await Appointment.findById(appointmentId)
-      .populate("doctor", "email phone profilePic doctorSpecialty")
-      .populate("patient", "email phone profilePic");
+      .populate("doctor", "fullName email phone profilePic doctorSpecialty")
+      .populate("patient", "fullName email phone profilePic");
 
     res.status(200).json({
       appointment: updatedAppointment,

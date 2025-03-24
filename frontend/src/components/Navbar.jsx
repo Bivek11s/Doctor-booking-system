@@ -61,7 +61,7 @@ const Navbar = () => {
                   alt="Profile"
                   className="w-8 h-8 rounded-full mr-2 object-cover"
                 />
-                <span className="font-medium">{user.email}</span>
+                <span className="font-medium">{user.fullName}</span>
               </div>
             </>
           ) : (

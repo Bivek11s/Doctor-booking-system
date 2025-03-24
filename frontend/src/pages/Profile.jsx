@@ -178,6 +178,19 @@ const Profile = () => {
 
             <div className="md:w-2/3">
               <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  className="form-input"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
                 <label className="block text-gray-700 mb-2">Email</label>
                 <input
                   type="email"

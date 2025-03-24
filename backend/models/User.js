@@ -1,68 +1,72 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-   email:{
+  fullName: {
+    type: String,
+    required: true,
+  },
+  email: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true
-   } ,
-   phone:{
+    lowercase: true,
+  },
+  phone: {
     type: String,
     required: true,
-    unique: true
-   },
-   password:{
+    unique: true,
+  },
+  password: {
     type: String,
-    required: true
-   },
-   gender: {
+    required: true,
+  },
+  gender: {
     type: String,
-    enum: ['male', 'female', 'other'],
-    required: true
-   },
-   dateOfBirth: {
+    enum: ["male", "female", "other"],
+    required: true,
+  },
+  dateOfBirth: {
     type: Date,
-    required: true
-   },
-   role:{
+    required: true,
+  },
+  role: {
     type: String,
-    enum: ['admin', 'patient', 'doctor'],
-    default: 'patient'
-   },
-   isVerified:{
+    enum: ["admin", "patient", "doctor"],
+    default: "patient",
+  },
+  isVerified: {
     type: Boolean,
-    default: function(){
-        return this.role === 'patient';
-    }
-   },
-   profilePic:{
+    default: function () {
+      return this.role === "patient";
+    },
+  },
+  profilePic: {
     type: String,
-    default: 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-   },
-   qualificationProof: {
+    default: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+  },
+  qualificationProof: {
     type: String,
-    required: function() {
-      return this.role === 'doctor';
-    }
-   },
-   doctorSpecialty: {
+    required: function () {
+      return this.role === "doctor";
+    },
+  },
+  doctorSpecialty: {
     type: String,
-    required: function() {
-      return this.role === 'doctor';
-    }
+    required: function () {
+      return this.role === "doctor";
+    },
   },
   availability: {
     type: Array,
-    default: []
+    default: [],
   },
-   createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-   }
+    default: Date.now,
+  },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;
 
 /**
@@ -72,6 +76,7 @@ module.exports = User;
  *     User:
  *       type: object
  *       required:
+ *         - fullName
  *         - email
  *         - phone
  *         - password
@@ -79,6 +84,9 @@ module.exports = User;
  *         - gender
  *         - dateOfBirth
  *       properties:
+ *         fullName:
+ *           type: string
+ *           description: User's full name
  *         email:
  *           type: string
  *           format: email

@@ -15,6 +15,7 @@ const ManageDoctors = () => {
     dateOfBirth: "",
     doctorSpecialty: "",
     isVerified: false,
+    fullName: "",
   });
   const [specialty, setSpecialty] = useState("");
   const [specialties, setSpecialties] = useState([]);
@@ -202,7 +203,7 @@ const ManageDoctors = () => {
                       />
                     </div>
                   </td>
-                  <td className="py-3 px-6 text-left">{doctor.email}</td>
+                  <td className="py-3 px-6 text-left">{doctor.fullName}</td>
                   <td className="py-3 px-6 text-left">{doctor.phone}</td>
                   <td className="py-3 px-6 text-left">
                     {doctor.doctorSpecialty || "Not specified"}
@@ -346,6 +347,17 @@ const ManageDoctors = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h3 className="text-lg font-semibold mb-4">Edit Doctor</h3>
             <form onSubmit={handleEditSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={editDoctor.fullName}
+                  onChange={handleEditChange}
+                  className="form-input"
+                />
+              </div>
+
               <div className="mb-4">
                 <label className="block text-gray-700 mb-2">Phone</label>
                 <input

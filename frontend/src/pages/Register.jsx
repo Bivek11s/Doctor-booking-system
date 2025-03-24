@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 const Register = () => {
   const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
     phone: "",
     password: "",
@@ -43,6 +44,7 @@ const Register = () => {
 
     // Validation
     if (
+      !formData.fullName ||
       !formData.email ||
       !formData.phone ||
       !formData.password ||
@@ -97,6 +99,21 @@ const Register = () => {
         )}
 
         <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">
+              Full Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              className="form-input"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">
               Email <span className="text-red-500">*</span>

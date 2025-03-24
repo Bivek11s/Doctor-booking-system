@@ -97,7 +97,8 @@ const DoctorsList = () => {
         </div>
 
         <div className="md:w-3/4">
-          <h3 className="text-xl font-semibold">{doctor.email}</h3>
+          <h3 className="text-xl font-semibold">{doctor.fullName}</h3>
+          <p className="text-gray-600 mb-2">Email: {doctor.email}</p>
           <p className="text-gray-600 mb-2">Phone: {doctor.phone}</p>
 
           <div className="mb-2">

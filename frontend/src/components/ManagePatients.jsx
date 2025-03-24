@@ -13,6 +13,7 @@ const ManagePatients = () => {
     phone: "",
     gender: "",
     dateOfBirth: "",
+    fullName: "",
   });
 
   useEffect(() => {
@@ -101,6 +102,7 @@ const ManagePatients = () => {
             <thead>
               <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                 <th className="py-3 px-6 text-left">Profile</th>
+                <th className="py-3 px-6 text-left">Full Name</th>
                 <th className="py-3 px-6 text-left">Email</th>
                 <th className="py-3 px-6 text-left">Phone</th>
                 <th className="py-3 px-6 text-left">Gender</th>
@@ -123,6 +125,7 @@ const ManagePatients = () => {
                       />
                     </div>
                   </td>
+                  <td className="py-3 px-6 text-left">{patient.fullName}</td>
                   <td className="py-3 px-6 text-left">{patient.email}</td>
                   <td className="py-3 px-6 text-left">{patient.phone}</td>
                   <td className="py-3 px-6 text-left">{patient.gender}</td>
@@ -223,6 +226,17 @@ const ManagePatients = () => {
                 <p className="text-sm text-gray-500 mt-1">
                   Email cannot be changed
                 </p>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={editPatient.fullName}
+                  onChange={handleEditChange}
+                  className="form-input"
+                />
               </div>
 
               <div className="mb-4">
