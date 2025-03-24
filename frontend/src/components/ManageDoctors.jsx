@@ -30,12 +30,10 @@ const ManageDoctors = () => {
       setLoading(true);
       let url = "/api/users?role=doctor";
 
-      // Add specialty filter if selected
       if (specialty) {
         url += `&specialty=${specialty}`;
       }
 
-      // Add verification filter if selected
       if (verificationFilter !== "all") {
         url += `&isVerified=${verificationFilter === "verified"}`;
       }
@@ -43,19 +41,17 @@ const ManageDoctors = () => {
       const response = await axios.get(url);
       setDoctors(response.data.users);
 
-      // Extract unique specialties for filter dropdown
       if (!specialty) {
         const uniqueSpecialties = [
           ...new Set(
             response.data.users
               .map((doctor) => doctor.doctorSpecialty)
-              .filter((specialty) => specialty)
+              .filter((spec) => spec)
           ),
         ];
         setSpecialties(uniqueSpecialties);
       }
     } catch (error) {
-      console.error("Error fetching doctors:", error);
       toast.error("Failed to load doctors");
     } finally {
       setLoading(false);
@@ -68,7 +64,6 @@ const ManageDoctors = () => {
   };
 
   const handleEditClick = (doctor) => {
-    // Format date to YYYY-MM-DD for input type="date"
     const formattedDate = doctor.dateOfBirth
       ? new Date(doctor.dateOfBirth).toISOString().split("T")[0]
       : "";
@@ -87,8 +82,7 @@ const ManageDoctors = () => {
       fetchDoctors();
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error deleting doctor:", error);
-      toast.error(error.response?.data?.message || "Failed to delete doctor");
+      toast.error("Failed to delete doctor");
     }
   };
 
@@ -108,50 +102,36 @@ const ManageDoctors = () => {
       fetchDoctors();
       setShowEditModal(false);
     } catch (error) {
-      console.error("Error updating doctor:", error);
-      toast.error(error.response?.data?.message || "Failed to update doctor");
+      toast.error("Failed to update doctor");
     }
   };
 
   const handleVerifyDoctor = async (doctorId, isApproved) => {
     try {
-      await axios.post("/api/auth/verify-doctor", {
-        doctorId,
-        isApproved,
-      });
-
-      toast.success(
-        `Doctor ${isApproved ? "approved" : "rejected"} successfully`
-      );
-      fetchDoctors(); // Refresh the list
+      await axios.post("/api/auth/verify-doctor", { doctorId, isApproved });
+      toast.success(`Doctor ${isApproved ? "approved" : "rejected"} successfully`);
+      fetchDoctors();
     } catch (error) {
-      console.error("Error verifying doctor:", error);
       toast.error("Failed to update doctor verification status");
     }
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "64vh" }}>
+        <div style={{ borderTop: "4px solid #4A90E2", borderRadius: "50%", width: "40px", height: "40px", animation: "spin 1s linear infinite" }}></div>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Manage Doctors</h2>
+    <div style={{ padding: "20px" }}>
+      <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px", color: "#1E3A8A" }}>Manage Doctors</h2>
 
-      <div className="mb-6 flex flex-col md:flex-row md:items-center md:space-x-4">
-        <div className="mb-4 md:mb-0">
-          <label className="block text-gray-700 mb-2">
-            Filter by Specialty
-          </label>
-          <select
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
-            className="form-input"
-          >
+      <div style={{ marginBottom: "20px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
+        <div>
+          <label style={{ color: "#4A90E2", fontWeight: "bold" }}>Filter by Specialty</label>
+          <select value={specialty} onChange={(e) => setSpecialty(e.target.value)} style={{ padding: "8px", borderRadius: "4px", border: "1px solid #4A90E2" }}>
             <option value="">All Specialties</option>
             {specialties.map((spec) => (
               <option key={spec} value={spec}>
@@ -162,12 +142,8 @@ const ManageDoctors = () => {
         </div>
 
         <div>
-          <label className="block text-gray-700 mb-2">Filter by Status</label>
-          <select
-            value={verificationFilter}
-            onChange={(e) => setVerificationFilter(e.target.value)}
-            className="form-input"
-          >
+          <label style={{ color: "#4A90E2", fontWeight: "bold" }}>Filter by Status</label>
+          <select value={verificationFilter} onChange={(e) => setVerificationFilter(e.target.value)} style={{ padding: "8px", borderRadius: "4px", border: "1px solid #4A90E2" }}>
             <option value="all">All Doctors</option>
             <option value="verified">Verified Only</option>
             <option value="pending">Pending Verification</option>
@@ -176,253 +152,47 @@ const ManageDoctors = () => {
       </div>
 
       {doctors.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
-            <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                <th className="py-3 px-6 text-left">Profile</th>
-                <th className="py-3 px-6 text-left">Email</th>
-                <th className="py-3 px-6 text-left">Phone</th>
-                <th className="py-3 px-6 text-left">Specialty</th>
-                <th className="py-3 px-6 text-left">Status</th>
-                <th className="py-3 px-6 text-center">Actions</th>
+        <table style={{ width: "100%", borderCollapse: "collapse", backgroundColor: "#ffffff" }}>
+          <thead>
+            <tr style={{ backgroundColor: "#E5E7EB", color: "#374151", textAlign: "left" }}>
+              <th style={{ padding: "12px" }}>Profile</th>
+              <th style={{ padding: "12px" }}>Email</th>
+              <th style={{ padding: "12px" }}>Phone</th>
+              <th style={{ padding: "12px" }}>Specialty</th>
+              <th style={{ padding: "12px" }}>Status</th>
+              <th style={{ padding: "12px", textAlign: "center" }}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {doctors.map((doctor) => (
+              <tr key={doctor._id} style={{ borderBottom: "1px solid #E5E7EB", backgroundColor: "#F9FAFB" }}>
+                <td style={{ padding: "12px" }}>
+                  <img src={doctor.profilePic} alt="Doctor" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+                </td>
+                <td style={{ padding: "12px" }}>{doctor.fullName}</td>
+                <td style={{ padding: "12px" }}>{doctor.phone}</td>
+                <td style={{ padding: "12px" }}>{doctor.doctorSpecialty || "Not specified"}</td>
+                <td style={{ padding: "12px" }}>
+                  <span style={{ color: doctor.isVerified ? "#22C55E" : "#F59E0B", fontWeight: "bold" }}>
+                    {doctor.isVerified ? "Verified" : "Pending Verification"}
+                  </span>
+                </td>
+                <td style={{ padding: "12px", textAlign: "center" }}>
+                  <button onClick={() => handleEditClick(doctor)} style={{ color: "#4A90E2", marginRight: "8px" }}>✏️</button>
+                  <button onClick={() => handleDeleteClick(doctor)} style={{ color: "#E11D48", marginRight: "8px" }}>🗑️</button>
+                  {!doctor.isVerified && (
+                    <>
+                      <button onClick={() => handleVerifyDoctor(doctor._id, true)} style={{ color: "#22C55E", marginRight: "8px" }}>✔️</button>
+                      <button onClick={() => handleVerifyDoctor(doctor._id, false)} style={{ color: "#E11D48" }}>❌</button>
+                    </>
+                  )}
+                </td>
               </tr>
-            </thead>
-            <tbody className="text-gray-600 text-sm">
-              {doctors.map((doctor) => (
-                <tr
-                  key={doctor._id}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
-                  <td className="py-3 px-6 text-left whitespace-nowrap">
-                    <div className="flex items-center">
-                      <img
-                        src={doctor.profilePic}
-                        alt={`Dr. ${doctor.email}`}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-left">{doctor.fullName}</td>
-                  <td className="py-3 px-6 text-left">{doctor.phone}</td>
-                  <td className="py-3 px-6 text-left">
-                    {doctor.doctorSpecialty || "Not specified"}
-                  </td>
-                  <td className="py-3 px-6 text-left">
-                    <span
-                      className={`badge ${
-                        doctor.isVerified ? "badge-success" : "badge-warning"
-                      }`}
-                    >
-                      {doctor.isVerified ? "Verified" : "Pending Verification"}
-                    </span>
-                  </td>
-                  <td className="py-3 px-6 text-center">
-                    <div className="flex item-center justify-center">
-                      <button
-                        onClick={() => handleEditClick(doctor)}
-                        className="transform hover:text-blue-500 hover:scale-110 transition-all duration-150 mr-3"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(doctor)}
-                        className="transform hover:text-red-500 hover:scale-110 transition-all duration-150 mr-3"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                      </button>
-                      {!doctor.isVerified && (
-                        <>
-                          <button
-                            onClick={() => handleVerifyDoctor(doctor._id, true)}
-                            className="transform hover:text-green-500 hover:scale-110 transition-all duration-150 mr-3"
-                            title="Approve Doctor"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                          </button>
-                          <button
-                            onClick={() =>
-                              handleVerifyDoctor(doctor._id, false)
-                            }
-                            className="transform hover:text-red-500 hover:scale-110 transition-all duration-150"
-                            title="Reject Doctor"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M6 18L18 6M6 6l12 12"
-                              />
-                            </svg>
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       ) : (
-        <div className="text-center py-4 text-gray-600">
-          No doctors found matching your criteria
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
-            <p className="mb-6">
-              Are you sure you want to delete the doctor{" "}
-              <span className="font-semibold">{doctorToDelete.email}</span>?
-              This action cannot be undone.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="btn btn-secondary"
-              >
-                Cancel
-              </button>
-              <button onClick={handleDeleteConfirm} className="btn btn-danger">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Doctor Modal */}
-      {showEditModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-semibold mb-4">Edit Doctor</h3>
-            <form onSubmit={handleEditSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={editDoctor.fullName}
-                  onChange={handleEditChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={editDoctor.phone}
-                  onChange={handleEditChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Gender</label>
-                <select
-                  name="gender"
-                  value={editDoctor.gender}
-                  onChange={handleEditChange}
-                  className="form-input"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">
-                  Date of Birth
-                </label>
-                <input
-                  type="date"
-                  name="dateOfBirth"
-                  value={editDoctor.dateOfBirth}
-                  onChange={handleEditChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Specialty</label>
-                <input
-                  type="text"
-                  name="doctorSpecialty"
-                  value={editDoctor.doctorSpecialty}
-                  onChange={handleEditChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setShowEditModal(false)}
-                  className="btn btn-secondary"
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Save Changes
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <p style={{ textAlign: "center", color: "#9CA3AF" }}>No doctors found matching your criteria</p>
       )}
     </div>
   );

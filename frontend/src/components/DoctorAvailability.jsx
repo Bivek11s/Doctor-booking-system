@@ -43,27 +43,24 @@ const DoctorAvailability = () => {
 
   const handleAddSlot = async (e) => {
     e.preventDefault();
-
-    // Validate inputs
     if (!newSlot.date || !newSlot.startTime || !newSlot.endTime) {
       toast.error("Please fill all fields");
       return;
     }
 
-    // Validate time range
     if (newSlot.startTime >= newSlot.endTime) {
       toast.error("End time must be after start time");
       return;
     }
 
     try {
-      const response = await axios.post("/api/appointments/availability", {
+      await axios.post("/api/appointments/availability", {
         availabilitySlots: [{ ...newSlot, isBooked: false }],
       });
 
       toast.success("Availability slot added successfully");
       setNewSlot({ date: "", startTime: "", endTime: "" });
-      fetchAvailability(); // Refresh the list
+      fetchAvailability();
     } catch (error) {
       console.error("Error adding availability slot:", error);
       toast.error(
@@ -76,7 +73,7 @@ const DoctorAvailability = () => {
     try {
       await axios.delete(`/api/appointments/availability/${slotId}`);
       toast.success("Availability slot removed successfully");
-      fetchAvailability(); // Refresh the list
+      fetchAvailability();
     } catch (error) {
       console.error("Error removing availability slot:", error);
       toast.error("Failed to remove availability slot");
@@ -107,128 +104,176 @@ const DoctorAvailability = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Manage Your Availability</h2>
+    <div className="availability-container">
+      <h2>Manage Your Availability</h2>
 
-      {/* Add new availability slot form */}
       <div className="card">
-        <h3 className="text-lg font-medium mb-4">Add New Availability Slot</h3>
-        <form onSubmit={handleAddSlot} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-gray-700 mb-2">Date</label>
-              <input
-                type="date"
-                name="date"
-                value={newSlot.date}
-                onChange={handleInputChange}
-                className="form-input w-full"
-                min={new Date().toISOString().split("T")[0]}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 mb-2">Start Time</label>
-              <input
-                type="time"
-                name="startTime"
-                value={newSlot.startTime}
-                onChange={handleInputChange}
-                className="form-input w-full"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 mb-2">End Time</label>
-              <input
-                type="time"
-                name="endTime"
-                value={newSlot.endTime}
-                onChange={handleInputChange}
-                className="form-input w-full"
-                required
-              />
-            </div>
+        <h3>Add New Availability Slot</h3>
+        <form onSubmit={handleAddSlot} className="availability-form">
+          <div className="form-group">
+            <label>Date</label>
+            <input
+              type="date"
+              name="date"
+              value={newSlot.date}
+              onChange={handleInputChange}
+              required
+            />
           </div>
 
-          <div className="flex justify-end">
-            <button type="submit" className="btn btn-primary">
-              Add Slot
-            </button>
+          <div className="form-group">
+            <label>Start Time</label>
+            <input
+              type="time"
+              name="startTime"
+              value={newSlot.startTime}
+              onChange={handleInputChange}
+              required
+            />
           </div>
+
+          <div className="form-group">
+            <label>End Time</label>
+            <input
+              type="time"
+              name="endTime"
+              value={newSlot.endTime}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn">Add Slot</button>
         </form>
       </div>
 
-      {/* Current availability slots */}
       <div className="card">
-        <h3 className="text-lg font-medium mb-4">Your Current Availability</h3>
-
+        <h3>Your Current Availability</h3>
         {loading ? (
-          <div className="flex justify-center items-center h-32">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
+          <p>Loading...</p>
         ) : availabilitySlots.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Time Slot
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
+          <table className="availability-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time Slot</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {availabilitySlots.map((slot) => (
+                <tr key={slot._id}>
+                  <td>{formatDate(slot.date)}</td>
+                  <td>{formatTime(slot.startTime)} - {formatTime(slot.endTime)}</td>
+                  <td>
+                    <span className={slot.isBooked ? "status booked" : "status available"}>
+                      {slot.isBooked ? "Booked" : "Available"}
+                    </span>
+                  </td>
+                  <td>
+                    {!slot.isBooked && (
+                      <button onClick={() => handleRemoveSlot(slot._id)} className="remove-btn">
+                        Remove
+                      </button>
+                    )}
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {availabilitySlots.map((slot) => (
-                  <tr key={slot._id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {formatDate(slot.date)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {formatTime(slot.startTime)} - {formatTime(slot.endTime)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          slot.isBooked
-                            ? "bg-red-100 text-red-800"
-                            : "bg-green-100 text-green-800"
-                        }`}
-                      >
-                        {slot.isBooked ? "Booked" : "Available"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {!slot.isBooked && (
-                        <button
-                          onClick={() => handleRemoveSlot(slot._id)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          Remove
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         ) : (
-          <p className="text-center py-4 text-gray-500">
-            You haven't added any availability slots yet.
-          </p>
+          <p>No availability slots added.</p>
         )}
       </div>
+
+      {/* Inline CSS to merge styling in the same file */}
+      <style>{`
+        .availability-container {
+          background-color: #eff1dc;
+          padding: 20px;
+          border-radius: 10px;
+        }
+
+        .card {
+          background-color: #d2dedc;
+          padding: 20px;
+          border-radius: 10px;
+          margin-bottom: 20px;
+        }
+
+        h2, h3 {
+          color: #333;
+        }
+
+        .availability-form {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+        }
+
+        input {
+          background-color: #d9dfcf;
+          border: none;
+          padding: 8px;
+          border-radius: 5px;
+        }
+
+        .btn {
+          background-color: #d8dbc8;
+          color: black;
+          padding: 10px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .btn:hover {
+          background-color: #c4cbb4;
+        }
+
+        .availability-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .availability-table th, .availability-table td {
+          padding: 10px;
+          border-bottom: 1px solid #ccc;
+        }
+
+        .status {
+          padding: 5px;
+          border-radius: 5px;
+          font-weight: bold;
+        }
+
+        .status.available {
+          background-color: #b6e2a1;
+        }
+
+        .status.booked {
+          background-color: #f8a5a5;
+        }
+
+        .remove-btn {
+          background-color: red;
+          color: white;
+          border: none;
+          padding: 5px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .remove-btn:hover {
+          background-color: darkred;
+        }
+      `}</style>
     </div>
   );
 };

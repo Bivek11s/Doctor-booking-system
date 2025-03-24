@@ -5,13 +5,22 @@ import { useAuth } from "../contexts/AuthContext";
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useAuth();
 
+  const styles = {
+    loadingContainer: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      backgroundColor: "#D8E6EC", // Soft blue
+      color: "#333",
+      fontSize: "18px",
+      fontWeight: "bold",
+    },
+  };
+
   // Show loading state while checking authentication
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
-    );
+    return <div style={styles.loadingContainer}>Loading...</div>;
   }
 
   // If not logged in, redirect to login page

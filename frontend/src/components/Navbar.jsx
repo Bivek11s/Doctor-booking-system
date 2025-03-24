@@ -11,67 +11,141 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  // Define inline styles
+  const styles = {
+    navbar: {
+      backgroundColor: "#4A90E2", // Primary Blue
+      color: "white",
+      padding: "15px 0",
+      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    },
+    container: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+      padding: "0 20px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    logo: {
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+      textDecoration: "none",
+      color: "white",
+    },
+    navLinks: {
+      display: "flex",
+      alignItems: "center",
+      gap: "15px",
+    },
+    navItem: {
+      color: "white",
+      textDecoration: "none",
+      transition: "color 0.3s",
+      fontWeight: "500",
+    },
+    navItemHover: {
+      color: "#357ABD", // Darker Blue
+    },
+    logoutBtn: {
+      backgroundColor: "#D0021B", // Red
+      color: "white",
+      border: "none",
+      padding: "8px 15px",
+      borderRadius: "5px",
+      cursor: "pointer",
+      transition: "background 0.3s",
+    },
+    logoutBtnHover: {
+      backgroundColor: "#b8323e",
+    },
+    registerBtn: {
+      backgroundColor: "white",
+      color: "#4A90E2",
+      padding: "8px 15px",
+      borderRadius: "5px",
+      textDecoration: "none",
+      transition: "background 0.3s",
+      fontWeight: "500",
+    },
+    registerBtnHover: {
+      backgroundColor: "#e6e6e6", // Light Gray
+    },
+    profile: {
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+    },
+    profilePic: {
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",
+      objectFit: "cover",
+      border: "2px solid white",
+    },
+    username: {
+      fontWeight: "500",
+      color: "white",
+    },
+  };
+
   return (
-    <nav className="bg-blue-600 text-white shadow-md">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">
+    <nav style={styles.navbar}>
+      <div style={styles.container}>
+        <Link to="/" style={styles.logo}>
           Doctor Appointment
         </Link>
 
-        <div className="flex items-center space-x-4">
+        <div style={styles.navLinks}>
           {user ? (
             <>
-              <Link to="/dashboard" className="hover:text-blue-200">
+              <Link to="/dashboard" style={styles.navItem}>
                 Dashboard
               </Link>
-
-              {/* Show doctors link to all users */}
-              <Link to="/doctors" className="hover:text-blue-200">
+              <Link to="/doctors" style={styles.navItem}>
                 Doctors
               </Link>
 
-              {/* Show patients link only to doctors and admins */}
               {(user.role === "doctor" || user.role === "admin") && (
-                <Link to="/patients" className="hover:text-blue-200">
+                <Link to="/patients" style={styles.navItem}>
                   Patients
                 </Link>
               )}
 
-              {/* Show admin dashboard only to admins */}
               {user.role === "admin" && (
-                <Link to="/admin" className="hover:text-blue-200">
+                <Link to="/admin" style={styles.navItem}>
                   Admin
                 </Link>
               )}
 
-              <Link to="/profile" className="hover:text-blue-200">
+              <Link to="/profile" style={styles.navItem}>
                 Profile
               </Link>
 
               <button
                 onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md"
+                style={styles.logoutBtn}
+                onMouseOver={(e) => (e.target.style.backgroundColor = styles.logoutBtnHover.backgroundColor)}
+                onMouseOut={(e) => (e.target.style.backgroundColor = styles.logoutBtn.backgroundColor)}
               >
                 Logout
               </button>
 
-              <div className="flex items-center ml-4">
-                <img
-                  src={user.profilePic}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full mr-2 object-cover"
-                />
-                <span className="font-medium">{user.fullName}</span>
+              <div style={styles.profile}>
+                <img src={user.profilePic} alt="Profile" style={styles.profilePic} />
+                <span style={styles.username}>{user.fullName}</span>
               </div>
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:text-blue-200">
+              <Link to="/login" style={styles.navItem}>
                 Login
               </Link>
               <Link
                 to="/register"
-                className="bg-white text-blue-600 px-3 py-1 rounded-md hover:bg-blue-100"
+                style={styles.registerBtn}
+                onMouseOver={(e) => (e.target.style.backgroundColor = styles.registerBtnHover.backgroundColor)}
+                onMouseOut={(e) => (e.target.style.backgroundColor = styles.registerBtn.backgroundColor)}
               >
                 Register
               </Link>

@@ -39,7 +39,6 @@ const ManagePatients = () => {
   };
 
   const handleEditClick = (patient) => {
-    // Format date to YYYY-MM-DD for input type="date"
     const formattedDate = patient.dateOfBirth
       ? new Date(patient.dateOfBirth).toISOString().split("T")[0]
       : "";
@@ -84,6 +83,71 @@ const ManagePatients = () => {
     }
   };
 
+  const styles = {
+    container: {
+      backgroundColor: "#E5EFE5",
+      padding: "20px",
+      borderRadius: "8px",
+    },
+    table: {
+      width: "100%",
+      backgroundColor: "#D8E6EC",
+      borderRadius: "8px",
+      overflow: "hidden",
+    },
+    tableHeader: {
+      backgroundColor: "#B7B9D1",
+      color: "#fff",
+    },
+    tableRow: {
+      borderBottom: "1px solid #ccc",
+    },
+    tableCell: {
+      padding: "12px",
+    },
+    button: {
+      padding: "8px 12px",
+      margin: "4px",
+      borderRadius: "4px",
+      cursor: "pointer",
+    },
+    buttonEdit: {
+      backgroundColor: "#B7B9D1",
+      color: "#fff",
+      border: "none",
+    },
+    buttonDelete: {
+      backgroundColor: "#F9F9E9",
+      color: "#000",
+      border: "1px solid #ccc",
+    },
+    modal: {
+      position: "fixed",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    modalContent: {
+      backgroundColor: "#fff",
+      padding: "20px",
+      borderRadius: "8px",
+      maxWidth: "400px",
+      width: "100%",
+    },
+    input: {
+      width: "100%",
+      padding: "8px",
+      margin: "5px 0",
+      border: "1px solid #ccc",
+      borderRadius: "4px",
+    },
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -93,86 +157,53 @@ const ManagePatients = () => {
   }
 
   return (
-    <div>
+    <div style={styles.container}>
       <h2 className="text-xl font-semibold mb-4">Manage Patients</h2>
 
       {patients.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
+        <div style={styles.table}>
+          <table>
             <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                <th className="py-3 px-6 text-left">Profile</th>
-                <th className="py-3 px-6 text-left">Full Name</th>
-                <th className="py-3 px-6 text-left">Email</th>
-                <th className="py-3 px-6 text-left">Phone</th>
-                <th className="py-3 px-6 text-left">Gender</th>
-                <th className="py-3 px-6 text-left">Date of Birth</th>
-                <th className="py-3 px-6 text-center">Actions</th>
+              <tr style={styles.tableHeader}>
+                <th style={styles.tableCell}>Profile</th>
+                <th style={styles.tableCell}>Full Name</th>
+                <th style={styles.tableCell}>Email</th>
+                <th style={styles.tableCell}>Phone</th>
+                <th style={styles.tableCell}>Gender</th>
+                <th style={styles.tableCell}>Date of Birth</th>
+                <th style={styles.tableCell}>Actions</th>
               </tr>
             </thead>
-            <tbody className="text-gray-600 text-sm">
+            <tbody>
               {patients.map((patient) => (
-                <tr
-                  key={patient._id}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
-                  <td className="py-3 px-6 text-left whitespace-nowrap">
-                    <div className="flex items-center">
-                      <img
-                        src={patient.profilePic}
-                        alt={patient.email}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                    </div>
+                <tr key={patient._id} style={styles.tableRow}>
+                  <td style={styles.tableCell}>
+                    <img
+                      src={patient.profilePic}
+                      alt={patient.email}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
                   </td>
-                  <td className="py-3 px-6 text-left">{patient.fullName}</td>
-                  <td className="py-3 px-6 text-left">{patient.email}</td>
-                  <td className="py-3 px-6 text-left">{patient.phone}</td>
-                  <td className="py-3 px-6 text-left">{patient.gender}</td>
-                  <td className="py-3 px-6 text-left">
+                  <td style={styles.tableCell}>{patient.fullName}</td>
+                  <td style={styles.tableCell}>{patient.email}</td>
+                  <td style={styles.tableCell}>{patient.phone}</td>
+                  <td style={styles.tableCell}>{patient.gender}</td>
+                  <td style={styles.tableCell}>
                     {new Date(patient.dateOfBirth).toLocaleDateString()}
                   </td>
-                  <td className="py-3 px-6 text-center">
-                    <div className="flex item-center justify-center">
-                      <button
-                        onClick={() => handleEditClick(patient)}
-                        className="transform hover:text-blue-500 hover:scale-110 transition-all duration-150 mr-3"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(patient)}
-                        className="transform hover:text-red-500 hover:scale-110 transition-all duration-150"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                      </button>
-                    </div>
+                  <td style={styles.tableCell}>
+                    <button
+                      onClick={() => handleEditClick(patient)}
+                      style={{ ...styles.button, ...styles.buttonEdit }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteClick(patient)}
+                      style={{ ...styles.button, ...styles.buttonDelete }}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -183,113 +214,37 @@ const ManagePatients = () => {
         <div className="text-center py-4 text-gray-600">No patients found</div>
       )}
 
-      {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
-            <p className="mb-6">
-              Are you sure you want to delete the patient{" "}
-              <span className="font-semibold">{patientToDelete.email}</span>?
-              This action cannot be undone.
+        <div style={styles.modal}>
+          <div style={styles.modalContent}>
+            <h3>Confirm Delete</h3>
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>{patientToDelete.email}</strong>?
             </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="btn btn-secondary"
-              >
-                Cancel
-              </button>
-              <button onClick={handleDeleteConfirm} className="btn btn-danger">
-                Delete
-              </button>
-            </div>
+            <button onClick={() => setShowDeleteModal(false)} style={styles.button}>
+              Cancel
+            </button>
+            <button onClick={handleDeleteConfirm} style={styles.buttonDelete}>
+              Delete
+            </button>
           </div>
         </div>
       )}
 
-      {/* Edit Patient Modal */}
       {showEditModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-semibold mb-4">Edit Patient</h3>
+        <div style={styles.modal}>
+          <div style={styles.modalContent}>
+            <h3>Edit Patient</h3>
             <form onSubmit={handleEditSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={editPatient.email}
-                  className="form-input"
-                  disabled
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  Email cannot be changed
-                </p>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={editPatient.fullName}
-                  onChange={handleEditChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={editPatient.phone}
-                  onChange={handleEditChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Gender</label>
-                <select
-                  name="gender"
-                  value={editPatient.gender}
-                  onChange={handleEditChange}
-                  className="form-input"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">
-                  Date of Birth
-                </label>
-                <input
-                  type="date"
-                  name="dateOfBirth"
-                  value={editPatient.dateOfBirth}
-                  onChange={handleEditChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setShowEditModal(false)}
-                  className="btn btn-secondary"
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Save Changes
-                </button>
-              </div>
+              <input type="text" name="fullName" value={editPatient.fullName} onChange={handleEditChange} style={styles.input} />
+              <input type="tel" name="phone" value={editPatient.phone} onChange={handleEditChange} style={styles.input} />
+              <button type="button" onClick={() => setShowEditModal(false)} style={styles.button}>
+                Cancel
+              </button>
+              <button type="submit" style={styles.buttonEdit}>
+                Save Changes
+              </button>
             </form>
           </div>
         </div>
