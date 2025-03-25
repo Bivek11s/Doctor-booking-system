@@ -191,7 +191,13 @@ const Register = () => {
           style={styles.input}
           required
         />
-        <select name="gender" value={formData.gender} onChange={handleChange} style={styles.input} required>
+        <select
+          name="gender"
+          value={formData.gender}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        >
           <option value="">Select Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -205,7 +211,13 @@ const Register = () => {
           style={styles.input}
           required
         />
-        <select name="role" value={formData.role} onChange={handleChange} style={styles.input} required>
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        >
           <option value="patient">Patient</option>
           <option value="doctor">Doctor</option>
         </select>
@@ -222,13 +234,33 @@ const Register = () => {
           />
         )}
 
-        <input type="file" name="profilePic" onChange={handleFileChange} style={styles.input} accept="image/*" />
+        <input
+          type="file"
+          name="profilePic"
+          onChange={handleFileChange}
+          style={styles.input}
+          accept="image/*"
+        />
 
         {formData.role === "doctor" && (
-          <input type="file" name="qualificationProof" onChange={handleFileChange} style={styles.input} accept="image/*, application/pdf" required />
+          <input
+            type="file"
+            name="qualificationProof"
+            onChange={handleFileChange}
+            style={styles.input}
+            accept="image/*, application/pdf"
+            required
+          />
         )}
 
-        <button type="submit" style={{ ...styles.button, ...(loading ? styles.buttonDisabled : {}) }} disabled={loading}>
+        <button
+          type="submit"
+          style={{
+            ...styles.button,
+            ...(loading ? styles.buttonDisabled : {}),
+          }}
+          disabled={loading}
+        >
           {loading ? "Registering..." : "Register"}
         </button>
       </form>
