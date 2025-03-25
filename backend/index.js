@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
 if (!fs.existsSync("uploads/qualifications"))
   fs.mkdirSync("uploads/qualifications");
-if (!fs.existsSync("uploads/profile")) fs.mkdirSync("uploads/profiles");
+if (!fs.existsSync("uploads/profiles")) fs.mkdirSync("uploads/profiles");
 //Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
