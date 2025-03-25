@@ -25,6 +25,7 @@ if (!fs.existsSync("uploads/profiles")) fs.mkdirSync("uploads/profiles");
 //Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
+app.use("/api/appointments", require("./routes/appointments"));
 
 //Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));

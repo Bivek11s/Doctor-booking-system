@@ -3,9 +3,8 @@ const User = require("../models/User");
 
 // Create a new appointment
 const createAppointment = async (req, res) => {
-  const { doctorId, appointmentDate, appointmentTime, reason, notes } =
+  const { doctorId, appointmentDate, appointmentTime, reason, notes, patientId } =
     req.body;
-  const patientId = req.user.id; // Get patient ID from authenticated user
 
   try {
     // Validate doctor exists and is verified
@@ -97,9 +96,7 @@ const createAppointment = async (req, res) => {
 
 // Get all appointments for a user (patient sees their appointments, doctor sees appointments with them)
 const getAppointments = async (req, res) => {
-  const userId = req.user.id;
-  const userRole = req.user.role;
-  const { status } = req.query;
+  const { userId, userRole, status } = req.query;
 
   try {
     let query = {};
@@ -139,8 +136,7 @@ const getAppointments = async (req, res) => {
 // Get appointment by ID
 const getAppointmentById = async (req, res) => {
   const { appointmentId } = req.params;
-  const userId = req.user.id;
-  const userRole = req.user.role;
+  const { userId, userRole } = req.query;
 
   try {
     const appointment = await Appointment.findById(appointmentId)
@@ -173,9 +169,7 @@ const getAppointmentById = async (req, res) => {
 // Update appointment status (cancel or complete)
 const updateAppointmentStatus = async (req, res) => {
   const { appointmentId } = req.params;
-  const { status, notes } = req.body;
-  const userId = req.user.id;
-  const userRole = req.user.role;
+  const { status, notes, userId, userRole } = req.body;
 
   try {
     const appointment = await Appointment.findById(appointmentId);
@@ -242,8 +236,7 @@ const updateAppointmentStatus = async (req, res) => {
 
 // Add doctor availability
 const addDoctorAvailability = async (req, res) => {
-  const doctorId = req.user.id;
-  const { availabilitySlots } = req.body;
+  const { doctorId, availabilitySlots } = req.body;
 
   try {
     // Verify user is a doctor
@@ -259,6 +252,38 @@ const addDoctorAvailability = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Please provide valid availability slots" });
+    }
+
+    // Validate each slot's data structure and format
+    for (const slot of availabilitySlots) {
+      if (!slot.date || !slot.startTime || !slot.endTime) {
+        return res.status(400).json({
+          message: "Each slot must have date, startTime, and endTime",
+        });
+      }
+
+      // Validate date format
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dateRegex.test(slot.date)) {
+        return res
+          .status(400)
+          .json({ message: "Date must be in YYYY-MM-DD format" });
+      }
+
+      // Validate time format
+      const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      if (!timeRegex.test(slot.startTime) || !timeRegex.test(slot.endTime)) {
+        return res
+          .status(400)
+          .json({ message: "Time must be in HH:MM format" });
+      }
+
+      // Validate that end time is after start time
+      if (slot.startTime >= slot.endTime) {
+        return res
+          .status(400)
+          .json({ message: "End time must be after start time" });
+      }
     }
 
     // Add new availability slots
@@ -280,8 +305,8 @@ const addDoctorAvailability = async (req, res) => {
 
 // Remove doctor availability
 const removeDoctorAvailability = async (req, res) => {
-  const doctorId = req.user.id;
   const { availabilityId } = req.params;
+  const { doctorId } = req.body;
 
   try {
     // Verify user is a doctor
@@ -292,7 +317,7 @@ const removeDoctorAvailability = async (req, res) => {
         .json({ message: "Only doctors can remove availability" });
     }
 
-    // Remove availability slot
+    // Remove the availability slot
     const updatedDoctor = await User.findByIdAndUpdate(
       doctorId,
       { $pull: { availability: { _id: availabilityId } } },

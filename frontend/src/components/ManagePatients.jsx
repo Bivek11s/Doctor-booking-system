@@ -222,7 +222,10 @@ const ManagePatients = () => {
               Are you sure you want to delete{" "}
               <strong>{patientToDelete.email}</strong>?
             </p>
-            <button onClick={() => setShowDeleteModal(false)} style={styles.button}>
+            <button
+              onClick={() => setShowDeleteModal(false)}
+              style={styles.button}
+            >
               Cancel
             </button>
             <button onClick={handleDeleteConfirm} style={styles.buttonDelete}>
@@ -237,9 +240,25 @@ const ManagePatients = () => {
           <div style={styles.modalContent}>
             <h3>Edit Patient</h3>
             <form onSubmit={handleEditSubmit}>
-              <input type="text" name="fullName" value={editPatient.fullName} onChange={handleEditChange} style={styles.input} />
-              <input type="tel" name="phone" value={editPatient.phone} onChange={handleEditChange} style={styles.input} />
-              <button type="button" onClick={() => setShowEditModal(false)} style={styles.button}>
+              <input
+                type="text"
+                name="fullName"
+                value={editPatient.fullName}
+                onChange={handleEditChange}
+                style={styles.input}
+              />
+              <input
+                type="tel"
+                name="phone"
+                value={editPatient.phone}
+                onChange={handleEditChange}
+                style={styles.input}
+              />
+              <button
+                type="button"
+                onClick={() => setShowEditModal(false)}
+                style={styles.button}
+              >
                 Cancel
               </button>
               <button type="submit" style={styles.buttonEdit}>

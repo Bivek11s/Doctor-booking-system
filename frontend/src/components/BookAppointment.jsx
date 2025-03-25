@@ -91,6 +91,7 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
     try {
       const response = await axios.post("/api/appointments", {
         doctorId,
+        patientId: user.id,
         appointmentDate: selectedDate,
         appointmentTime: selectedTime,
         reason: appointmentData.reason,

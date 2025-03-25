@@ -23,7 +23,13 @@ const DoctorAvailability = () => {
   const fetchAvailability = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/users/me");
+      if (!user || !user.id) {
+        toast.error("User information not available");
+        setLoading(false);
+        return;
+      }
+      
+      const response = await axios.get(`/api/users/${user.id}`);
       setAvailabilitySlots(response.data.user.availability || []);
     } catch (error) {
       console.error("Error fetching availability:", error);
@@ -54,8 +60,16 @@ const DoctorAvailability = () => {
     }
 
     try {
+      // Format date to YYYY-MM-DD
+      const formattedSlot = {
+        ...newSlot,
+        date: new Date(newSlot.date).toISOString().split("T")[0],
+        isBooked: false,
+      };
+
       await axios.post("/api/appointments/availability", {
-        availabilitySlots: [{ ...newSlot, isBooked: false }],
+        doctorId: user.id,
+        availabilitySlots: [formattedSlot],
       });
 
       toast.success("Availability slot added successfully");
@@ -71,7 +85,9 @@ const DoctorAvailability = () => {
 
   const handleRemoveSlot = async (slotId) => {
     try {
-      await axios.delete(`/api/appointments/availability/${slotId}`);
+      await axios.delete(`/api/appointments/availability/${slotId}`, {
+        data: { doctorId: user.id },
+      });
       toast.success("Availability slot removed successfully");
       fetchAvailability();
     } catch (error) {
@@ -143,7 +159,9 @@ const DoctorAvailability = () => {
             />
           </div>
 
-          <button type="submit" className="btn">Add Slot</button>
+          <button type="submit" className="btn">
+            Add Slot
+          </button>
         </form>
       </div>
 
@@ -165,15 +183,24 @@ const DoctorAvailability = () => {
               {availabilitySlots.map((slot) => (
                 <tr key={slot._id}>
                   <td>{formatDate(slot.date)}</td>
-                  <td>{formatTime(slot.startTime)} - {formatTime(slot.endTime)}</td>
                   <td>
-                    <span className={slot.isBooked ? "status booked" : "status available"}>
+                    {formatTime(slot.startTime)} - {formatTime(slot.endTime)}
+                  </td>
+                  <td>
+                    <span
+                      className={
+                        slot.isBooked ? "status booked" : "status available"
+                      }
+                    >
                       {slot.isBooked ? "Booked" : "Available"}
                     </span>
                   </td>
                   <td>
                     {!slot.isBooked && (
-                      <button onClick={() => handleRemoveSlot(slot._id)} className="remove-btn">
+                      <button
+                        onClick={() => handleRemoveSlot(slot._id)}
+                        className="remove-btn"
+                      >
                         Remove
                       </button>
                     )}
@@ -225,16 +252,18 @@ const DoctorAvailability = () => {
         }
 
         .btn {
-          background-color: #d8dbc8;
-          color: black;
-          padding: 10px;
+          background-color: #4A90E2;
+          color: white;
+          padding: 10px 15px;
           border: none;
           border-radius: 5px;
           cursor: pointer;
+          font-weight: bold;
+          transition: background-color 0.3s ease;
         }
 
         .btn:hover {
-          background-color: #c4cbb4;
+          background-color: #3A7BC8;
         }
 
         .availability-table {

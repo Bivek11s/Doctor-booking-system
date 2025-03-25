@@ -17,8 +17,8 @@ const Appointments = () => {
   const fetchAppointments = async () => {
     try {
       setLoading(true);
-      let url = "/api/appointments";
-      if (statusFilter !== "all") url += `?status=${statusFilter}`;
+      let url = `/api/appointments?userId=${user.id}&userRole=${user.role}`;
+      if (statusFilter !== "all") url += `&status=${statusFilter}`;
       const response = await axios.get(url);
       setAppointments(response.data.appointments);
     } catch (error) {
@@ -30,7 +30,11 @@ const Appointments = () => {
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     try {
-      await axios.put(`/api/appointments/${appointmentId}/status`, { status: newStatus });
+      await axios.put(`/api/appointments/${appointmentId}/status`, { 
+        status: newStatus,
+        userId: user.id,
+        userRole: user.role
+      });
       toast.success(`Appointment ${newStatus} successfully`);
       fetchAppointments();
     } catch (error) {

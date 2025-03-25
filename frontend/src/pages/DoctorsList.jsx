@@ -168,6 +168,23 @@ const DoctorsList = () => {
       ) : (
         <p style={styles.noDoctors}>No doctors found</p>
       )}
+
+      {showBookingModal && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.modal}>
+            <button 
+              style={styles.closeButton}
+              onClick={() => setShowBookingModal(false)}
+            >
+              &times;
+            </button>
+            <BookAppointment 
+              doctorId={selectedDoctorId} 
+              onSuccess={handleBookingSuccess} 
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -197,6 +214,9 @@ const styles = {
   loadingContainer: { display: "flex", justifyContent: "center", alignItems: "center", height: "200px" },
   spinner: { width: "40px", height: "40px", border: "4px solid #007bff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" },
   noDoctors: { textAlign: "center", fontSize: "16px", color: "#777" },
+  modalOverlay: { position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", justifyContent: "center", alignItems: "center" },
+  modal: { backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" },
+  closeButton: { position: "absolute", top: "10px", right: "10px", fontSize: "24px", cursor: "pointer" },
 };
 
 export default DoctorsList;
