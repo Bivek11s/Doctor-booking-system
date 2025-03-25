@@ -22,7 +22,6 @@ pids
 *.pid.lock
 
 # Directory for uploaded files
-uploads/
 
 # IDE - VSCode
 .vscode/

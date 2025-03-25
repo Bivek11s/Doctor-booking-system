@@ -125,14 +125,24 @@ const Navbar = () => {
               <button
                 onClick={handleLogout}
                 style={styles.logoutBtn}
-                onMouseOver={(e) => (e.target.style.backgroundColor = styles.logoutBtnHover.backgroundColor)}
-                onMouseOut={(e) => (e.target.style.backgroundColor = styles.logoutBtn.backgroundColor)}
+                onMouseOver={(e) =>
+                  (e.target.style.backgroundColor =
+                    styles.logoutBtnHover.backgroundColor)
+                }
+                onMouseOut={(e) =>
+                  (e.target.style.backgroundColor =
+                    styles.logoutBtn.backgroundColor)
+                }
               >
                 Logout
               </button>
 
               <div style={styles.profile}>
-                <img src={user.profilePic} alt="Profile" style={styles.profilePic} />
+                <img
+                  src={user.profilePic}
+                  alt="Profile"
+                  style={styles.profilePic}
+                />
                 <span style={styles.username}>{user.fullName}</span>
               </div>
             </>
@@ -144,8 +154,14 @@ const Navbar = () => {
               <Link
                 to="/register"
                 style={styles.registerBtn}
-                onMouseOver={(e) => (e.target.style.backgroundColor = styles.registerBtnHover.backgroundColor)}
-                onMouseOut={(e) => (e.target.style.backgroundColor = styles.registerBtn.backgroundColor)}
+                onMouseOver={(e) =>
+                  (e.target.style.backgroundColor =
+                    styles.registerBtnHover.backgroundColor)
+                }
+                onMouseOut={(e) =>
+                  (e.target.style.backgroundColor =
+                    styles.registerBtn.backgroundColor)
+                }
               >
                 Register
               </Link>
