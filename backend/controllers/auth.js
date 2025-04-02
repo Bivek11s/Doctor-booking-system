@@ -138,7 +138,6 @@ const login = async (req, res) => {
 
 const verifyDoctor = async (req, res) => {
   const { doctorId, isApproved } = req.body;
-  const { user } = req;
 
   try {
     // Find the doctor
@@ -147,22 +146,42 @@ const verifyDoctor = async (req, res) => {
     if (doctor.role !== "doctor")
       return res.status(400).json({ message: "User is not a doctor" });
 
-    // Update verification status
-    doctor.isVerified = isApproved;
-    await doctor.save();
+    // If doctor is approved, update verification status
+    // If doctor is rejected, delete the account
+    if (isApproved) {
+      const updatedDoctor = await User.findByIdAndUpdate(
+        doctorId,
+        { isVerified: true },
+        { new: true }
+      );
 
-    res.status(200).json({
-      message: `Doctor ${isApproved ? "approved" : "rejected"} successfully`,
-      doctor: {
-        id: doctor.id,
-        email: doctor.email,
-        phone: doctor.phone,
-        role: doctor.role,
-        isVerified: doctor.isVerified,
-        doctorSpecialty: doctor.doctorSpecialty,
-        qualificationProof: doctor.qualificationProof,
-      },
-    });
+      return res.status(200).json({
+        message: "Doctor approved successfully",
+        doctor: {
+          id: updatedDoctor.id,
+          email: updatedDoctor.email,
+          phone: updatedDoctor.phone,
+          role: updatedDoctor.role,
+          isVerified: updatedDoctor.isVerified,
+          doctorSpecialty: updatedDoctor.doctorSpecialty,
+          qualificationProof: updatedDoctor.qualificationProof,
+        },
+      });
+    } else {
+      // Check if doctor has any appointments before deleting
+      const Appointment = require("../models/Appointment");
+      const appointments = await Appointment.find({ doctor: doctorId });
+
+      // Delete the doctor account
+      await User.findByIdAndDelete(doctorId);
+
+      // If there were appointments, they will need to be handled separately
+      // For now, we're just deleting the doctor account
+
+      return res.status(200).json({
+        message: "Doctor rejected and account deleted successfully",
+      });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });

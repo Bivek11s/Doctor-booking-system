@@ -234,23 +234,77 @@ const Register = () => {
           />
         )}
 
-        <input
-          type="file"
-          name="profilePic"
-          onChange={handleFileChange}
-          style={styles.input}
-          accept="image/*"
-        />
-
-        {formData.role === "doctor" && (
+        <div style={{ marginBottom: "10px" }}>
+          <label
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+            }}
+          >
+            Profile Picture
+          </label>
           <input
             type="file"
-            name="qualificationProof"
+            name="profilePic"
             onChange={handleFileChange}
             style={styles.input}
-            accept="image/*, application/pdf"
-            required
+            accept="image/*"
           />
+          {formData.profilePic && (
+            <div style={{ marginTop: "10px" }}>
+              <p style={{ marginBottom: "5px" }}>Preview:</p>
+              <img
+                src={URL.createObjectURL(formData.profilePic)}
+                alt="Profile preview"
+                style={{
+                  maxWidth: "100px",
+                  maxHeight: "100px",
+                  border: "1px solid #C7D9DD",
+                }}
+              />
+            </div>
+          )}
+        </div>
+
+        {formData.role === "doctor" && (
+          <div style={{ marginBottom: "10px" }}>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontWeight: "bold",
+              }}
+            >
+              Medical Qualification Proof (PDF or Image)
+            </label>
+            <input
+              type="file"
+              name="qualificationProof"
+              onChange={handleFileChange}
+              style={styles.input}
+              accept="image/*, application/pdf"
+              required
+            />
+            {formData.qualificationProof && (
+              <div style={{ marginTop: "10px" }}>
+                <p style={{ marginBottom: "5px" }}>
+                  Selected file: {formData.qualificationProof.name}
+                </p>
+                {formData.qualificationProof.type.startsWith("image/") && (
+                  <img
+                    src={URL.createObjectURL(formData.qualificationProof)}
+                    alt="Qualification preview"
+                    style={{
+                      maxWidth: "100px",
+                      maxHeight: "100px",
+                      border: "1px solid #C7D9DD",
+                    }}
+                  />
+                )}
+              </div>
+            )}
+          </div>
         )}
 
         <button

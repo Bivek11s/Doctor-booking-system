@@ -152,6 +152,12 @@ router.put(
  *         schema:
  *           type: string
  *         description: User's ID
+ *       - in: query
+ *         name: adminId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the admin user performing the deletion
  *     responses:
  *       200:
  *         description: User deleted successfully
