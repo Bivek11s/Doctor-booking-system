@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
+import HomePage from "./components/HomePage";
 
 // Pages
 import Login from "./pages/Login";
@@ -26,7 +27,23 @@ const App = () => {
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <Routes>
+            {/* HomePage Route */}
+            <Route
+            path="/"
+            element={user ? <Navigate to="/dashboard" /> : <HomePage />}
+          />
+          {/* Login Route */}
           <Route
+            path="/login"
+            element={user ? <Navigate to="/dashboard" /> : <Login />}
+          />
+
+          {/* Register Route */}
+          <Route
+            path="/register"
+            element={user ? <Navigate to="/dashboard" /> : <Register />}
+          />
+          {/* <Route
             path="/"
             element={user ? <Navigate to="/dashboard" /> : <Login />}
           />
@@ -37,7 +54,7 @@ const App = () => {
           <Route
             path="/register"
             element={user ? <Navigate to="/dashboard" /> : <Register />}
-          />
+          /> */}
 
           <Route
             path="/dashboard"

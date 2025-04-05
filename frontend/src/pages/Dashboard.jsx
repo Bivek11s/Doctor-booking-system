@@ -48,47 +48,47 @@ const Dashboard = () => {
     fetchStats();
   }, [user]);
 
-  const styles = {
-    card: {
-      padding: "20px",
-      borderRadius: "10px",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      backgroundColor: "#FFFFFF",
-      textAlign: "center",
-    },
-    cardBlue: {
-      backgroundColor: "#E3F2FD", // Light Blue
-      color: "#1565C0", // Dark Blue
-    },
-    cardGreen: {
-      backgroundColor: "#E8F5E9", // Light Green
-      color: "#2E7D32", // Dark Green
-    },
-    cardYellow: {
-      backgroundColor: "#FFFDE7", // Light Yellow
-      color: "#F9A825", // Dark Yellow
-    },
-    btn: {
-      padding: "10px 15px",
-      borderRadius: "5px",
-      textDecoration: "none",
-      textAlign: "center",
-      display: "inline-block",
-      margin: "5px",
-    },
-    btnPrimary: {
-      backgroundColor: "#1565C0", // Dark Blue
-      color: "#FFFFFF",
-    },
-    btnSecondary: {
-      backgroundColor: "#2E7D32", // Dark Green
-      color: "#FFFFFF",
-    },
-    btnDanger: {
-      backgroundColor: "#C62828", // Dark Red
-      color: "#FFFFFF",
-    },
-  };
+  // const styles = {
+  //   card: {
+  //     padding: "20px",
+  //     borderRadius: "10px",
+  //     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  //     backgroundColor: "#FFFFFF",
+  //     textAlign: "center",
+  //   },
+  //   cardBlue: {
+  //     backgroundColor: "#E3F2FD", // Light Blue
+  //     color: "#1565C0", // Dark Blue
+  //   },
+  //   cardGreen: {
+  //     backgroundColor: "#E8F5E9", // Light Green
+  //     color: "#2E7D32", // Dark Green
+  //   },
+  //   cardYellow: {
+  //     backgroundColor: "#FFFDE7", // Light Yellow
+  //     color: "#F9A825", // Dark Yellow
+  //   },
+  //   btn: {
+  //     padding: "10px 15px",
+  //     borderRadius: "5px",
+  //     textDecoration: "none",
+  //     textAlign: "center",
+  //     display: "inline-block",
+  //     margin: "5px",
+  //   },
+  //   btnPrimary: {
+  //     backgroundColor: "#1565C0", // Dark Blue
+  //     color: "#FFFFFF",
+  //   },
+  //   btnSecondary: {
+  //     backgroundColor: "#2E7D32", // Dark Green
+  //     color: "#FFFFFF",
+  //   },
+  //   btnDanger: {
+  //     backgroundColor: "#C62828", // Dark Red
+  //     color: "#FFFFFF",
+  //   },
+  // };
 
   const renderAdminDashboard = () => (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px" }}>

@@ -41,46 +41,54 @@ const Login = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>Login</h2>
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: 'url("https://img.freepik.com/free-photo/frame-medical-equipment-desk_23-2148519742.jpg") no-repeat center center/cover',
+      }}
+    >
+      <div
+        style={{
+          padding: "30px",
+          borderRadius: "10px",
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          width: "100%",
+          maxWidth: "400px",
+          background: "rgba(255, 255, 255, 0.85)", // Light transparent background for readability
+        }}
+      >
+        <h2 style={{ textAlign: "center", fontSize: "24px", marginBottom: "20px" }}>
+          Login
+        </h2>
 
-        {error && <div style={styles.error}>{error}</div>}
+        {error && (
+          <div style={errorStyle}>{error}</div>
+        )}
 
         <form onSubmit={handleSubmit}>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Email or Phone</label>
-            <input
-              type="text"
-              name="emailOrPhone"
-              value={formData.emailOrPhone}
-              onChange={handleChange}
-              style={styles.input}
-              placeholder="Enter your email or phone"
-            />
-          </div>
+          {/* Email or Phone */}
+          <label style={labelStyle}>Email or Phone</label>
+          <input type="text" name="emailOrPhone" value={formData.emailOrPhone} onChange={handleChange} placeholder="Enter your email or phone" required style={inputStyle} />
 
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              style={styles.input}
-              placeholder="Enter your password"
-            />
-          </div>
+          {/* Password */}
+          <label style={labelStyle}>Password</label>
+          <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter your password" required style={inputStyle} />
 
-          <button type="submit" style={styles.button} disabled={loading}>
+          {/* Submit Button */}
+          <button type="submit" style={buttonStyle} onMouseOver={(e) => (e.target.style.opacity = "0.8")} onMouseOut={(e) => (e.target.style.opacity = "1")} disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <div style={styles.registerLink}>
+        {/* Register Link */}
+        <div style={{ textAlign: "center", marginTop: "15px", fontSize: "14px" }}>
           <p>
             Don't have an account?{" "}
-            <Link to="/register" style={styles.link}>
+            <Link to="/register" style={{ textDecoration: "underline" }}>
               Register here
             </Link>
           </p>
@@ -90,75 +98,35 @@ const Login = () => {
   );
 };
 
-const styles = {
-  container: {
-    maxWidth: "400px",
-    margin: "50px auto",
-    display: "flex",
-    justifyContent: "center",
-  },
-  card: {
-    backgroundColor: "#f7f9fc",
-    padding: "24px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    textAlign: "center",
-  },
-  title: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    color: "#333",
-  },
-  error: {
-    backgroundColor: "#f8d7da",
-    color: "#721c24",
-    padding: "10px",
-    borderRadius: "5px",
-    marginBottom: "15px",
-    fontSize: "14px",
-  },
-  formGroup: {
-    marginBottom: "15px",
-    textAlign: "left",
-  },
-  label: {
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: "5px",
-    display: "block",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    fontSize: "16px",
-  },
-  button: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "5px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    fontSize: "16px",
-    cursor: "pointer",
-    transition: "background 0.3s",
-  },
-  buttonHover: {
-    backgroundColor: "#0056b3",
-  },
-  registerLink: {
-    marginTop: "15px",
-    fontSize: "14px",
-  },
-  link: {
-    color: "#007bff",
-    textDecoration: "underline",
-    cursor: "pointer",
-  },
+// Reusable Styles
+const labelStyle = { fontWeight: "bold", fontSize: "14px" };
+const inputStyle = {
+  width: "100%",
+  padding: "10px",
+  marginBottom: "10px",
+  border: "1px solid rgba(0, 0, 0, 0.3)",
+  borderRadius: "5px",
+  outline: "none",
+};
+const buttonStyle = {
+  width: "100%",
+  padding: "12px",
+  fontSize: "16px",
+  fontWeight: "bold",
+  borderRadius: "5px",
+  border: "none",
+  cursor: "pointer",
+  transition: "opacity 0.3s",
+  background: "rgba(0, 0, 0, 0.7)", // Dark button with opacity effect
+  color: "white",
+};
+const errorStyle = {
+  background: "rgba(255, 0, 0, 0.1)",
+  padding: "10px",
+  borderRadius: "5px",
+  marginBottom: "15px",
+  fontSize: "14px",
+  textAlign: "center",
 };
 
 export default Login;
