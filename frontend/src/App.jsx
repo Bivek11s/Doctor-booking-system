@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage";
 // Pages
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import PatientRegistration from "./pages/patientRegistration"; 
 import Dashboard from "./pages/Dashboard";
 import DoctorsList from "./pages/DoctorsList";
 import PatientsList from "./pages/PatientsList";
@@ -14,6 +15,10 @@ import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import Appointments from "./pages/Appointments";
 import ManageAvailability from "./pages/ManageAvailability";
+import BookAppointment from "./pages/BookAppointment"; 
+
+// New Import
+import AppointmentManagement from "./pages/appointment_management"; // Import Appointment Management Page
 
 // Components
 import Navbar from "./components/Navbar";
@@ -27,11 +32,12 @@ const App = () => {
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <Routes>
-            {/* HomePage Route */}
-            <Route
+          {/* HomePage Route */}
+          <Route
             path="/"
             element={user ? <Navigate to="/dashboard" /> : <HomePage />}
           />
+
           {/* Login Route */}
           <Route
             path="/login"
@@ -43,19 +49,14 @@ const App = () => {
             path="/register"
             element={user ? <Navigate to="/dashboard" /> : <Register />}
           />
-          {/* <Route
-            path="/"
-            element={user ? <Navigate to="/dashboard" /> : <Login />}
-          />
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/dashboard" /> : <Login />}
-          />
-          <Route
-            path="/register"
-            element={user ? <Navigate to="/dashboard" /> : <Register />}
-          /> */}
 
+          {/* Patient Registration Route */}
+          <Route
+            path="/patient-register"
+            element={user ? <Navigate to="/dashboard" /> : <PatientRegistration />}
+          />
+
+          {/* Dashboard (Protected) */}
           <Route
             path="/dashboard"
             element={
@@ -65,6 +66,7 @@ const App = () => {
             }
           />
 
+          {/* Doctors List (Protected) */}
           <Route
             path="/doctors"
             element={
@@ -74,6 +76,7 @@ const App = () => {
             }
           />
 
+          {/* Patients List (Protected) */}
           <Route
             path="/patients"
             element={
@@ -83,6 +86,7 @@ const App = () => {
             }
           />
 
+          {/* Profile (Protected) */}
           <Route
             path="/profile"
             element={
@@ -92,6 +96,7 @@ const App = () => {
             }
           />
 
+          {/* Admin Dashboard (Protected, Admin Only) */}
           <Route
             path="/admin"
             element={
@@ -101,6 +106,7 @@ const App = () => {
             }
           />
 
+          {/* Appointments (Protected) */}
           <Route
             path="/appointments"
             element={
@@ -110,6 +116,7 @@ const App = () => {
             }
           />
 
+          {/* Manage Availability (Protected) */}
           <Route
             path="/manage-availability"
             element={
@@ -119,6 +126,27 @@ const App = () => {
             }
           />
 
+          {/* Book Appointment Page (Protected) */}
+          <Route
+            path="/book-appointment"
+            element={
+              <ProtectedRoute>
+                <BookAppointment />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* New Appointment Management Page (Protected) */}
+          <Route
+            path="/manage-appointments"
+            element={
+              <ProtectedRoute>
+                <AppointmentManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 404 - Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
@@ -126,4 +154,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App; 

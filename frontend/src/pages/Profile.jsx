@@ -182,27 +182,17 @@ const Profile = () => {
 
               <label style={styles.label}>Date of Birth</label>
               <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} style={styles.input} />
-
-              {user.role === "doctor" && (
-                <>
-                  <label style={styles.label}>Specialty</label>
-                  <input type="text" name="doctorSpecialty" value={formData.doctorSpecialty} onChange={handleChange} style={styles.input} />
-                </>
-              )}
-
-              <label style={styles.label}>Role</label>
-              <input type="text" value={user.role} disabled style={styles.input} />
-              <p style={styles.note}>Role cannot be changed</p>
-
-              <label style={styles.label}>Verification Status</label>
-              <div style={user.isVerified ? styles.verifiedBadge : styles.pendingBadge}>
-                {user.isVerified ? "Verified" : "Pending Verification"}
-              </div>
             </div>
           </div>
 
           <div style={styles.buttonWrapper}>
-            <button type="submit" style={styles.button} disabled={loading}>
+            <button
+              type="submit"
+              style={styles.button}
+              disabled={loading}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#1f2e99")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
+            >
               {loading ? "Updating..." : "Update Profile"}
             </button>
           </div>
@@ -214,40 +204,48 @@ const Profile = () => {
 
 const styles = {
   container: {
-    padding: "20px",
-    backgroundColor: "#f7f9fc",
-    minHeight: "100vh",
+    height: "100vh",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    background: 'url("https://img.freepik.com/premium-photo/blue-paper-background-texture_34836-2179.jpg?semt=ais_hybrid") no-repeat center center / cover',
   },
   title: {
-    fontSize: "2rem",
+    textAlign: "center",
+    fontSize: "26px",
     fontWeight: "bold",
+    color: "#2A3EB1",
     marginBottom: "20px",
-    color: "#333",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    padding: "6px 12px",
+    borderRadius: "8px",
   },
   card: {
-    backgroundColor: "#fff",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  },
-  error: {
-    color: "red",
-    marginBottom: "10px",
+    background: 'url("https://i.pinimg.com/736x/36/42/29/3642291603d80cbf90ee7421ba227a8b.jpg") no-repeat center center / cover',
+    padding: "25px",
+    borderRadius: "12px",
+    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.15)",
+    maxWidth: "750px",
+    width: "90%",
+    transition: "transform 0.3s ease",
   },
   formGroup: {
     display: "flex",
     flexDirection: "row",
-    gap: "20px",
+    gap: "30px",
   },
   profileSection: {
     flex: "1",
-    textAlign: "center",
+    textAlign: "left",
   },
   profilePic: {
     width: "120px",
     height: "120px",
     borderRadius: "50%",
     objectFit: "cover",
+    border: "3px solid #2A3EB1",
     marginBottom: "10px",
   },
   detailsSection: {
@@ -256,28 +254,40 @@ const styles = {
   label: {
     fontWeight: "bold",
     marginBottom: "5px",
+    color: "#2A3EB1",
+    display: "block",
   },
   input: {
     width: "100%",
     padding: "10px",
-    marginBottom: "10px",
-    borderRadius: "5px",
+    borderRadius: "6px",
     border: "1px solid #ccc",
-  },
-  note: {
-    fontSize: "12px",
-    color: "#777",
+    marginBottom: "12px",
   },
   buttonWrapper: {
     textAlign: "right",
     marginTop: "20px",
   },
   button: {
-    backgroundColor: "#007bff",
-    color: "#fff",
-    padding: "10px 15px",
-    borderRadius: "5px",
+    backgroundColor: "#2A3EB1",
+    color: "white",
+    padding: "10px 20px",
+    borderRadius: "6px",
     border: "none",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  link: {
+    display: "block",
+    marginTop: "10px",
+    color: "#2A3EB1",
+    textDecoration: "underline",
+  },
+  note: {
+    fontSize: "12px",
+    color: "#777",
+    marginTop: "-8px",
+    marginBottom: "10px",
   },
 };
 

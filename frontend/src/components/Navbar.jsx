@@ -11,27 +11,23 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  // Define inline styles
   const styles = {
     navbar: {
-      backgroundColor: "#4A90E2", // Primary Blue
-      color: "white",
-      padding: "15px 0",
-      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+      position: "fixed",
+      top: 0,
+      right: 0,
+      width: "100%",
+      backgroundColor: "#4A90E2",
+      padding: "10px 10px",
+      display: "flex",
+      justifyContent: "flex-end",
+      alignItems: "center",
+      zIndex: 1000,
     },
     container: {
-      maxWidth: "1200px",
-      margin: "0 auto",
-      padding: "0 20px",
       display: "flex",
-      justifyContent: "space-between",
       alignItems: "center",
-    },
-    logo: {
-      fontSize: "1.5rem",
-      fontWeight: "bold",
-      textDecoration: "none",
-      color: "white",
+      gap: "20px",
     },
     navLinks: {
       display: "flex",
@@ -44,11 +40,8 @@ const Navbar = () => {
       transition: "color 0.3s",
       fontWeight: "500",
     },
-    navItemHover: {
-      color: "#357ABD", // Darker Blue
-    },
     logoutBtn: {
-      backgroundColor: "#D0021B", // Red
+      backgroundColor: "#D0021B",
       color: "white",
       border: "none",
       padding: "8px 15px",
@@ -58,18 +51,6 @@ const Navbar = () => {
     },
     logoutBtnHover: {
       backgroundColor: "#b8323e",
-    },
-    registerBtn: {
-      backgroundColor: "white",
-      color: "#4A90E2",
-      padding: "8px 15px",
-      borderRadius: "5px",
-      textDecoration: "none",
-      transition: "background 0.3s",
-      fontWeight: "500",
-    },
-    registerBtnHover: {
-      backgroundColor: "#e6e6e6", // Light Gray
     },
     profile: {
       display: "flex",
@@ -92,13 +73,9 @@ const Navbar = () => {
   return (
     <nav style={styles.navbar}>
       <div style={styles.container}>
-        <Link to="/" style={styles.logo}>
-          Doctor Appointment
-        </Link>
-
-        <div style={styles.navLinks}>
-          {user ? (
-            <>
+        {user ? (
+          <>
+            <div style={styles.navLinks}>
               <Link to="/dashboard" style={styles.navItem}>
                 Dashboard
               </Link>
@@ -121,53 +98,33 @@ const Navbar = () => {
               <Link to="/profile" style={styles.navItem}>
                 Profile
               </Link>
+            </div>
 
-              <button
-                onClick={handleLogout}
-                style={styles.logoutBtn}
-                onMouseOver={(e) =>
-                  (e.target.style.backgroundColor =
-                    styles.logoutBtnHover.backgroundColor)
-                }
-                onMouseOut={(e) =>
-                  (e.target.style.backgroundColor =
-                    styles.logoutBtn.backgroundColor)
-                }
-              >
-                Logout
-              </button>
+            <button
+              onClick={handleLogout}
+              style={styles.logoutBtn}
+              onMouseOver={(e) =>
+                (e.target.style.backgroundColor =
+                  styles.logoutBtnHover.backgroundColor)
+              }
+              onMouseOut={(e) =>
+                (e.target.style.backgroundColor =
+                  styles.logoutBtn.backgroundColor)
+              }
+            >
+              Logout
+            </button>
 
-              <div style={styles.profile}>
-                <img
-                  src={user.profilePic}
-                  alt="Profile"
-                  style={styles.profilePic}
-                />
-                <span style={styles.username}>{user.fullName}</span>
-              </div>
-            </>
-          ) : (
-            <>
-              <Link to="/login" style={styles.navItem}>
-                Login
-              </Link>
-              <Link
-                to="/register"
-                style={styles.registerBtn}
-                onMouseOver={(e) =>
-                  (e.target.style.backgroundColor =
-                    styles.registerBtnHover.backgroundColor)
-                }
-                onMouseOut={(e) =>
-                  (e.target.style.backgroundColor =
-                    styles.registerBtn.backgroundColor)
-                }
-              >
-                Register
-              </Link>
-            </>
-          )}
-        </div>
+            <div style={styles.profile}>
+              <img
+                src={user.profilePic}
+                alt="Profile"
+                style={styles.profilePic}
+              />
+              <span style={styles.username}>{user.fullName}</span>
+            </div>
+          </>
+        ) : null}
       </div>
     </nav>
   );

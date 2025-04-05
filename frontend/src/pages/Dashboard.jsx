@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,30 +13,28 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.body.style.overflow = "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Get doctors count
         const doctorsResponse = await axios.get("/api/users?role=doctor");
         const doctorsCount = doctorsResponse.data.count || 0;
 
-        // Get patients count
         const patientsResponse = await axios.get("/api/users?role=patient");
         const patientsCount = patientsResponse.data.count || 0;
 
-        // Get pending doctors count (only for admin)
         let pendingDoctors = 0;
-        if (user.role === "admin") {
-          const pendingResponse = await axios.get(
-            "/api/users?role=doctor&isVerified=false"
-          );
+        if (user?.role === "admin") {
+          const pendingResponse = await axios.get("/api/users?role=doctor&isVerified=false");
           pendingDoctors = pendingResponse.data.count || 0;
         }
 
-        setStats({
-          doctorsCount,
-          patientsCount,
-          pendingDoctors,
-        });
+        setStats({ doctorsCount, patientsCount, pendingDoctors });
       } catch (error) {
         console.error("Error fetching stats:", error);
         toast.error("Failed to load dashboard data");
@@ -48,121 +46,211 @@ const Dashboard = () => {
     fetchStats();
   }, [user]);
 
-  // const styles = {
-  //   card: {
-  //     padding: "20px",
-  //     borderRadius: "10px",
-  //     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  //     backgroundColor: "#FFFFFF",
-  //     textAlign: "center",
-  //   },
-  //   cardBlue: {
-  //     backgroundColor: "#E3F2FD", // Light Blue
-  //     color: "#1565C0", // Dark Blue
-  //   },
-  //   cardGreen: {
-  //     backgroundColor: "#E8F5E9", // Light Green
-  //     color: "#2E7D32", // Dark Green
-  //   },
-  //   cardYellow: {
-  //     backgroundColor: "#FFFDE7", // Light Yellow
-  //     color: "#F9A825", // Dark Yellow
-  //   },
-  //   btn: {
-  //     padding: "10px 15px",
-  //     borderRadius: "5px",
-  //     textDecoration: "none",
-  //     textAlign: "center",
-  //     display: "inline-block",
-  //     margin: "5px",
-  //   },
-  //   btnPrimary: {
-  //     backgroundColor: "#1565C0", // Dark Blue
-  //     color: "#FFFFFF",
-  //   },
-  //   btnSecondary: {
-  //     backgroundColor: "#2E7D32", // Dark Green
-  //     color: "#FFFFFF",
-  //   },
-  //   btnDanger: {
-  //     backgroundColor: "#C62828", // Dark Red
-  //     color: "#FFFFFF",
-  //   },
-  // };
-
-  const renderAdminDashboard = () => (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px" }}>
-      <div style={{ ...styles.card, ...styles.cardBlue }}>
-        <h3>Total Doctors</h3>
-        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.doctorsCount}</p>
-        <p>Registered doctors in the system</p>
-      </div>
-
-      <div style={{ ...styles.card, ...styles.cardGreen }}>
-        <h3>Total Patients</h3>
-        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.patientsCount}</p>
-        <p>Registered patients in the system</p>
-      </div>
-
-      <div style={{ ...styles.card, ...styles.cardYellow }}>
-        <h3>Pending Approvals</h3>
-        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.pendingDoctors}</p>
-        <p>Doctors waiting for verification</p>
-      </div>
-    </div>
-  );
-
-  const renderDoctorDashboard = () => (
-    <div>
-      <div style={{ ...styles.card, ...styles.cardBlue }}>
-        <h3>Your Status</h3>
-        <p style={{ fontSize: "18px", fontWeight: "bold" }}>
-          {user.isVerified ? "Verified" : "Pending Verification"}
-        </p>
-        <p>{user.isVerified ? "You can now manage appointments" : "Your account is pending admin verification"}</p>
-      </div>
-
-      <div style={styles.card}>
-        <h3>Quick Actions</h3>
-        <a href="/manage-availability" style={{ ...styles.btn, ...styles.btnPrimary }}>Manage Availability</a>
-        <a href="/appointments" style={{ ...styles.btn, ...styles.btnSecondary }}>View Appointments</a>
-      </div>
-    </div>
-  );
-
-  const renderPatientDashboard = () => (
-    <div>
-      <div style={styles.card}>
-        <h3>Quick Actions</h3>
-        <a href="/doctors" style={{ ...styles.btn, ...styles.btnPrimary }}>Find a Doctor</a>
-        <a href="/appointments" style={{ ...styles.btn, ...styles.btnSecondary }}>My Appointments</a>
-      </div>
-
-      <div style={{ ...styles.card, ...styles.cardBlue }}>
-        <h3>Available Doctors</h3>
-        <p style={{ fontSize: "24px", fontWeight: "bold" }}>{stats.doctorsCount}</p>
-        <p>Doctors available for appointments</p>
-      </div>
-    </div>
-  );
+  const handleDoctorClick = (specialization) => {
+    alert(`You clicked on ${specialization}`);
+  };
 
   if (loading) {
-    return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-        <div style={{ width: "50px", height: "50px", border: "4px solid #1565C0", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" }}></div>
-      </div>
-    );
+    return <div style={{ textAlign: "center", marginTop: "100px" }}>Loading...</div>;
   }
 
   return (
-    <div>
-      <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>Welcome, {user?.email}</h1>
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#F4F7FC",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* Sidebar */}
+      <aside
+        style={{
+          width: "250px",
+          height: "100vh",
+          backgroundColor: "#3949AB",
+          color: "white",
+          padding: "20px",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "22px",
+            fontWeight: "bold",
+            marginBottom: "20px",
+            textAlign: "center",
+          }}
+        >
+          📖 Book Doctor
+        </h2>
+        <nav>
+          <ul style={{ listStyleType: "none", padding: 0 }}>
+            <li style={navItemStyle}>📅 Book Appointments</li>
+            <li style={navItemStyle}>🔄 Reschedule/Cancel</li>
+            <li style={navItemStyle}>🔔 Appointment Notifications</li>
+            <li
+              style={{
+                ...navItemStyle,
+                color: "#FF5252",
+                fontWeight: "bold",
+              }}
+            >
+              🆘 SOS Emergency
+            </li>
+          </ul>
+        </nav>
+      </aside>
 
-      {user?.role === "admin" && renderAdminDashboard()}
-      {user?.role === "doctor" && renderDoctorDashboard()}
-      {user?.role === "patient" && renderPatientDashboard()}
+      {/* Main Content */}
+      <main
+        style={{
+          marginLeft: "270px",
+          padding: "20px 40px",
+          flex: 1,
+        }}
+      >
+        <section
+          style={{
+            background: "#3E58EF",
+            margin: "60px",
+            padding: "50px",
+            borderRadius: "10px",
+            textAlign: "center",
+            color: "white",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <h1 style={{ fontSize: "32px", marginBottom: "10px" }}>
+            Welcome to <br /> <strong>Appointment Booking</strong>
+          </h1>
+          <p style={{ fontSize: "18px", marginBottom: "20px" }}>
+            Find the right doctor for your needs
+          </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "10px",
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Search for doctors by name or specialization"
+              style={{
+                width: "60%",
+                padding: "12px",
+                border: "2px solid white",
+                borderRadius: "5px",
+                outline: "none",
+              }}
+            />
+            <button
+              style={{
+                backgroundColor: "#2C48EF",
+                color: "white",
+                padding: "12px 20px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#1A237E")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#2C48EF")}
+            >
+              Search
+            </button>
+          </div>
+        </section>
+
+        {/* Featured Doctors */}
+        <section style={{ marginTop: "40px", textAlign: "center" }}>
+          <h2
+            style={{
+              color: "#1A237E",
+              fontSize: "24px",
+              marginBottom: "20px",
+            }}
+          >
+            Top Doctors Near You
+          </h2>
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {["Cardiologist", "Dermatologist", "Neurologist"].map(
+              (specialization, index) => (
+                <button
+                  key={index}
+                  style={{
+                    background: "white",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    textAlign: "center",
+                    width: "200px",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "transform 0.2s ease, background 0.3s ease",
+                  }}
+                  onClick={() => handleDoctorClick(specialization)}
+                  onMouseOver={(e) =>
+                    (e.target.style.background = "#E3E7FA")
+                  }
+                  onMouseOut={(e) => (e.target.style.background = "white")}
+                >
+                  <span style={{ fontSize: "40px" }}>🧑‍⚕️</span>
+                  <p
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      color: "#1A237E",
+                      margin: 0,
+                    }}
+                  >
+                    Dr.
+                  </p>
+                  <p style={{ fontSize: "16px", color: "#666666", margin: 0 }}>
+                    {specialization}
+                  </p>
+                </button>
+              )
+            )}
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer
+          style={{
+            textAlign: "center",
+            padding: "15px",
+            backgroundColor: "#3949AB",
+            color: "white",
+            width: "100%",
+            marginTop: "40px",
+          }}
+        >
+          Book your appointment with ease
+        </footer>
+      </main>
     </div>
   );
+};
+
+const navItemStyle = {
+  fontSize: "16px",
+  padding: "10px 0",
+  borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+  cursor: "pointer",
 };
 
 export default Dashboard;
