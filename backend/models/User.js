@@ -57,28 +57,30 @@ const userSchema = new mongoose.Schema({
     },
   },
   availability: {
-    type: [{
-      date: {
-        type: String,
-        required: true
+    type: [
+      {
+        date: {
+          type: String,
+          required: true,
+        },
+        startTime: {
+          type: String,
+          required: true,
+        },
+        endTime: {
+          type: String,
+          required: true,
+        },
+        isBooked: {
+          type: Boolean,
+          default: false,
+        },
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          auto: true,
+        },
       },
-      startTime: {
-        type: String,
-        required: true
-      },
-      endTime: {
-        type: String,
-        required: true
-      },
-      isBooked: {
-        type: Boolean,
-        default: false
-      },
-      _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        auto: true
-      }
-    }],
+    ],
     default: [],
   },
   createdAt: {

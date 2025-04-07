@@ -109,7 +109,9 @@ const ManageDoctors = () => {
   const handleVerifyDoctor = async (doctorId, isApproved) => {
     try {
       await axios.post("/api/auth/verify-doctor", { doctorId, isApproved });
-      toast.success(`Doctor ${isApproved ? "approved" : "rejected"} successfully`);
+      toast.success(
+        `Doctor ${isApproved ? "approved" : "rejected"} successfully`
+      );
       fetchDoctors();
     } catch (error) {
       toast.error("Failed to update doctor verification status");
@@ -118,20 +120,61 @@ const ManageDoctors = () => {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "64vh" }}>
-        <div style={{ borderTop: "4px solid #4A90E2", borderRadius: "50%", width: "40px", height: "40px", animation: "spin 1s linear infinite" }}></div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "64vh",
+        }}
+      >
+        <div
+          style={{
+            borderTop: "4px solid #4A90E2",
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            animation: "spin 1s linear infinite",
+          }}
+        ></div>
       </div>
     );
   }
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px", color: "#1E3A8A" }}>Manage Doctors</h2>
+      <h2
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+          color: "#1E3A8A",
+        }}
+      >
+        Manage Doctors
+      </h2>
 
-      <div style={{ marginBottom: "20px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
+      <div
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+        }}
+      >
         <div>
-          <label style={{ color: "#4A90E2", fontWeight: "bold" }}>Filter by Specialty</label>
-          <select value={specialty} onChange={(e) => setSpecialty(e.target.value)} style={{ padding: "8px", borderRadius: "4px", border: "1px solid #4A90E2" }}>
+          <label style={{ color: "#4A90E2", fontWeight: "bold" }}>
+            Filter by Specialty
+          </label>
+          <select
+            value={specialty}
+            onChange={(e) => setSpecialty(e.target.value)}
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #4A90E2",
+            }}
+          >
             <option value="">All Specialties</option>
             {specialties.map((spec) => (
               <option key={spec} value={spec}>
@@ -142,8 +185,18 @@ const ManageDoctors = () => {
         </div>
 
         <div>
-          <label style={{ color: "#4A90E2", fontWeight: "bold" }}>Filter by Status</label>
-          <select value={verificationFilter} onChange={(e) => setVerificationFilter(e.target.value)} style={{ padding: "8px", borderRadius: "4px", border: "1px solid #4A90E2" }}>
+          <label style={{ color: "#4A90E2", fontWeight: "bold" }}>
+            Filter by Status
+          </label>
+          <select
+            value={verificationFilter}
+            onChange={(e) => setVerificationFilter(e.target.value)}
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #4A90E2",
+            }}
+          >
             <option value="all">All Doctors</option>
             <option value="verified">Verified Only</option>
             <option value="pending">Pending Verification</option>
@@ -152,9 +205,21 @@ const ManageDoctors = () => {
       </div>
 
       {doctors.length > 0 ? (
-        <table style={{ width: "100%", borderCollapse: "collapse", backgroundColor: "#ffffff" }}>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            backgroundColor: "#ffffff",
+          }}
+        >
           <thead>
-            <tr style={{ backgroundColor: "#E5E7EB", color: "#374151", textAlign: "left" }}>
+            <tr
+              style={{
+                backgroundColor: "#E5E7EB",
+                color: "#374151",
+                textAlign: "left",
+              }}
+            >
               <th style={{ padding: "12px" }}>Profile</th>
               <th style={{ padding: "12px" }}>Email</th>
               <th style={{ padding: "12px" }}>Phone</th>
@@ -165,25 +230,81 @@ const ManageDoctors = () => {
           </thead>
           <tbody>
             {doctors.map((doctor) => (
-              <tr key={doctor._id} style={{ borderBottom: "1px solid #E5E7EB", backgroundColor: "#F9FAFB" }}>
+              <tr
+                key={doctor._id}
+                style={{
+                  borderBottom: "1px solid #E5E7EB",
+                  backgroundColor: "#F9FAFB",
+                }}
+              >
                 <td style={{ padding: "12px" }}>
-                  <img src={doctor.profilePic} alt="Doctor" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+                  <img
+                    src={
+                      doctor.profilePic
+                        ? doctor.profilePic
+                            .replace(
+                              "drive.google.com/file/d/",
+                              "drive.google.com/uc?id="
+                            )
+                            .replace("/view", "")
+                        : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    }
+                    alt="Doctor"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+                    }}
+                  />
                 </td>
                 <td style={{ padding: "12px" }}>{doctor.fullName}</td>
                 <td style={{ padding: "12px" }}>{doctor.phone}</td>
-                <td style={{ padding: "12px" }}>{doctor.doctorSpecialty || "Not specified"}</td>
                 <td style={{ padding: "12px" }}>
-                  <span style={{ color: doctor.isVerified ? "#22C55E" : "#F59E0B", fontWeight: "bold" }}>
+                  {doctor.doctorSpecialty || "Not specified"}
+                </td>
+                <td style={{ padding: "12px" }}>
+                  <span
+                    style={{
+                      color: doctor.isVerified ? "#22C55E" : "#F59E0B",
+                      fontWeight: "bold",
+                    }}
+                  >
                     {doctor.isVerified ? "Verified" : "Pending Verification"}
                   </span>
                 </td>
                 <td style={{ padding: "12px", textAlign: "center" }}>
-                  <button onClick={() => handleEditClick(doctor)} style={{ color: "#4A90E2", marginRight: "8px" }}>✏️</button>
-                  <button onClick={() => handleDeleteClick(doctor)} style={{ color: "#E11D48", marginRight: "8px" }}>🗑️</button>
+                  <button
+                    onClick={() => handleEditClick(doctor)}
+                    style={{ color: "#4A90E2", marginRight: "8px" }}
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    onClick={() => handleDeleteClick(doctor)}
+                    style={{ color: "#E11D48", marginRight: "8px" }}
+                  >
+                    🗑️
+                  </button>
                   {!doctor.isVerified && (
                     <>
-                      <button onClick={() => handleVerifyDoctor(doctor._id, true)} style={{ color: "#22C55E", marginRight: "8px" }}>✔️</button>
-                      <button onClick={() => handleVerifyDoctor(doctor._id, false)} style={{ color: "#E11D48" }}>❌</button>
+                      <button
+                        onClick={() => handleVerifyDoctor(doctor._id, true)}
+                        style={{ color: "#22C55E", marginRight: "8px" }}
+                      >
+                        ✔️
+                      </button>
+                      <button
+                        onClick={() => handleVerifyDoctor(doctor._id, false)}
+                        style={{ color: "#E11D48" }}
+                      >
+                        ❌
+                      </button>
                     </>
                   )}
                 </td>
@@ -192,7 +313,9 @@ const ManageDoctors = () => {
           </tbody>
         </table>
       ) : (
-        <p style={{ textAlign: "center", color: "#9CA3AF" }}>No doctors found matching your criteria</p>
+        <p style={{ textAlign: "center", color: "#9CA3AF" }}>
+          No doctors found matching your criteria
+        </p>
       )}
     </div>
   );

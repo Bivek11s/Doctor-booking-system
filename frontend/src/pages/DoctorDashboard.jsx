@@ -1,6 +1,15 @@
 import React from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const DoctorDashboard = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
   const containerStyle = {
     fontFamily: "Arial, sans-serif",
     margin: "0 auto",
@@ -17,7 +26,7 @@ const DoctorDashboard = () => {
     backgroundColor: "#80a9d7",
     color: "white",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     fontSize: "18px",
     fontWeight: "bold",
@@ -27,7 +36,7 @@ const DoctorDashboard = () => {
     left: 0,
     zIndex: 1000,
     margin: 0,
-    padding: 0,
+    padding: "0 20px",
   };
 
   const mainContentContainerStyle = {
@@ -35,7 +44,7 @@ const DoctorDashboard = () => {
     flexDirection: "row",
     alignItems: "flex-start",
     width: "100%",
-    marginTop: "70px", 
+    marginTop: "70px",
     padding: "0px",
   };
 
@@ -100,7 +109,24 @@ const DoctorDashboard = () => {
   return (
     <div style={containerStyle}>
       {/* Navbar */}
-      <div style={navbarStyle}>Welcome to Doctor Dashboard</div>
+      <div style={navbarStyle}>
+        <span>Welcome to Doctor Dashboard</span>
+        <button
+          onClick={handleLogout}
+          style={{
+            backgroundColor: "#D0021B",
+            color: "white",
+            border: "none",
+            padding: "8px 15px",
+            borderRadius: "5px",
+            cursor: "pointer",
+            marginLeft: "auto",
+            fontWeight: "500",
+          }}
+        >
+          Logout
+        </button>
+      </div>
 
       {/* Main Content Container */}
       <div style={mainContentContainerStyle}>
@@ -210,14 +236,22 @@ const DoctorDashboard = () => {
           {/* Appointment Requests Section */}
           <div style={sectionStyle}>
             <h2 style={titleStyle}>Appointment Requests</h2>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               {/* Patient Details */}
               <div>
                 <p style={textStyle}>Patient Name: John Doe</p>
                 <p style={textStyle}>Time: 2:00 PM</p>
 
                 {/* Buttons with Gap */}
-                <div style={{ display: "flex", gap: "15px", marginTop: "10px" }}>
+                <div
+                  style={{ display: "flex", gap: "15px", marginTop: "10px" }}
+                >
                   <button style={buttonStyle}>Accept Request</button>
                   <button
                     style={{

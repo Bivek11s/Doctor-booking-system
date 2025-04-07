@@ -117,9 +117,17 @@ const Navbar = () => {
 
             <div style={styles.profile}>
               <img
-                src={user.profilePic}
+                src={
+                  user.profilePic ||
+                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                }
                 alt="Profile"
                 style={styles.profilePic}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src =
+                    "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+                }}
               />
               <span style={styles.username}>{user.fullName}</span>
             </div>

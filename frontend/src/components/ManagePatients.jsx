@@ -179,9 +179,23 @@ const ManagePatients = () => {
                 <tr key={patient._id} style={styles.tableRow}>
                   <td style={styles.tableCell}>
                     <img
-                      src={patient.profilePic}
+                      src={
+                        patient.profilePic
+                          ? patient.profilePic
+                              .replace(
+                                "drive.google.com/file/d/",
+                                "drive.google.com/uc?id="
+                              )
+                              .replace("/view", "")
+                          : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                      }
                       alt={patient.email}
                       className="w-10 h-10 rounded-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+                      }}
                     />
                   </td>
                   <td style={styles.tableCell}>{patient.fullName}</td>

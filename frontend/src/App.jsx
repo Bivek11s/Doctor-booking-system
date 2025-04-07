@@ -6,7 +6,7 @@ import HomePage from "./components/HomePage";
 // Pages
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import PatientRegistration from "./pages/patientRegistration"; 
+import PatientRegistration from "./pages/patientRegistration";
 import Dashboard from "./pages/Dashboard";
 import DoctorsList from "./pages/DoctorsList";
 import PatientsList from "./pages/PatientsList";
@@ -15,10 +15,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import Appointments from "./pages/Appointments";
 import ManageAvailability from "./pages/ManageAvailability";
-import BookAppointment from "./pages/BookAppointment"; 
-import DoctorDashboard from "./pages/DoctorDashboard"; 
-import AppointmentNotifications from "./pages/AppointmentNotifications"; 
-
+import BookAppointment from "./pages/BookAppointment";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import AppointmentNotifications from "./pages/AppointmentNotifications";
 
 // New Import
 import AppointmentManagement from "./pages/appointment_management"; // Import Appointment Management Page
@@ -56,7 +55,9 @@ const App = () => {
           {/* Patient Registration Route */}
           <Route
             path="/patient-register"
-            element={user ? <Navigate to="/dashboard" /> : <PatientRegistration />}
+            element={
+              user ? <Navigate to="/dashboard" /> : <PatientRegistration />
+            }
           />
 
           {/* Dashboard (Protected) */}
@@ -64,7 +65,7 @@ const App = () => {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                {user?.role === "doctor" ? <DoctorDashboard /> : <Dashboard />}
               </ProtectedRoute>
             }
           />
@@ -158,7 +159,6 @@ const App = () => {
             }
           />
 
-
           {/* New Appointment Management Page (Protected) */}
           <Route
             path="/manage-appointments"
@@ -177,4 +177,4 @@ const App = () => {
   );
 };
 
-export default App; 
+export default App;
