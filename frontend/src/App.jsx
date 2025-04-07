@@ -16,6 +16,9 @@ import NotFound from "./pages/NotFound";
 import Appointments from "./pages/Appointments";
 import ManageAvailability from "./pages/ManageAvailability";
 import BookAppointment from "./pages/BookAppointment"; 
+import DoctorDashboard from "./pages/DoctorDashboard"; 
+import AppointmentNotifications from "./pages/AppointmentNotifications"; 
+
 
 // New Import
 import AppointmentManagement from "./pages/appointment_management"; // Import Appointment Management Page
@@ -135,6 +138,26 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          {/* Doctor Dashboard (Protected) */}
+          <Route
+            path="/doctor-dashboard"
+            element={
+              <ProtectedRoute>
+                <DoctorDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Appointment Notifications (Protected) */}
+          <Route
+            path="/appointment-notifications"
+            element={
+              <ProtectedRoute>
+                <AppointmentNotifications />
+              </ProtectedRoute>
+            }
+          />
+
 
           {/* New Appointment Management Page (Protected) */}
           <Route
