@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+
+// Import controller functions for appointment handling
 const {
   createAppointment,
   getAppointments,
