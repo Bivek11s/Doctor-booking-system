@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -44,6 +45,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const submitData = new FormData();
       for (const key in formData) {
@@ -62,6 +64,8 @@ const Register = () => {
       navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -246,7 +250,7 @@ const Register = () => {
               <input
                 type="file"
                 name="qualificationProof"
-                accept=".pdf,.doc,.docx"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif"
                 onChange={handleChange}
                 style={inputStyle}
                 required={formData.role === "doctor"}
@@ -257,11 +261,16 @@ const Register = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            style={buttonStyle}
-            onMouseOver={(e) => (e.target.style.opacity = "0.8")}
-            onMouseOut={(e) => (e.target.style.opacity = "1")}
+            style={{
+              ...buttonStyle,
+              opacity: loading ? 0.7 : 1,
+              cursor: loading ? "not-allowed" : "pointer",
+            }}
+            onMouseOver={(e) => !loading && (e.target.style.opacity = "0.8")}
+            onMouseOut={(e) => !loading && (e.target.style.opacity = "1")}
+            disabled={loading}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>
