@@ -2,6 +2,7 @@ const { uploadToCloudinary } = require("../utils/cloudinary");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
+// Register new user
 const register = async (req, res) => {
   const {
     email,
@@ -15,13 +16,15 @@ const register = async (req, res) => {
   } = req.body;
   const files = req.files; // From Multer (multiple files)
 
-  //validation
+  //Basic validation
   if (!email || !phone || !password || !gender || !dateOfBirth || !fullName) {
     return res.status(400).json({
       message:
         "Please provide email, phone, password, gender, date of birth, and full name",
     });
   }
+
+  // Doctor-specific validation
   if (role === "doctor" && (!doctorSpecialty || !files?.qualificationProof)) {
     return res.status(400).json({
       message: "Please provide doctor specialty and qualification proof",
@@ -66,6 +69,7 @@ const register = async (req, res) => {
 
     await user.save();
 
+    // return success response
     res.status(201).json({
       user: {
         id: user.id,
