@@ -1,5 +1,8 @@
 const User = require("../models/User");
-const { uploadToGoogleDrive } = require("../utils/googleDrive");
+const {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} = require("../utils/cloudinary");
 
 // List users by role (patients or doctors)
 const listUsers = async (req, res) => {
@@ -57,12 +60,24 @@ const updateUser = async (req, res) => {
 
     // Handle file uploads
     if (files?.profilePic?.[0]) {
-      updates.profilePic = await uploadToGoogleDrive(files.profilePic[0]);
+      // Delete old profile picture if it exists and is not the default
+      if (user.profilePic && !user.profilePic.includes("flaticon.com")) {
+        await deleteFromCloudinary(user.profilePic);
+      }
+      updates.profilePic = await uploadToCloudinary(
+        files.profilePic[0],
+        "profiles"
+      );
     }
 
     if (files?.qualificationProof?.[0]) {
-      updates.qualificationProof = await uploadToGoogleDrive(
-        files.qualificationProof[0]
+      // Delete old qualification proof if it exists
+      if (user.qualificationProof) {
+        await deleteFromCloudinary(user.qualificationProof);
+      }
+      updates.qualificationProof = await uploadToCloudinary(
+        files.qualificationProof[0],
+        "qualifications"
       );
     }
 
@@ -98,9 +113,19 @@ const deleteUser = async (req, res) => {
     //   return res.status(403).json({ message: "Only admin can delete users" });
     // }
 
+    // Find user to get their image URLs before deletion
     const userToDelete = await User.findById(userId);
     if (!userToDelete) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    // Delete user's images from Cloudinary
+    if (userToDelete.profilePic) {
+      await deleteFromCloudinary(userToDelete.profilePic);
+    }
+
+    if (userToDelete.qualificationProof) {
+      await deleteFromCloudinary(userToDelete.qualificationProof);
     }
 
     await User.findByIdAndDelete(userId);

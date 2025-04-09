@@ -75,14 +75,20 @@ const ManageDoctors = () => {
     setShowEditModal(true);
   };
 
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const handleDeleteConfirm = async () => {
     try {
+      setIsDeleting(true);
       await axios.delete(`/api/users/${doctorToDelete._id}`);
       toast.success("Doctor deleted successfully");
       fetchDoctors();
       setShowDeleteModal(false);
     } catch (error) {
       toast.error("Failed to delete doctor");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -97,12 +103,15 @@ const ManageDoctors = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsUpdating(true);
       await axios.put(`/api/users/${editDoctor._id}`, editDoctor);
       toast.success("Doctor updated successfully");
       fetchDoctors();
       setShowEditModal(false);
     } catch (error) {
       toast.error("Failed to update doctor");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -263,7 +272,7 @@ const ManageDoctors = () => {
                     }}
                   />
                 </td>
-                <td style={{ padding: "12px" }}>{doctor.fullName}</td>
+                <td style={{ padding: "12px" }}>{doctor.email}</td>
                 <td style={{ padding: "12px" }}>{doctor.phone}</td>
                 <td style={{ padding: "12px" }}>
                   {doctor.doctorSpecialty || "Not specified"}
@@ -316,6 +325,247 @@ const ManageDoctors = () => {
         <p style={{ textAlign: "center", color: "#9CA3AF" }}>
           No doctors found matching your criteria
         </p>
+      )}
+
+      {showDeleteModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "20px",
+              borderRadius: "8px",
+              maxWidth: "400px",
+              width: "100%",
+            }}
+          >
+            <h3 style={{ marginBottom: "16px", color: "#1E3A8A" }}>
+              Confirm Delete
+            </h3>
+            <p style={{ marginBottom: "16px", color: "#4B5563" }}>
+              Are you sure you want to delete{" "}
+              <strong>{doctorToDelete?.fullName}</strong>?
+            </p>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "8px",
+              }}
+            >
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "4px",
+                  border: "1px solid #D1D5DB",
+                  backgroundColor: "#ffffff",
+                  color: "#374151",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                disabled={isDeleting}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "4px",
+                  backgroundColor: "#EF4444",
+                  color: "#ffffff",
+                  border: "none",
+                  opacity: isDeleting ? 0.7 : 1,
+                  cursor: isDeleting ? "not-allowed" : "pointer",
+                }}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showEditModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "20px",
+              borderRadius: "8px",
+              maxWidth: "500px",
+              width: "100%",
+            }}
+          >
+            <h3 style={{ marginBottom: "16px", color: "#1E3A8A" }}>
+              Edit Doctor
+            </h3>
+            <form onSubmit={handleEditSubmit}>
+              <div style={{ marginBottom: "12px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    marginBottom: "4px",
+                    color: "#4B5563",
+                  }}
+                >
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={editDoctor.fullName}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #D1D5DB",
+                  }}
+                  required
+                />
+              </div>
+
+              <div style={{ marginBottom: "12px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    marginBottom: "4px",
+                    color: "#4B5563",
+                  }}
+                >
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={editDoctor.phone}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #D1D5DB",
+                  }}
+                  required
+                />
+              </div>
+
+              <div style={{ marginBottom: "12px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    marginBottom: "4px",
+                    color: "#4B5563",
+                  }}
+                >
+                  Specialty
+                </label>
+                <input
+                  type="text"
+                  name="doctorSpecialty"
+                  value={editDoctor.doctorSpecialty}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #D1D5DB",
+                  }}
+                  required
+                />
+              </div>
+
+              <div style={{ marginBottom: "12px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    marginBottom: "4px",
+                    color: "#4B5563",
+                  }}
+                >
+                  Verification Status
+                </label>
+                <select
+                  name="isVerified"
+                  value={editDoctor.isVerified}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #D1D5DB",
+                  }}
+                >
+                  <option value={true}>Verified</option>
+                  <option value={false}>Pending Verification</option>
+                </select>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: "8px",
+                  marginTop: "20px",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  style={{
+                    padding: "8px 16px",
+                    borderRadius: "4px",
+                    border: "1px solid #D1D5DB",
+                    backgroundColor: "#ffffff",
+                    color: "#374151",
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isUpdating}
+                  style={{
+                    padding: "8px 16px",
+                    borderRadius: "4px",
+                    backgroundColor: "#4A90E2",
+                    color: "#ffffff",
+                    border: "none",
+                    opacity: isUpdating ? 0.7 : 1,
+                    cursor: isUpdating ? "not-allowed" : "pointer",
+                  }}
+                >
+                  {isUpdating ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );
