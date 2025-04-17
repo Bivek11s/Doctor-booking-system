@@ -1,4 +1,4 @@
-const { uploadToGoogleDrive } = require("../utils/googleDrive");
+const { uploadToCloudinary } = require("../utils/cloudinary");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
@@ -40,12 +40,13 @@ const register = async (req, res) => {
     let qualificationProofUrl = null;
 
     if (files?.profilePic?.[0]) {
-      profilePicUrl = await uploadToGoogleDrive(files.profilePic[0]);
+      profilePicUrl = await uploadToCloudinary(files.profilePic[0], "profiles");
     }
 
     if (files?.qualificationProof?.[0]) {
-      qualificationProofUrl = await uploadToGoogleDrive(
-        files.qualificationProof[0]
+      qualificationProofUrl = await uploadToCloudinary(
+        files.qualificationProof[0],
+        "qualifications"
       );
     }
 
