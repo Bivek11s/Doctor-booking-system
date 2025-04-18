@@ -10,6 +10,7 @@ const DoctorDashboard = () => {
     logout();
     navigate("/login");
   };
+
   const containerStyle = {
     fontFamily: "Arial, sans-serif",
     margin: "0 auto",
@@ -17,7 +18,6 @@ const DoctorDashboard = () => {
     padding: "40px",
     color: "#000",
     background: "#f4f6f7",
-    // background: 'url("https://i.pinimg.com/736x/94/36/99/943699ef48b8dcd438693fb0577ad680.jpg") no-repeat center center/cover',
   };
 
   const navbarStyle = {
@@ -26,7 +26,7 @@ const DoctorDashboard = () => {
     backgroundColor: "#80a9d7",
     color: "white",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     fontSize: "18px",
     fontWeight: "bold",
@@ -35,17 +35,29 @@ const DoctorDashboard = () => {
     top: 0,
     left: 0,
     zIndex: 1000,
-    margin: 0,
     padding: "0 20px",
   };
 
-  const mainContentContainerStyle = {
+  const logoutButtonStyle = {
+    position: "absolute",
+    right: "20px",
+    backgroundColor: "#D0021B",
+    color: "white",
+    border: "none",
+    padding: "8px 15px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontWeight: "500",
+  };
+
+  const fixedSidebarStyle = {
+    position: "fixed",
+    top: "70px",
+    left: "20px",
+    zIndex: 999,
     display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    width: "100%",
-    marginTop: "70px",
-    padding: "0px",
+    flexDirection: "column",
+    gap: "15px",
   };
 
   const sidebarItemStyle = {
@@ -57,7 +69,15 @@ const DoctorDashboard = () => {
     cursor: "pointer",
     textAlign: "center",
     fontWeight: "bold",
-    marginBottom: "20px",
+  };
+
+  const mainContentContainerStyle = {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    width: "100%",
+    marginTop: "10px", 
+    paddingLeft: "300px", 
   };
 
   const mainContentStyle = {
@@ -111,33 +131,20 @@ const DoctorDashboard = () => {
       {/* Navbar */}
       <div style={navbarStyle}>
         <span>Welcome to Doctor Dashboard</span>
-        <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: "#D0021B",
-            color: "white",
-            border: "none",
-            padding: "8px 15px",
-            borderRadius: "5px",
-            cursor: "pointer",
-            marginLeft: "auto",
-            fontWeight: "500",
-          }}
-        >
+        <button onClick={handleLogout} style={logoutButtonStyle}>
           Logout
         </button>
       </div>
 
-      {/* Main Content Container */}
-      <div style={mainContentContainerStyle}>
-        {/* Sidebar Items */}
-        <div>
-          <div style={sidebarItemStyle}>Doctor Availability</div>
-          <div style={sidebarItemStyle}>Manage Appointments</div>
-          <div style={sidebarItemStyle}>Appointment Approval</div>
-        </div>
+      {/* Fixed Sidebar Items */}
+      <div style={fixedSidebarStyle}>
+        <div style={sidebarItemStyle}>Doctor Availability</div>
+        <div style={sidebarItemStyle}>Manage Appointments</div>
+        <div style={sidebarItemStyle}>Appointment Approval</div>
+      </div>
 
-        {/* Main Content */}
+      {/* Main Content */}
+      <div style={mainContentContainerStyle}>
         <div style={mainContentStyle}>
           {/* Welcome Section */}
           <div style={sectionStyle}>
@@ -215,7 +222,6 @@ const DoctorDashboard = () => {
                   required
                 />
               </div>
-              {/* Buttons with Gap */}
               <div style={{ display: "flex", gap: "15px", marginTop: "20px" }}>
                 <button type="submit" style={buttonStyle}>
                   Add Slot
@@ -243,15 +249,10 @@ const DoctorDashboard = () => {
                 justifyContent: "space-between",
               }}
             >
-              {/* Patient Details */}
               <div>
                 <p style={textStyle}>Patient Name: John Doe</p>
                 <p style={textStyle}>Time: 2:00 PM</p>
-
-                {/* Buttons with Gap */}
-                <div
-                  style={{ display: "flex", gap: "15px", marginTop: "10px" }}
-                >
+                <div style={{ display: "flex", gap: "15px", marginTop: "10px" }}>
                   <button style={buttonStyle}>Accept Request</button>
                   <button
                     style={{
@@ -263,11 +264,9 @@ const DoctorDashboard = () => {
                   </button>
                 </div>
               </div>
-
-              {/* Patient Image */}
               <div>
                 <img
-                  src="	https://images.pexels.com/photos/1278566/pexels-photo-1278566.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                  src="https://images.pexels.com/photos/1278566/pexels-photo-1278566.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt="Patient Photo"
                   style={{
                     width: "100px",

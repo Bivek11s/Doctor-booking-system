@@ -210,7 +210,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    background: 'url("https://img.freepik.com/premium-photo/blue-paper-background-texture_34836-2179.jpg?semt=ais_hybrid") no-repeat center center / cover',
+    // background: 'url("https://img.freepik.com/premium-photo/blue-paper-background-texture_34836-2179.jpg?semt=ais_hybrid") no-repeat center center / cover',
   },
   title: {
     textAlign: "center",
@@ -223,13 +223,14 @@ const styles = {
     borderRadius: "8px",
   },
   card: {
-    background: 'url("https://i.pinimg.com/736x/36/42/29/3642291603d80cbf90ee7421ba227a8b.jpg") no-repeat center center / cover',
+    // background: 'url("https://i.pinimg.com/736x/36/42/29/3642291603d80cbf90ee7421ba227a8b.jpg") no-repeat center center / cover',
     padding: "25px",
     borderRadius: "12px",
     boxShadow: "0 6px 12px rgba(0, 0, 0, 0.15)",
     maxWidth: "750px",
     width: "90%",
     transition: "transform 0.3s ease",
+    backgroundColor: "#dcf2ff",
   },
   formGroup: {
     display: "flex",
