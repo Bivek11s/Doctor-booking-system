@@ -94,23 +94,23 @@ const BookAppointment = ({ onClose }) => {
     },
     timeInputWrapper: {
       position: "relative",
-      width: "200px", // fixed width container
+      width: "200px",
     },
-timeInput: {
-  padding: "12px 40px 12px 12px", // extra right padding for icon space
-  border: "1px solid #ccc",
-  borderRadius: "10px",
-  width: "100%",
-  fontSize: "16px",
-},
-timeIcon: {
-  position: "absolute",
-  right: "12px",
-  top: "50%",
-  transform: "translateY(-50%)",
-  color: "#555",
-  fontSize: "18px",
-},
+    timeInput: {
+      padding: "12px 40px 12px 12px",
+      border: "1px solid #ccc",
+      borderRadius: "10px",
+      width: "100%",
+      fontSize: "16px",
+    },
+    timeIcon: {
+      position: "absolute",
+      right: "12px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      color: "#555",
+      fontSize: "18px",
+    },
     buttonWrapper: {
       marginTop: "30px",
       gridColumn: "span 2",
@@ -138,7 +138,7 @@ timeIcon: {
   return (
     <div style={styles.overlay}>
       <div style={styles.container}>
-        <button style={styles.closeButton} onClick={onClose}>
+        <button style={styles.closeButton} onClick={() => onClose?.()}>
           &times;
         </button>
 
@@ -179,6 +179,7 @@ timeIcon: {
                 onChange={(e) => setTime(e.target.value)}
                 style={styles.timeInput}
               />
+              <FaClock style={styles.timeIcon} />
             </div>
           </div>
 
