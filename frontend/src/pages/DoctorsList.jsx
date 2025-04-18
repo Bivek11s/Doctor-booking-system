@@ -234,20 +234,19 @@ const styles = {
   page: {
     minHeight: "100vh",
     padding: "40px",
-    background:
-      'url("https://as1.ftcdn.net/jpg/01/94/99/04/1000_F_194990418_WJGAgg14gsTfIO65F6xZIlPeME5IWdZt.jpg") no-repeat center center/cover',
+    backgroundColor: "#f0f4f8", 
   },
   header: {
     fontSize: "24px",
     fontWeight: "bold",
     marginBottom: "20px",
-    color: "#fff",
+    color: "#000", 
   },
   filterContainer: { display: "flex", gap: "40px", marginBottom: "30px" },
   filterBlock: { display: "flex", flexDirection: "column", gap: "8px" },
   label: {
     fontWeight: "bold",
-    color: "#fff",
+    color: "#000", 
     display: "flex",
     alignItems: "center",
     gap: "6px",
@@ -258,9 +257,9 @@ const styles = {
     border: "1px solid #ccc",
     fontSize: "15px",
   },
-  icon: { color: "#fff" },
+  icon: { color: "#000" }, 
   card: {
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    backgroundColor: "#dcf2ff",
     padding: "16px",
     borderRadius: "10px",
     marginBottom: "20px",
@@ -316,7 +315,7 @@ const styles = {
     borderRadius: "50%",
     animation: "spin 1s linear infinite",
   },
-  noDoctors: { textAlign: "center", fontSize: "16px", color: "#fff" },
+  noDoctors: { textAlign: "center", fontSize: "16px", color: "#000" }, // changed from white to black
   modalOverlay: {
     position: "fixed",
     top: 0,

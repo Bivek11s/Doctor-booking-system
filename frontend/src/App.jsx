@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
+      {window.location.pathname !== "/admin" && <Navbar />}
       <div className="container mx-auto px-4 py-8">
         <Routes>
           {/* HomePage Route */}
@@ -139,6 +139,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
           {/* Doctor Dashboard (Protected) */}
           <Route
             path="/doctor-dashboard"

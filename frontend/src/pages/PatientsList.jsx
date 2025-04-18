@@ -85,7 +85,7 @@ const PatientsList = () => {
 const styles = {
   container: {
     padding: "20px",
-    backgroundColor: "#f7f9fc",
+    // backgroundColor: "#dcf2ff",
     minHeight: "100vh",
   },
   title: {
@@ -100,11 +100,13 @@ const styles = {
     color: "#555",
   },
   card: {
-    backgroundColor: "#fff",
-    borderRadius: "8px",
-    padding: "15px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    marginBottom: "15px",
+    backgroundColor: "#dcf2ff",
+    padding: "16px",
+    borderRadius: "10px",
+    marginBottom: "20px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    maxWidth: "800px",
+    marginInline: "auto",
   },
   cardContent: {
     display: "flex",

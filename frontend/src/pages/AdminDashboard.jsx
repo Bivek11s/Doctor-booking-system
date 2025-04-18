@@ -7,7 +7,7 @@ import ManagePatients from "../components/ManagePatients";
 import ManageDoctors from "../components/ManageDoctors";
 
 const AdminDashboard = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth(); 
   const [stats, setStats] = useState({
     doctorsCount: 0,
     patientsCount: 0,
@@ -51,6 +51,15 @@ const AdminDashboard = () => {
       fetchData();
     } catch (error) {
       toast.error("Failed to update doctor verification status");
+    }
+  };
+
+  const handleLogout = async () => { 
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Logout failed");
     }
   };
 
@@ -104,7 +113,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, backgroundColor: "#E7EFF6", padding: "20px" }}>
+      <div style={{ flex: 1, padding: "20px" }}>
         {/* Top Navbar */}
         <div style={{
           display: "flex",
@@ -118,15 +127,18 @@ const AdminDashboard = () => {
           <h1 style={{ color: "#fff", fontSize: "20px", fontWeight: "bold" }}>
             📊 Admin Dashboard
           </h1>
-          <button style={{
-            backgroundColor: "#e63946",
-            color: "#fff",
-            border: "none",
-            padding: "10px 15px",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}>
+          <button
+            onClick={handleLogout} 
+            style={{
+              backgroundColor: "#e63946",
+              color: "#fff",
+              border: "none",
+              padding: "10px 15px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+          >
             🔒 Logout
           </button>
         </div>
@@ -143,12 +155,12 @@ const AdminDashboard = () => {
             }}>
               {[
                 { title: "Total Doctors", count: stats.doctorsCount },
-                { title: "Appointments Today", count: 16 }, // Static for now
+                { title: "Appointments Today", count: 16 },
                 { title: "Registered Patients", count: stats.patientsCount },
                 { title: "Pending Approvals", count: stats.pendingDoctors },
               ].map((item, index) => (
                 <div key={index} style={{
-                  backgroundColor: "#fff",
+                  backgroundColor: "#dcf2ff",
                   borderRadius: "10px",
                   padding: "20px",
                   boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
@@ -163,7 +175,7 @@ const AdminDashboard = () => {
 
             {/* Pending Doctor Approvals */}
             <div style={{
-              backgroundColor: "#fff",
+              backgroundColor: "#dcf2ff",
               padding: "20px",
               borderRadius: "10px",
               boxShadow: "0 2px 5px rgba(0,0,0,0.05)"
