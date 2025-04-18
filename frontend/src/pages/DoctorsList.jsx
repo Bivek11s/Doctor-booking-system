@@ -213,15 +213,10 @@ const DoctorsList = () => {
       {showBookingModal && (
         <div style={styles.modalOverlay}>
           <div style={styles.modal}>
-            <button
-              style={styles.closeButton}
-              onClick={() => setShowBookingModal(false)}
-            >
-              &times;
-            </button>
             <BookAppointment
               doctorId={selectedDoctorId}
               onSuccess={handleBookingSuccess}
+              onClose={() => setShowBookingModal(false)}
             />
           </div>
         </div>
@@ -234,19 +229,19 @@ const styles = {
   page: {
     minHeight: "100vh",
     padding: "40px",
-    backgroundColor: "#f0f4f8", 
+    backgroundColor: "#f0f4f8",
   },
   header: {
     fontSize: "24px",
     fontWeight: "bold",
     marginBottom: "20px",
-    color: "#000", 
+    color: "#000",
   },
   filterContainer: { display: "flex", gap: "40px", marginBottom: "30px" },
   filterBlock: { display: "flex", flexDirection: "column", gap: "8px" },
   label: {
     fontWeight: "bold",
-    color: "#000", 
+    color: "#000",
     display: "flex",
     alignItems: "center",
     gap: "6px",
@@ -257,7 +252,7 @@ const styles = {
     border: "1px solid #ccc",
     fontSize: "15px",
   },
-  icon: { color: "#000" }, 
+  icon: { color: "#000" },
   card: {
     backgroundColor: "#dcf2ff",
     padding: "16px",
@@ -315,7 +310,7 @@ const styles = {
     borderRadius: "50%",
     animation: "spin 1s linear infinite",
   },
-  noDoctors: { textAlign: "center", fontSize: "16px", color: "#000" }, // changed from white to black
+  noDoctors: { textAlign: "center", fontSize: "16px", color: "#000" },
   modalOverlay: {
     position: "fixed",
     top: 0,
@@ -326,19 +321,15 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 1000,
   },
   modal: {
+    position: "relative",
     backgroundColor: "#fff",
     padding: "20px",
     borderRadius: "10px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-  },
-  closeButton: {
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-    fontSize: "24px",
-    cursor: "pointer",
+    zIndex: 1001,
   },
 };
 
