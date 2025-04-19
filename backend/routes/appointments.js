@@ -11,20 +11,15 @@ const {
   removeDoctorAvailability,
 } = require("../controllers/appointments");
 
-
 router.post("/", createAppointment);
-
 
 router.get("/", getAppointments);
 
-
 router.get("/:appointmentId", getAppointmentById);
-
 
 router.put("/:appointmentId/status", updateAppointmentStatus);
 
 router.post("/availability", addDoctorAvailability);
-
 
 router.delete("/availability/:availabilityId", removeDoctorAvailability);
 
