@@ -28,7 +28,7 @@ const DoctorAvailability = () => {
         setLoading(false);
         return;
       }
-      
+
       const response = await axios.get(`/api/users/${user.id}`);
       setAvailabilitySlots(response.data.user.availability || []);
     } catch (error) {

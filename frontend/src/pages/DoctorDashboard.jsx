@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import DoctorAvailability from "../components/DoctorAvailability";
+import Appointments from "./Appointments";
 
 const DoctorDashboard = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState("appointments");
 
   const handleLogout = () => {
     logout();
@@ -76,8 +79,8 @@ const DoctorDashboard = () => {
     flexDirection: "row",
     alignItems: "flex-start",
     width: "100%",
-    marginTop: "10px", 
-    paddingLeft: "300px", 
+    marginTop: "10px",
+    paddingLeft: "300px",
   };
 
   const mainContentStyle = {
@@ -138,9 +141,28 @@ const DoctorDashboard = () => {
 
       {/* Fixed Sidebar Items */}
       <div style={fixedSidebarStyle}>
-        <div style={sidebarItemStyle}>Doctor Availability</div>
-        <div style={sidebarItemStyle}>Manage Appointments</div>
-        <div style={sidebarItemStyle}>Appointment Approval</div>
+        <div
+          style={{
+            ...sidebarItemStyle,
+            backgroundColor:
+              activeSection === "appointments" ? "#025a9b" : "#80a9d7",
+            color: activeSection === "appointments" ? "white" : "black",
+          }}
+          onClick={() => setActiveSection("appointments")}
+        >
+          Manage Appointments
+        </div>
+        <div
+          style={{
+            ...sidebarItemStyle,
+            backgroundColor:
+              activeSection === "availability" ? "#025a9b" : "#80a9d7",
+            color: activeSection === "availability" ? "white" : "black",
+          }}
+          onClick={() => setActiveSection("availability")}
+        >
+          Doctor Availability
+        </div>
       </div>
 
       {/* Main Content */}
@@ -148,136 +170,17 @@ const DoctorDashboard = () => {
         <div style={mainContentStyle}>
           {/* Welcome Section */}
           <div style={sectionStyle}>
-            <h2 style={titleStyle}>Manage Appointments and Availability</h2>
+            <h2 style={titleStyle}>Welcome, Dr. {user?.fullName}</h2>
             <p style={{ textAlign: "center", color: "black" }}>
-              Use the tools below to manage your schedule and patient requests.
+              Manage your appointments and availability schedule from this
+              dashboard.
             </p>
           </div>
 
-          {/* Today's Appointments Section */}
-          <div style={sectionStyle}>
-            <h2 style={titleStyle}>Today's Appointments</h2>
-            <div>
-              {/* Patient 1 */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "15px",
-                }}
-              >
-                <img
-                  src="https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                  alt="Patient 1"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    marginRight: "10px",
-                  }}
-                />
-                <p style={textStyle}>Patient 1: 10:00 AM</p>
-              </div>
-
-              {/* Patient 2 */}
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src="https://images.pexels.com/photos/678783/pexels-photo-678783.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                  alt="Patient 2"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    marginRight: "10px",
-                  }}
-                />
-                <p style={textStyle}>Patient 2: 11:30 AM</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Set Doctor Availability Section */}
-          <div style={sectionStyle}>
-            <h2 style={titleStyle}>Set Doctor Availability</h2>
-            <form>
-              <div style={dateTimeContainerStyle}>
-                <input
-                  type="date"
-                  style={{
-                    ...buttonStyle,
-                    width: "45%",
-                    backgroundColor: "#80a9d7",
-                    color: "white",
-                  }}
-                  required
-                />
-                <input
-                  type="time"
-                  style={{
-                    ...buttonStyle,
-                    width: "45%",
-                    backgroundColor: "#80a9d7",
-                    color: "white",
-                  }}
-                  required
-                />
-              </div>
-              <div style={{ display: "flex", gap: "15px", marginTop: "20px" }}>
-                <button type="submit" style={buttonStyle}>
-                  Add Slot
-                </button>
-                <button
-                  type="submit"
-                  style={{
-                    ...buttonStyle,
-                    backgroundColor: "red",
-                  }}
-                >
-                  Remove Slot
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Appointment Requests Section */}
-          <div style={sectionStyle}>
-            <h2 style={titleStyle}>Appointment Requests</h2>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <p style={textStyle}>Patient Name: John Doe</p>
-                <p style={textStyle}>Time: 2:00 PM</p>
-                <div style={{ display: "flex", gap: "15px", marginTop: "10px" }}>
-                  <button style={buttonStyle}>Accept Request</button>
-                  <button
-                    style={{
-                      ...buttonStyle,
-                      backgroundColor: "red",
-                    }}
-                  >
-                    Reject Request
-                  </button>
-                </div>
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/1278566/pexels-photo-1278566.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                  alt="Patient Photo"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    borderRadius: "50%",
-                    border: "2px solid #ddd",
-                    marginLeft: "20px",
-                  }}
-                />
-              </div>
-            </div>
+          {/* Dynamic Content Section */}
+          <div style={{ ...sectionStyle, width: "80%" }}>
+            <Appointments />
+            <DoctorAvailability />
           </div>
         </div>
       </div>
