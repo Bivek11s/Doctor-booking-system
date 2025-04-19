@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
-import BookAppointment from "./BookAppointment";
-import { FaUserMd, FaCheckCircle } from "react-icons/fa";
+import BookAppointment from "../components/BookAppointment";
 
 const DoctorsList = () => {
   const { user } = useAuth();
@@ -81,26 +80,12 @@ const DoctorsList = () => {
     <div key={doctor._id} style={styles.card}>
       <div style={styles.cardContent}>
         <img
-          src={
-            doctor.profilePic && doctor.profilePic.trim()
-              ? doctor.profilePic
-                  .replace(
-                    "drive.google.com/file/d/",
-                    "drive.google.com/uc?id="
-                  )
-                  .replace("/view", "")
-              : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-          }
-          alt={`Dr. ${doctor.fullName || "Doctor"}`}
+          src={doctor.profilePic}
+          alt={`Dr. ${doctor.email}`}
           style={styles.profilePic}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src =
-              "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-          }}
         />
         <div>
-          <h3 style={styles.name}>Dr. {doctor.fullName}</h3>
+          <h3 style={styles.name}>{doctor.fullName}</h3>
           <p style={styles.text}>Email: {doctor.email}</p>
           <p style={styles.text}>Phone: {doctor.phone}</p>
           <p style={styles.text}>
@@ -162,14 +147,12 @@ const DoctorsList = () => {
   );
 
   return (
-    <div style={styles.page}>
+    <div>
       <h1 style={styles.header}>Doctors Directory</h1>
 
       <div style={styles.filterContainer}>
-        <div style={styles.filterBlock}>
-          <label style={styles.label}>
-            <FaUserMd style={styles.icon} /> Filter by Specialty
-          </label>
+        <div>
+          <label style={styles.label}>Filter by Specialty</label>
           <select
             value={specialty}
             onChange={(e) => setSpecialty(e.target.value)}
@@ -184,10 +167,8 @@ const DoctorsList = () => {
           </select>
         </div>
 
-        <div style={styles.filterBlock}>
-          <label style={styles.label}>
-            <FaCheckCircle style={styles.icon} /> Filter by Status
-          </label>
+        <div>
+          <label style={styles.label}>Filter by Status</label>
           <select
             value={verificationFilter}
             onChange={(e) => setVerificationFilter(e.target.value)}
@@ -213,10 +194,15 @@ const DoctorsList = () => {
       {showBookingModal && (
         <div style={styles.modalOverlay}>
           <div style={styles.modal}>
+            <button
+              style={styles.closeButton}
+              onClick={() => setShowBookingModal(false)}
+            >
+              &times;
+            </button>
             <BookAppointment
               doctorId={selectedDoctorId}
               onSuccess={handleBookingSuccess}
-              onClose={() => setShowBookingModal(false)}
             />
           </div>
         </div>
@@ -226,49 +212,19 @@ const DoctorsList = () => {
 };
 
 const styles = {
-  page: {
-    minHeight: "100vh",
-    padding: "40px",
-    backgroundColor: "#f0f4f8",
-  },
-  header: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    color: "#000",
-  },
-  filterContainer: { display: "flex", gap: "40px", marginBottom: "30px" },
-  filterBlock: { display: "flex", flexDirection: "column", gap: "8px" },
-  label: {
-    fontWeight: "bold",
-    color: "#000",
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
-  },
-  select: {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-    fontSize: "15px",
-  },
-  icon: { color: "#000" },
+  header: { fontSize: "24px", fontWeight: "bold", marginBottom: "20px" },
+  filterContainer: { display: "flex", gap: "20px", marginBottom: "20px" },
+  label: { fontWeight: "bold", color: "#333" },
+  select: { padding: "8px", borderRadius: "5px", border: "1px solid #ccc" },
   card: {
-    backgroundColor: "#dcf2ff",
+    backgroundColor: "#f7f9fc",
     padding: "16px",
     borderRadius: "10px",
     marginBottom: "20px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    maxWidth: "800px",
-    marginInline: "auto",
   },
   cardContent: { display: "flex", alignItems: "center", gap: "20px" },
-  profilePic: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    objectFit: "cover",
-  },
+  profilePic: { width: "80px", height: "80px", borderRadius: "50%" },
   name: { fontSize: "18px", fontWeight: "bold" },
   text: { color: "#555", margin: "5px 0" },
   link: { color: "#007bff", textDecoration: "underline", fontSize: "14px" },
@@ -310,7 +266,7 @@ const styles = {
     borderRadius: "50%",
     animation: "spin 1s linear infinite",
   },
-  noDoctors: { textAlign: "center", fontSize: "16px", color: "#000" },
+  noDoctors: { textAlign: "center", fontSize: "16px", color: "#777" },
   modalOverlay: {
     position: "fixed",
     top: 0,
@@ -321,15 +277,19 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 1000,
   },
   modal: {
-    position: "relative",
     backgroundColor: "#fff",
     padding: "20px",
     borderRadius: "10px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    zIndex: 1001,
+  },
+  closeButton: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    fontSize: "24px",
+    cursor: "pointer",
   },
 };
 

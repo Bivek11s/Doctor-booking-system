@@ -1,25 +1,61 @@
 import React, { useState, useEffect } from "react";
 import { FaClock } from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const BookAppointment = ({ onClose }) => {
-  const [doctor, setDoctor] = useState("");
+  const { user } = useAuth();
+  const [doctors, setDoctors] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [reason, setReason] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    fetchDoctors();
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
 
-  const handleSubmit = (e) => {
+  const fetchDoctors = async () => {
+    try {
+      const response = await axios.get("/api/users?role=doctor");
+      setDoctors(response.data.users);
+    } catch (error) {
+      toast.error("Failed to load doctors");
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!doctor.trim() || !date.trim() || !time.trim()) {
-      alert("Please fill out all fields before confirming the booking.");
+    if (!selectedDoctor || !date || !time || !reason.trim()) {
+      toast.error("Please fill out all fields before confirming the booking.");
       return;
     }
-    alert(`Booking confirmed with ${doctor} on ${date} at ${time}`);
+
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/appointments", {
+        doctorId: selectedDoctor,
+        patientId: user.id,
+        appointmentDate: date,
+        appointmentTime: time,
+        reason: reason.trim(),
+      });
+
+      toast.success("Appointment booked successfully");
+      onClose?.();
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to book appointment"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const styles = {
@@ -149,18 +185,28 @@ const BookAppointment = ({ onClose }) => {
 
         <form onSubmit={handleSubmit} style={styles.form}>
           <div>
-            <label style={styles.label}><b>Doctor</b></label>
-            <input
-              type="text"
-              placeholder="Search for a doctor"
-              value={doctor}
-              onChange={(e) => setDoctor(e.target.value)}
+            <label style={styles.label}>
+              <b>Doctor</b>
+            </label>
+            <select
+              value={selectedDoctor}
+              onChange={(e) => setSelectedDoctor(e.target.value)}
               style={styles.input}
-            />
+              required
+            >
+              <option value="">Select a doctor</option>
+              {doctors.map((doctor) => (
+                <option key={doctor._id} value={doctor._id}>
+                  Dr. {doctor.fullName} - {doctor.doctorSpecialty}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>
-            <label style={styles.label}><b>Date</b></label>
+            <label style={styles.label}>
+              <b>Date</b>
+            </label>
             <input
               type="date"
               value={date}
@@ -171,7 +217,9 @@ const BookAppointment = ({ onClose }) => {
           </div>
 
           <div style={styles.timeField}>
-            <label style={styles.label}><b>Time</b></label>
+            <label style={styles.label}>
+              <b>Time</b>
+            </label>
             <div style={styles.timeInputWrapper}>
               <input
                 type="time"
@@ -183,9 +231,26 @@ const BookAppointment = ({ onClose }) => {
             </div>
           </div>
 
+          <div style={styles.timeField}>
+            <label style={styles.label}>
+              <b>Reason for Visit</b>
+            </label>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              placeholder="Please describe your reason for visit"
+              style={{ ...styles.input, height: "100px", resize: "vertical" }}
+              required
+            />
+          </div>
+
           <div style={styles.buttonWrapper}>
-            <button type="submit" style={styles.button}>
-              Confirm Booking
+            <button
+              type="submit"
+              style={{ ...styles.button, opacity: loading ? 0.7 : 1 }}
+              disabled={loading}
+            >
+              {loading ? "Booking..." : "Confirm Booking"}
             </button>
           </div>
         </form>

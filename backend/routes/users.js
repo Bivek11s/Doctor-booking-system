@@ -22,9 +22,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-
 router.get("/", listUsers);
 
+router.get("/:userId", getUserById);
 
 router.put(
   "/:userId",
@@ -34,7 +34,6 @@ router.put(
   ]),
   updateUser
 );
-
 
 router.delete("/:userId", deleteUser);
 
