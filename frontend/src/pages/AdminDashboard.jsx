@@ -91,23 +91,30 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div style={{ display: "flex" }}>
       {/* Sidebar */}
       <div
         style={{
           width: "250px",
-          backgroundColor: "#7D9DDE",
+          backgroundColor: "#4A90E2", 
           color: "#fff",
           padding: "20px",
+          minHeight: "100vh",
+          marginTop: "30px", 
         }}
       >
         <h2
-          style={{ fontWeight: "bold", fontSize: "20px", marginBottom: "30px" }}
+          style={{
+            fontWeight: "bold",
+            fontSize: "20px",
+            marginBottom: "30px",
+            marginTop: "20px", 
+          }}
         >
           Admin Panel
         </h2>
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {["dashboard", "doctors", "patients", "appointments"].map((tab) => (
+          {["dashboard", "doctors", "patients"].map((tab) => (
             <li key={tab} style={{ marginBottom: "15px" }}>
               <button
                 onClick={() => setActiveTab(tab)}
@@ -115,7 +122,7 @@ const AdminDashboard = () => {
                   background: "none",
                   border: "none",
                   color: "#fff",
-                  fontWeight: activeTab === tab ? "bold" : "normal",
+                  fontWeight: "bold", 
                   cursor: "pointer",
                   textAlign: "left",
                   width: "100%",
@@ -129,41 +136,22 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: "20px" }}>
-        {/* Top Navbar */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: "#7D9DDE",
-            padding: "15px 20px",
-            borderRadius: "10px",
-            marginBottom: "30px",
-          }}
-        >
-          <h1 style={{ color: "#fff", fontSize: "20px", fontWeight: "bold" }}>
-            📊 Admin Dashboard
-          </h1>
-          <button
-            onClick={handleLogout}
-            style={{
-              backgroundColor: "#e63946",
-              color: "#fff",
-              border: "none",
-              padding: "10px 15px",
-              borderRadius: "5px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            🔒 Logout
-          </button>
-        </div>
-
+      <div style={{ flex: 1, padding: "30px", background: "#f9f9f9", marginLeft: "10px" }}>
         {/* Dashboard Section */}
         {activeTab === "dashboard" && (
-          <div>
+          <div style={{ marginTop: "20px" }}>
+            {/* Overview Text */}
+            <h1
+              style={{
+                fontSize: "24px",
+                marginBottom: "20px",
+                fontWeight: "bold",
+                color: "#365486",
+              }}
+            >
+              📊 Admin Dashboard Overview
+            </h1>
+
             {/* Stats Cards */}
             <div
               style={{
