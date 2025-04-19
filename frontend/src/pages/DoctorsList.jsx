@@ -104,18 +104,21 @@ const DoctorsList = () => {
               {doctor.isVerified ? "Verified" : "Pending"}
             </span>
           </p>
-
+  
+          {/* Wrapped this block in a div for spacing */}
           {doctor.qualificationProof && (
-            <a
-              href={doctor.qualificationProof}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={styles.link}
-            >
-              View Qualification Document
-            </a>
+            <div style={{ marginBottom: "10px" }}>
+              <a
+                href={doctor.qualificationProof}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.link}
+              >
+                View Qualification Document
+              </a>
+            </div>
           )}
-
+  
           {user?.role === "admin" && !doctor.isVerified && (
             <div style={styles.buttonContainer}>
               <button
@@ -132,7 +135,7 @@ const DoctorsList = () => {
               </button>
             </div>
           )}
-
+  
           {user?.role === "patient" && doctor.isVerified && (
             <button
               onClick={() => handleBookAppointment(doctor._id)}
@@ -212,7 +215,7 @@ const DoctorsList = () => {
 };
 
 const styles = {
-  header: { fontSize: "24px", fontWeight: "bold", marginBottom: "20px" },
+  header: { fontSize: "24px", fontWeight: "bold", marginBottom: "20px" , marginTop: "30px"},
   filterContainer: { display: "flex", gap: "20px", marginBottom: "20px" },
   label: { fontWeight: "bold", color: "#333" },
   select: { padding: "8px", borderRadius: "5px", border: "1px solid #ccc" },
@@ -227,7 +230,7 @@ const styles = {
   profilePic: { width: "80px", height: "80px", borderRadius: "50%" },
   name: { fontSize: "18px", fontWeight: "bold" },
   text: { color: "#555", margin: "5px 0" },
-  link: { color: "#007bff", textDecoration: "underline", fontSize: "14px" },
+  link: { color: "#007bff", textDecoration: "underline", fontSize: "14px", display: "inline-block"},
   badge: { padding: "5px 10px", borderRadius: "5px", fontWeight: "bold" },
   buttonContainer: { display: "flex", gap: "10px", marginTop: "10px" },
   approveBtn: {

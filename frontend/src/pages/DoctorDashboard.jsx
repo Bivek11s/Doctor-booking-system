@@ -17,7 +17,7 @@ const DoctorDashboard = () => {
   const containerStyle = {
     fontFamily: "Arial, sans-serif",
     margin: "0 auto",
-    width: "1350px",
+    width: "1250px",
     padding: "40px",
     color: "#000",
     background: "#f4f6f7",
@@ -26,7 +26,7 @@ const DoctorDashboard = () => {
   const navbarStyle = {
     width: "100%",
     height: "60px",
-    backgroundColor: "#80a9d7",
+    backgroundColor: "#4A90E2",
     color: "white",
     display: "flex",
     justifyContent: "center",
@@ -92,7 +92,7 @@ const DoctorDashboard = () => {
   };
 
   const sectionStyle = {
-    width: "60%",
+    width: "100%",
     backgroundColor: "#faf8ff",
     padding: "20px",
     borderRadius: "10px",
@@ -178,7 +178,7 @@ const DoctorDashboard = () => {
           </div>
 
           {/* Dynamic Content Section */}
-          <div style={{ ...sectionStyle, width: "80%" }}>
+          <div style={{ ...sectionStyle, width: "100%" }}>
             <Appointments />
             <DoctorAvailability />
           </div>
