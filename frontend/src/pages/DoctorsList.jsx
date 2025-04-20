@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
 import BookAppointment from "../components/BookAppointment";
+import { useSearchParams } from "react-router-dom";
 
 const DoctorsList = () => {
   const { user } = useAuth();
@@ -13,17 +14,33 @@ const DoctorsList = () => {
   const [verificationFilter, setVerificationFilter] = useState("all");
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+  const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetchDoctors();
+    const specialtyFromUrl = searchParams.get("specialty");
+    const searchFromUrl = searchParams.get("search");
+    if (specialtyFromUrl) setSpecialty(specialtyFromUrl);
+    if (searchFromUrl) setSearchQuery(searchFromUrl);
+    fetchDoctors(specialtyFromUrl, searchFromUrl);
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!searchParams.get("specialty") && !searchParams.get("search")) {
+      fetchDoctors(specialty, searchQuery);
+    }
   }, [specialty, verificationFilter]);
 
-  const fetchDoctors = async () => {
+  const fetchDoctors = async (
+    specialtyParam = specialty,
+    searchParam = searchQuery
+  ) => {
     try {
       setLoading(true);
       let url = "/api/users?role=doctor";
 
-      if (specialty) url += `&specialty=${specialty}`;
+      if (specialtyParam) url += `&specialty=${specialtyParam}`;
+      if (searchParam) url += `&search=${searchParam}`;
       if (verificationFilter !== "all")
         url += `&isVerified=${verificationFilter === "verified"}`;
 
