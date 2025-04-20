@@ -16,6 +16,18 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
     notes: "",
   });
 
+  const handleClose = () => {
+    setSelectedDate("");
+    setSelectedTime("");
+    setAppointmentData({
+      reason: "",
+      notes: "",
+    });
+    if (onSuccess) {
+      onSuccess(false); // Pass false to indicate this is just a close action
+    }
+  };
+
   useEffect(() => {
     if (doctorId) {
       fetchDoctorDetails();
@@ -108,9 +120,8 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
         notes: "",
       });
 
-      // Call success callback if provided
       if (onSuccess) {
-        onSuccess(response.data.appointment);
+        onSuccess(true); // Pass true to indicate this is a successful booking
       }
     } catch (error) {
       console.error("Error booking appointment:", error);
@@ -158,121 +169,151 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
     .sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
 
   return (
-    <div className="card">
-      <h2 className="text-xl font-semibold mb-4">
-        Book an Appointment with {doctor.email}
-      </h2>
+    <div className="fixed inset-0 z-[50] flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+      <div className="relative w-full max-w-2xl p-6 mx-4 mt-12 bg-white rounded-lg shadow-lg">
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none z-[60]"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
 
-      <div className="mb-6">
-        <div className="flex items-center mb-2">
-          <img
-            src={doctor.profilePic}
-            alt={doctor.email}
-            className="w-16 h-16 rounded-full object-cover mr-4"
-          />
-          <div>
-            <h3 className="font-medium">{doctor.email}</h3>
-            <p className="text-sm text-gray-600">{doctor.doctorSpecialty}</p>
+        <div className="card">
+          <h2 className="text-xl font-semibold mb-4">
+            Book an Appointment with {doctor.email}
+          </h2>
+
+          <div className="mb-6">
+            <div className="flex items-center mb-2">
+              <img
+                src={doctor.profilePic}
+                alt={doctor.email}
+                className="w-16 h-16 rounded-full object-cover mr-4"
+              />
+              <div>
+                <h3 className="font-medium">{doctor.email}</h3>
+                <p className="text-sm text-gray-600">
+                  {doctor.doctorSpecialty}
+                </p>
+              </div>
+            </div>
           </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Date Selection */}
+            <div>
+              <label className="block text-gray-700 mb-2">Select Date</label>
+              {availableDates.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  {availableDates.map((date) => (
+                    <button
+                      key={date}
+                      type="button"
+                      className={`p-2 border rounded-md text-center ${
+                        selectedDate === date
+                          ? "bg-blue-500 text-white"
+                          : "bg-white hover:bg-gray-50"
+                      }`}
+                      onClick={() => {
+                        setSelectedDate(date);
+                        setSelectedTime(""); // Reset time when date changes
+                      }}
+                    >
+                      {formatDate(date)}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-red-500">
+                  No available dates found for this doctor
+                </p>
+              )}
+            </div>
+
+            {/* Time Selection */}
+            {selectedDate && (
+              <div>
+                <label className="block text-gray-700 mb-2">Select Time</label>
+                {availableTimesForSelectedDate.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {availableTimesForSelectedDate.map((slot) => (
+                      <button
+                        key={`${slot.date}-${slot.startTime}`}
+                        type="button"
+                        className={`p-2 border rounded-md text-center ${
+                          selectedTime === slot.startTime
+                            ? "bg-blue-500 text-white"
+                            : "bg-white hover:bg-gray-50"
+                        }`}
+                        onClick={() => setSelectedTime(slot.startTime)}
+                      >
+                        {formatTime(slot.startTime)}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-red-500">
+                    No available time slots for the selected date
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Appointment Details */}
+            <div>
+              <label className="block text-gray-700 mb-2">
+                Reason for Appointment *
+              </label>
+              <input
+                type="text"
+                name="reason"
+                value={appointmentData.reason}
+                onChange={handleInputChange}
+                className="form-input w-full"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 mb-2">
+                Additional Notes
+              </label>
+              <textarea
+                name="notes"
+                value={appointmentData.notes}
+                onChange={handleInputChange}
+                className="form-input w-full h-24"
+                placeholder="Any additional information you'd like to share with the doctor"
+              ></textarea>
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={
+                  !selectedDate || !selectedTime || !appointmentData.reason
+                }
+              >
+                Book Appointment
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Date Selection */}
-        <div>
-          <label className="block text-gray-700 mb-2">Select Date</label>
-          {availableDates.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {availableDates.map((date) => (
-                <button
-                  key={date}
-                  type="button"
-                  className={`p-2 border rounded-md text-center ${
-                    selectedDate === date
-                      ? "bg-blue-500 text-white"
-                      : "bg-white hover:bg-gray-50"
-                  }`}
-                  onClick={() => {
-                    setSelectedDate(date);
-                    setSelectedTime(""); // Reset time when date changes
-                  }}
-                >
-                  {formatDate(date)}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <p className="text-red-500">
-              No available dates found for this doctor
-            </p>
-          )}
-        </div>
-
-        {/* Time Selection */}
-        {selectedDate && (
-          <div>
-            <label className="block text-gray-700 mb-2">Select Time</label>
-            {availableTimesForSelectedDate.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {availableTimesForSelectedDate.map((slot) => (
-                  <button
-                    key={`${slot.date}-${slot.startTime}`}
-                    type="button"
-                    className={`p-2 border rounded-md text-center ${
-                      selectedTime === slot.startTime
-                        ? "bg-blue-500 text-white"
-                        : "bg-white hover:bg-gray-50"
-                    }`}
-                    onClick={() => setSelectedTime(slot.startTime)}
-                  >
-                    {formatTime(slot.startTime)}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <p className="text-red-500">
-                No available time slots for the selected date
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Appointment Details */}
-        <div>
-          <label className="block text-gray-700 mb-2">
-            Reason for Appointment *
-          </label>
-          <input
-            type="text"
-            name="reason"
-            value={appointmentData.reason}
-            onChange={handleInputChange}
-            className="form-input w-full"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 mb-2">Additional Notes</label>
-          <textarea
-            name="notes"
-            value={appointmentData.notes}
-            onChange={handleInputChange}
-            className="form-input w-full h-24"
-            placeholder="Any additional information you'd like to share with the doctor"
-          ></textarea>
-        </div>
-
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={!selectedDate || !selectedTime || !appointmentData.reason}
-          >
-            Book Appointment
-          </button>
-        </div>
-      </form>
     </div>
   );
 };
