@@ -148,12 +148,13 @@ const Dashboard = () => {
                 border: "2px solid white",
                 borderRadius: "5px",
                 outline: "none",
+                color: "black",
               }}
             />
             <button
               style={{
                 backgroundColor: "#2C48EF",
-                color: "white",
+                color: "black",
                 padding: "12px 20px",
                 border: "none",
                 borderRadius: "5px",
