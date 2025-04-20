@@ -31,6 +31,36 @@ const DoctorsList = () => {
     }
   }, [specialty, verificationFilter]);
 
+  const showNoResultsMessage = () => {
+    if (searchQuery) {
+      return (
+        <>
+          <p style={{ fontSize: "18px", marginBottom: "10px" }}>
+            No doctors found matching "{searchQuery}"
+          </p>
+          <p style={{ fontSize: "16px", color: "#888" }}>
+            Try adjusting your search terms or browse by specialty instead
+          </p>
+        </>
+      );
+    } else if (specialty) {
+      return (
+        <>
+          <p style={{ fontSize: "18px", marginBottom: "10px" }}>
+            No doctors found for specialty: {specialty}
+          </p>
+          <p style={{ fontSize: "16px", color: "#888" }}>
+            Try selecting a different specialty or use the search bar
+          </p>
+        </>
+      );
+    } else {
+      return (
+        <p style={{ fontSize: "18px" }}>No doctors available at the moment</p>
+      );
+    }
+  };
+
   const fetchDoctors = async (
     specialtyParam = specialty,
     searchParam = searchQuery
@@ -210,7 +240,9 @@ const DoctorsList = () => {
       ) : doctors.length > 0 ? (
         doctors.map(renderDoctorCard)
       ) : (
-        <p style={styles.noDoctors}>No doctors found</p>
+        <div style={{ textAlign: "center", padding: "20px", color: "#666" }}>
+          {showNoResultsMessage()}
+        </div>
       )}
 
       {showBookingModal && (
