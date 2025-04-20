@@ -1,231 +1,87 @@
-# Doctor Appointment Backend
+# Doctor Appointment System
 
-Backend server for the Doctor Appointment application with authentication and role-based access control.
+A comprehensive web application for managing doctor appointments, built with React.js for the frontend and Node.js/Express.js for the backend.
 
-## 🚀 Getting Started
+## Features
 
-### Prerequisites
+- **User Authentication**: Secure login and registration system for patients, doctors, and administrators
+- **Role-Based Access**: Different dashboards and functionalities for patients, doctors, and administrators
+- **Appointment Management**: Schedule, view, and manage appointments
+- **Doctor Availability**: Doctors can set and manage their availability schedules
+- **Real-time Notifications**: Get notified about appointment updates and changes
+- **Profile Management**: Users can manage their profiles and personal information
+- **Admin Dashboard**: Comprehensive admin panel for system management
+
+## Project Structure
+
+```
+├── frontend/          # React.js frontend application
+├── backend/           # Node.js/Express.js backend API
+├── README.md         # Main project documentation
+```
+
+## Prerequisites
 
 - Node.js (v14 or higher)
+- npm or yarn package manager
+- MongoDB database
 
-### Setup Steps
+## Getting Started
 
-1. **Clone and Install Dependencies**
+1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd backend
-   npm install
+   git clone [repository-url]
+   cd Doctor-Appointment-System
    ```
 
-2. **Start the Server**
+2. Set up the backend:
 
    ```bash
-   # Development mode with nodemon
+   cd backend
+   npm install
+   # Configure environment variables in .env file
    npm run dev
    ```
 
-   Server will run on http://localhost:5000
+3. Set up the frontend:
 
-## 📚 API Documentation
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 
-- Swagger documentation available at: http://localhost:5000/api-docs
-- Test APIs directly from the Swagger UI
+4. Access the application:
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:5000
 
-### Available Endpoints
+## Environment Variables
 
-#### Authentication
+Create a `.env` file in the backend directory with the following variables:
 
-- POST `/api/auth/register` - Register new user
-  - Supports multipart/form-data for profile picture
-- POST `/api/auth/login` - Login with email/phone
-
-## 🔗 Testing Guide
-
-### 1. Start the Server
-
-```bash
-# Make sure MongoDB is running first
-# Then start the server
-npm run dev
-
-# You should see:
-# Server running on port 5000
-# MongoDB connected successfully
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
 ```
 
-### 2. Register a New User
+## Available Scripts
 
-#### Using Postman:
+In both frontend and backend directories:
 
-1. Open Postman
-2. Create a new POST request to `http://localhost:5000/api/auth/register`
-3. In the request body:
-   - Select `form-data`
-   - Add the following fields:
-     ```
-     email: test@example.com
-     password: password123
-     phone: 1234567890
-     role: patient
-     profilePic: [select a file] (optional)
-     ```
-4. Click Send
+- `npm run dev`: Start development server
+- `npm run build`: Build for production
+- `npm start`: Start production server (backend only)
 
-#### Using Swagger UI:
+## Contributing
 
-1. Open http://localhost:5000/api-docs in your browser
-2. Find the `/api/auth/register` endpoint
-3. Click "Try it out"
-4. Fill in the request body:
-   ```json
-   {
-     "email": "test@example.com",
-     "password": "password123",
-     "phone": "1234567890",
-     "role": "patient"
-   }
-   ```
-5. Click "Execute"
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### 3. Login
+## License
 
-#### Using Postman:
-
-1. Create a new POST request to `http://localhost:5000/api/auth/login`
-2. Set body to raw JSON:
-   ```json
-   {
-     "emailOrPhone": "test@example.com",
-     "password": "password123"
-   }
-   ```
-3. Click Send
-
-#### Using Swagger UI:
-
-1. Go to `/api/auth/login` endpoint
-2. Click "Try it out"
-3. Enter credentials:
-   ```json
-   {
-     "emailOrPhone": "test@example.com",
-     "password": "password123"
-   }
-   ```
-4. Click "Execute"
-
-### 4. Expected Responses
-
-#### Successful Registration:
-
-```json
-{
-  "user": {
-    "id": "user_id",
-    "email": "test@example.com",
-    "phone": "1234567890",
-    "role": "patient",
-    "isVerified": true,
-    "profilePic": "profile_pic_url"
-  },
-  "message": "User registered successfully"
-}
-```
-
-#### Successful Login:
-
-```json
-{
-  "user": {
-    "id": "user_id",
-    "email": "test@example.com",
-    "phone": "1234567890",
-    "role": "patient",
-    "isVerified": true,
-    "profilePic": "profile_pic_url"
-  },
-  "message": "Login successful"
-}
-```
-
-## 🔗 Frontend Integration
-
-1. **Example API Calls**
-
-   ```javascript
-   // Example using axios
-   import axios from "axios";
-
-   // Register user
-   const registerUser = async (formData) => {
-     try {
-       const response = await axios.post(
-         `http://localhost:5000/api/auth/register`,
-         formData,
-         {
-           headers: {
-             "Content-Type": "multipart/form-data",
-           },
-         }
-       );
-       return response.data;
-     } catch (error) {
-       console.error("Registration failed:", error.response?.data);
-       throw error;
-     }
-   };
-
-   // Login user
-   const loginUser = async (credentials) => {
-     try {
-       const response = await axios.post(
-         `http://localhost:5000/api/auth/login`,
-         credentials
-       );
-       return response.data;
-     } catch (error) {
-       console.error("Login failed:", error.response?.data);
-       throw error;
-     }
-   };
-   ```
-
-## 🔒 Error Handling
-
-The API returns consistent error responses:
-
-```javascript
-{
-  "message": "Error message here"
-}
-```
-
-Common status codes:
-
-- 200: Success
-- 201: Created
-- 400: Bad Request
-- 401: Unauthorized
-- 403: Forbidden
-- 500: Server Error
-
-## 🧪 Testing the API
-
-1. Use Swagger UI at http://localhost:5000/api-docs
-2. Use Postman or similar tools
-3. Test user credentials:
-   ```json
-   {
-     "email": "test@example.com",
-     "password": "password123",
-     "role": "patient"
-   }
-   ```
-
-## 💡 Tips
-
-- Always handle API errors on the frontend
-- Implement loading states for API calls
-- Use environment variables for configuration
-- Check the Swagger documentation for detailed request/response schemas
+This project is licensed under the MIT License - see the LICENSE file for details.
