@@ -121,13 +121,14 @@ const Dashboard = () => {
                 navigate(`/doctors?search=${encodeURIComponent(searchQuery)}`)
               }
               style={{
-                backgroundColor: "#2C48EF",
-                color: "black",
-                padding: "12px 20px",
+                padding: "12px 24px",
+                backgroundColor: "#3E66FB", // improved blue tone
+                color: "#fff",
+                fontSize: "18px",
                 border: "none",
-                borderRadius: "5px",
+                borderRadius: "10px",
                 cursor: "pointer",
-                fontSize: "16px",
+                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
               }}
               onMouseOver={(e) => (e.target.style.backgroundColor = "#1A237E")}
               onMouseOut={(e) => (e.target.style.backgroundColor = "#2C48EF")}
