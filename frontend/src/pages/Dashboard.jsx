@@ -30,7 +30,9 @@ const Dashboard = () => {
 
         let pendingDoctors = 0;
         if (user?.role === "admin") {
-          const pendingResponse = await axios.get("/api/users?role=doctor&isVerified=false");
+          const pendingResponse = await axios.get(
+            "/api/users?role=doctor&isVerified=false"
+          );
           pendingDoctors = pendingResponse.data.count || 0;
         }
 
@@ -51,7 +53,9 @@ const Dashboard = () => {
   };
 
   if (loading) {
-    return <div style={{ textAlign: "center", marginTop: "100px" }}>Loading...</div>;
+    return (
+      <div style={{ textAlign: "center", marginTop: "100px" }}>Loading...</div>
+    );
   }
 
   return (
@@ -64,53 +68,9 @@ const Dashboard = () => {
         flexDirection: "column",
       }}
     >
-      {/* Sidebar */}
-      <aside
-        style={{
-          width: "250px",
-          height: "100vh",
-          backgroundColor: "#3949AB",
-          color: "white",
-          padding: "20px",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <h2
-          style={{
-            fontSize: "22px",
-            fontWeight: "bold",
-            marginBottom: "20px",
-            textAlign: "center",
-          }}
-        >
-          📖 Book Doctor
-        </h2>
-        <nav>
-          <ul style={{ listStyleType: "none", padding: 0 }}>
-            <li style={navItemStyle}>📅 Book Appointments</li>
-            <li style={navItemStyle}>🔄 Reschedule/Cancel</li>
-            <li style={navItemStyle}>🔔 Appointment Notifications</li>
-            <li
-              style={{
-                ...navItemStyle,
-                color: "#FF5252",
-                fontWeight: "bold",
-              }}
-            >
-              🆘 SOS Emergency
-            </li>
-          </ul>
-        </nav>
-      </aside>
-
       {/* Main Content */}
       <main
         style={{
-          marginLeft: "270px",
           padding: "20px 40px",
           flex: 1,
         }}
@@ -204,9 +164,7 @@ const Dashboard = () => {
                     transition: "transform 0.2s ease, background 0.3s ease",
                   }}
                   onClick={() => handleDoctorClick(specialization)}
-                  onMouseOver={(e) =>
-                    (e.target.style.background = "#E3E7FA")
-                  }
+                  onMouseOver={(e) => (e.target.style.background = "#E3E7FA")}
                   onMouseOut={(e) => (e.target.style.background = "white")}
                 >
                   <span style={{ fontSize: "40px" }}>🧑‍⚕️</span>
