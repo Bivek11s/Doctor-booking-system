@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     doctorsCount: 0,
     patientsCount: 0,
     pendingDoctors: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     document.body.style.overflow = "auto";
@@ -49,7 +52,7 @@ const Dashboard = () => {
   }, [user]);
 
   const handleDoctorClick = (specialization) => {
-    alert(`You clicked on ${specialization}`);
+    navigate(`/doctors?specialty=${specialization}`);
   };
 
   if (loading) {
@@ -102,6 +105,8 @@ const Dashboard = () => {
             <input
               type="text"
               placeholder="Search for doctors by name or specialization"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               style={{
                 width: "60%",
                 padding: "12px",
@@ -112,6 +117,9 @@ const Dashboard = () => {
               }}
             />
             <button
+              onClick={() =>
+                navigate(`/doctors?search=${encodeURIComponent(searchQuery)}`)
+              }
               style={{
                 backgroundColor: "#2C48EF",
                 color: "black",
