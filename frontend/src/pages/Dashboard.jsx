@@ -55,6 +55,56 @@ const Dashboard = () => {
     navigate(`/doctors?specialty=${specialization}`);
   };
 
+  const handleSearch = async () => {
+    const trimmedQuery = searchQuery.trim();
+
+    if (!trimmedQuery) {
+      toast.warning("Please enter a search term");
+      return;
+    }
+
+    // Validate input - only allow letters and spaces
+    if (!/^[a-zA-Z\s]+$/.test(trimmedQuery)) {
+      toast.warning("Please enter only letters and spaces");
+      return;
+    }
+
+    try {
+      const knownSpecialties = ["Cardiologist", "Dermatologist", "Neurologist"];
+      const searchQueryLower = trimmedQuery.toLowerCase();
+
+      // Check if the search query matches or partially matches a specialty
+      const matchingSpecialty = knownSpecialties.find(
+        (specialty) =>
+          specialty.toLowerCase().includes(searchQueryLower) ||
+          searchQueryLower.includes(specialty.toLowerCase())
+      );
+
+      if (matchingSpecialty) {
+        navigate(`/doctors?specialty=${encodeURIComponent(matchingSpecialty)}`);
+        return;
+      }
+
+      // If not a specialty, search for doctors by name
+      const response = await axios.get(
+        `/api/users?role=doctor&search=${encodeURIComponent(trimmedQuery)}`
+      );
+
+      if (response.data.users.length === 0) {
+        toast.info(
+          "No doctors found. Try searching by specialty: Cardiologist, Dermatologist, or Neurologist"
+        );
+        return;
+      }
+
+      // If we found matches, navigate to the doctors list with search parameter
+      navigate(`/doctors?search=${encodeURIComponent(trimmedQuery)}`);
+    } catch (error) {
+      console.error("Error searching doctors:", error);
+      toast.error("Failed to search doctors. Please try again.");
+    }
+  };
+
   if (loading) {
     return (
       <div style={{ textAlign: "center", marginTop: "100px" }}>Loading...</div>
@@ -117,9 +167,7 @@ const Dashboard = () => {
               }}
             />
             <button
-              onClick={() =>
-                navigate(`/doctors?search=${encodeURIComponent(searchQuery)}`)
-              }
+              onClick={handleSearch}
               style={{
                 padding: "12px 24px",
                 backgroundColor: "#3E66FB", // improved blue tone
