@@ -71,6 +71,7 @@ const BookAppointment = ({ onClose }) => {
       alignItems: "center",
       zIndex: 9999,
     },
+    // styling for backgorund 
     container: {
       width: "90%",
       maxWidth: "800px",
@@ -82,6 +83,7 @@ const BookAppointment = ({ onClose }) => {
         'url("https://i.pinimg.com/736x/36/42/29/3642291603d80cbf90ee7421ba227a8b.jpg") no-repeat center center/cover',
       position: "relative",
     },
+    // for buttons
     closeButton: {
       position: "absolute",
       top: "10px",

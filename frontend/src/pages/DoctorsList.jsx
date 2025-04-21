@@ -196,6 +196,7 @@ const DoctorsList = () => {
             onChange={(e) => setVerificationFilter(e.target.value)}
             style={styles.select}
           >
+          {/* for side writtens */}
             <option value="all">All Doctors</option>
             <option value="verified">Verified Only</option>
             <option value="pending">Pending Verification</option>
@@ -234,6 +235,7 @@ const DoctorsList = () => {
 };
 
 const styles = {
+  // For background style
   header: {
     fontSize: "24px",
     fontWeight: "bold",

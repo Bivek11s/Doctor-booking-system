@@ -13,7 +13,7 @@ const DoctorDashboard = () => {
     logout();
     navigate("/login");
   };
-
+// for Whole background 
   const containerStyle = {
     fontFamily: "Arial, sans-serif",
     margin: "0 auto",
@@ -22,7 +22,7 @@ const DoctorDashboard = () => {
     color: "#000",
     background: "#f4f6f7",
   };
-
+// styling for navbar
   const navbarStyle = {
     width: "100%",
     height: "60px",

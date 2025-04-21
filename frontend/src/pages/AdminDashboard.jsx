@@ -104,6 +104,7 @@ const AdminDashboard = () => {
         }}
       >
         <h2
+        // for heading
           style={{
             fontWeight: "bold",
             fontSize: "20px",

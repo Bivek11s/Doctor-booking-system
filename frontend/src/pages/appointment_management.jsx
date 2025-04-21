@@ -13,6 +13,7 @@ const AppointmentManagement = () => {
   };
 
   return (
+    // creating the outline for appointment managemnet
     <div>
       <header>
         <h1>Appointment Management</h1>

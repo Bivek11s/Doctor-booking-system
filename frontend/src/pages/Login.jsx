@@ -41,6 +41,7 @@ const Login = () => {
   };
 
   return (
+    // style for whole page 
     <div
       style={{
         fontFamily: "Arial, sans-serif",
@@ -52,6 +53,7 @@ const Login = () => {
       }}
     >
       <div
+      // for the box
         style={{
           padding: "30px",
           borderRadius: "10px",
