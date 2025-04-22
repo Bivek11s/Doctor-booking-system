@@ -1,0 +1,627 @@
+commit eaa6670248d23447bfd1bbb2ec36c492d97d459f
+Merge: cab64b2 95e8fb3
+Author: Bivek shrestha <161782596+Bivek11s@users.noreply.github.com>
+Date:   Sun Apr 20 18:28:17 2025 +0545
+
+    Merge pull request #9 from Bivek11s/search-function
+    
+    empelmented some of search functionality
+
+commit 95e8fb37b73a36aaf7a07efa165e15aec85e0d94
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sun Apr 20 18:25:27 2025 +0545
+
+    empelmented some of search functionality
+
+ frontend/src/pages/Dashboard.jsx   | 54 +++++++++++++++++++++++++++++++++++---
+ frontend/src/pages/DoctorsList.jsx | 34 +++++++++++++++++++++++-
+ 2 files changed, 84 insertions(+), 4 deletions(-)
+
+commit cab64b2f91b3ee9a2795920da5f611c323e9c938
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Sun Apr 20 17:34:24 2025 +0545
+
+    changed the css of the search button
+
+ frontend/src/pages/Dashboard.jsx | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+commit 531aa7df5e9604504c3d42347d07b123dfff4644
+Merge: 5c1fd88 1a1822e
+Author: Bivek shrestha <161782596+Bivek11s@users.noreply.github.com>
+Date:   Sun Apr 20 17:22:56 2025 +0545
+
+    Merge pull request #8 from Bivek11s/speciality-button
+    
+    Speciality button
+
+commit 1a1822e934ebae710b2edc97226dbcc19aee29e3
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sun Apr 20 17:20:33 2025 +0545
+
+    Made the buttons in dashboard functionable
+
+ frontend/src/pages/Dashboard.jsx   | 10 +++++++++-
+ frontend/src/pages/DoctorsList.jsx | 23 ++++++++++++++++++++---
+ 2 files changed, 29 insertions(+), 4 deletions(-)
+
+commit e6c65eba81726f1ad4b7eee70346e093320513c2
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sun Apr 20 17:01:39 2025 +0545
+
+    removed sidebar
+
+ frontend/src/pages/Dashboard.jsx | 56 +++++-----------------------------------
+ 1 file changed, 7 insertions(+), 49 deletions(-)
+
+commit 5c1fd88912064fea895f0381804f28f2436c5fd3
+Merge: d4b11d2 71b8d62
+Author: Bivek shrestha <161782596+Bivek11s@users.noreply.github.com>
+Date:   Sun Apr 20 16:57:47 2025 +0545
+
+    Merge pull request #7 from Bivek11s/sidebar-removal
+    
+    removed the sidebar in dashboard
+
+commit 71b8d625296a963293e6d23210ce699b5a17b347
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sun Apr 20 16:55:21 2025 +0545
+
+    removed the sidebar in dashboard
+
+ frontend/src/pages/Dashboard.jsx | 56 +++++-----------------------------------
+ 1 file changed, 7 insertions(+), 49 deletions(-)
+
+commit d4b11d2101b81599cea314032c1fa9f92f980d67
+Merge: 14666ee 3ee504f
+Author: Bivek shrestha <161782596+Bivek11s@users.noreply.github.com>
+Date:   Sun Apr 20 16:02:05 2025 +0545
+
+    Merge pull request #6 from Bivek11s/bookappointment_close_button
+    
+    added a close functionality
+
+commit 3ee504f2fe75d28b725e472fdd67e7b14364de6d
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sun Apr 20 15:59:06 2025 +0545
+
+    added a close functionality
+
+ frontend/src/components/BookAppointment.jsx | 257 ++++++++++++++++------------
+ frontend/src/pages/DoctorsList.jsx          |  26 ++-
+ 2 files changed, 168 insertions(+), 115 deletions(-)
+
+commit 14666eebdfc32204d45d9be77f8da670947230cd
+Merge: 1902a81 088eb4f
+Author: samikshhyagrg02 <155138999+samikshhyagrg02@users.noreply.github.com>
+Date:   Sun Apr 20 15:33:45 2025 +0545
+
+    Merge pull request #5 from samikshhyagrg02/main
+    
+    fixed search button text
+
+commit 088eb4f4f711337ca1e1239c792410c12ee0bbef
+Merge: 5b1f4f5 1902a81
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Sun Apr 20 15:24:26 2025 +0545
+
+    Merge branch 'main' of https://github.com/samikshhyagrg02/doctor-authentication
+
+commit 1902a81c09b25414f99b961a4370a7edae56dd53
+Merge: 70f9037 585ec3a
+Author: Bivek shrestha <161782596+Bivek11s@users.noreply.github.com>
+Date:   Sun Apr 20 15:15:33 2025 +0545
+
+    Merge pull request #3 from Bivek11s/readme-update
+    
+    updated the readme file
+
+commit 585ec3a4e6da0cb7af55f031e8e71610fc4b769a
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sun Apr 20 15:12:53 2025 +0545
+
+    updated the readme file
+
+ README.md          | 258 ++++++++++++-----------------------------------------
+ backend/README.md  | 138 ++++++++++++++++++++++++++++
+ frontend/README.md | 162 ++++++++++++++++++++++-----------
+ 3 files changed, 306 insertions(+), 252 deletions(-)
+
+commit 5b1f4f5ae35bac56c5d3ea8b2600aa2bfb1c5fd8
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Sun Apr 20 14:47:28 2025 +0545
+
+     fixed search text
+
+ frontend/src/pages/Dashboard.jsx | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 70f9037740394d33b1bbe7045f99fe74bf6ed6fa
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Sat Apr 19 20:11:44 2025 +0545
+
+    changes some part
+
+ frontend/src/pages/DoctorDashboard.jsx |  8 ++++----
+ frontend/src/pages/DoctorsList.jsx     | 29 ++++++++++++++++-------------
+ 2 files changed, 20 insertions(+), 17 deletions(-)
+
+commit d0e6673f8e2c9649897a89dded82a67873f8e88f
+Merge: f00e5bb e01fc4b
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Sat Apr 19 19:33:32 2025 +0545
+
+    Merge branch 'main' of https://github.com/Anish9431/Doctor-Appointment-System
+
+commit f00e5bb5338178322871259989eb4ca31b20438e
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Sat Apr 19 19:33:24 2025 +0545
+
+    fixed some issues
+
+ frontend/src/pages/AdminDashboard.jsx | 64 ++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 38 deletions(-)
+
+commit e01fc4bad8cc17177998b4f04bab6bcd8a9416cb
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sat Apr 19 15:34:43 2025 +0545
+
+    made the appointment system workable
+
+ backend/routes/users.js                        |   3 +-
+ frontend/src/components/BookAppointment.jsx    | 280 +++++++++++++++++++++++++
+ frontend/src/components/DoctorAvailability.jsx |   2 +-
+ frontend/src/pages/BookAppointment.jsx         |  97 +++++++--
+ frontend/src/pages/DoctorDashboard.jsx         | 169 ++++-----------
+ frontend/src/pages/DoctorsList.jsx             |  98 +++------
+ 6 files changed, 428 insertions(+), 221 deletions(-)
+
+commit eb18200538ac55e66bea6ff288f38f198e116ee7
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sat Apr 19 13:06:50 2025 +0545
+
+    fixed the admin dashboard
+
+ backend/routes/appointments.js        |   5 -
+ frontend/src/pages/AdminDashboard.jsx | 355 ++++++++++++++++++++++------------
+ 2 files changed, 231 insertions(+), 129 deletions(-)
+
+commit 7f0701864f1e64fe31d2275badccc9d54714e944
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Fri Apr 18 20:40:32 2025 +0545
+
+    did necessary chnages in doctorList to make cross button functionable
+
+ frontend/src/pages/DoctorsList.jsx | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
+
+commit aa87579b0bbb51f3c9291978961c9f8d49545854
+Merge: 1a003cc b7b7e3c
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Fri Apr 18 20:36:26 2025 +0545
+
+    Merge branch 'main' of https://github.com/Anish9431/Doctor-Appointment-System
+
+commit 1a003ccf6f288bfb115fb4330bb0032ce66899e2
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Fri Apr 18 20:36:20 2025 +0545
+
+    made the cross button workable
+
+ frontend/src/pages/BookAppointment.jsx | 35 +++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
+
+commit b7b7e3cdaeeb704394b91c0ae52a4d2e22c2522a
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Fri Apr 18 20:27:42 2025 +0545
+
+    made changes on admin dasboard, doctor dashboard and profile.jsx files
+
+ frontend/src/pages/AdminDashboard.jsx  | 289 +++++++++++++--------------------
+ frontend/src/pages/DoctorDashboard.jsx |  83 +++++-----
+ frontend/src/pages/Profile.jsx         |   5 +-
+ 3 files changed, 158 insertions(+), 219 deletions(-)
+
+commit 05ecaea10958446e5657bfa6367527658524f63d
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Fri Apr 18 19:13:49 2025 +0545
+
+    made changes on some .jsx file
+
+ frontend/src/App.jsx                  |  3 ++-
+ frontend/src/pages/AdminDashboard.jsx | 42 ++++++++++++++++++++++-------------
+ frontend/src/pages/DoctorsList.jsx    | 13 +++++------
+ frontend/src/pages/PatientsList.jsx   | 14 +++++++-----
+ 4 files changed, 43 insertions(+), 29 deletions(-)
+
+commit 74f21df81faaa80298d0c4682d80549b0268adaf
+Merge: c8264d7 cc57c52
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Thu Apr 17 12:27:17 2025 +0545
+
+    Merge branch 'main' of https://github.com/Anish9431/Doctor-Appointment-System
+
+commit c8264d7159cd262c0d92feeeb7bdac597a27576a
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Thu Apr 17 12:27:07 2025 +0545
+
+    some issue arise in designing part
+
+ frontend/src/pages/AdminDashboard.jsx | 321 ++++++++++++++++------------------
+ 1 file changed, 146 insertions(+), 175 deletions(-)
+
+commit cc57c52c9cc2549e4e78453766cd9dd5297a8ae1
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Wed Apr 9 10:39:00 2025 +0545
+
+    added doctor profiles and qualifications
+
+ .../1744173378072-Screenshot 2025-04-09 101944.png      | Bin 0 -> 70797 bytes
+ .../1744173408868-Screenshot 2025-04-09 101944.png      | Bin 0 -> 70797 bytes
+ .../1744173437102-Screenshot 2025-04-09 101944.png      | Bin 0 -> 70797 bytes
+ .../1744173487329-Screenshot 2025-04-09 101944.png      | Bin 0 -> 70797 bytes
+ 4 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 7b3093265c5be9351db4dfcc3b3598889147fadd
+Merge: 0abcd87 5b7d04a
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Wed Apr 9 07:18:03 2025 +0545
+
+    Merge branch 'main' of https://github.com/Anish9431/Doctor-Appointment-System
+
+commit 0abcd875ac293464c922cd3d83aa8cd61620b5db
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Wed Apr 9 07:17:52 2025 +0545
+
+    refactor(auth): migrate file uploads from Google Drive to Cloudinary
+    
+    This commit replaces the Google Drive file upload functionality with Cloudinary for better performance and maintainability. It includes:
+    - Adding Cloudinary as a dependency
+    - Implementing upload and delete functions in a new `cloudinary.js` utility
+    - Updating auth and user controllers to use Cloudinary for profile pictures and qualification proofs
+    - Ensuring old files are deleted when updating or removing user data
+
+ backend/controllers/auth.js                        |   9 +-
+ backend/controllers/users.js                       |  33 ++-
+ backend/package.json                               |   1 +
+ backend/uploads/profiles/1744161545763-xdd.webp    | Bin 0 -> 6354 bytes
+ .../uploads/profiles/1744161567166-profile-1.png   | Bin 0 -> 5320 bytes
+ backend/utils/cloudinary.js                        |  68 ++++++
+ frontend/src/components/ManageDoctors.jsx          | 252 ++++++++++++++++++++-
+ 7 files changed, 354 insertions(+), 9 deletions(-)
+
+commit 5b7d04a23decdf47fac686736349a025d265353d
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Tue Apr 8 00:37:28 2025 +0545
+
+    changes in authentication
+
+ backend/controllers/auth.js | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+commit 3f1e9253c36eb760bf843a00b698a499befd5e9a
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Tue Apr 8 00:28:12 2025 +0545
+
+    users swagger removed
+
+ backend/routes/users.js | 134 +-----------------------------------------------
+ 1 file changed, 1 insertion(+), 133 deletions(-)
+
+commit 8174c727ececb53333d796e658ce3db73cef308b
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Tue Apr 8 00:26:24 2025 +0545
+
+    importcontroller functions
+
+ backend/routes/appointments.js | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit df8deaecd96d6f5f0b88ba5c9329de6ea6a25056
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Tue Apr 8 00:21:13 2025 +0545
+
+    made some changes on appointment
+
+ backend/routes/appointments.js | 25 +------------------------
+ 1 file changed, 1 insertion(+), 24 deletions(-)
+
+commit 2b64ec8ceadd260c8582e7bad5187af347d93675
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Tue Apr 8 00:17:06 2025 +0545
+
+     removed swagger
+
+ backend/routes/appointments.js | 199 +----------------------------------------
+ 1 file changed, 3 insertions(+), 196 deletions(-)
+
+commit 5aadc962915146824afec77d338b4c81fab7f90a
+Author: samikshhya <samikshhyagrg@gmail.com>
+Date:   Tue Apr 8 00:07:34 2025 +0545
+
+    removed swaggers
+
+ backend/models/Appointment.js                      |  44 ---------------------
+ .../1744049736938-Screenshot 2025-03-28 203449.png | Bin 0 -> 121256 bytes
+ .../1744049879227-Screenshot 2025-03-28 203449.png | Bin 0 -> 121256 bytes
+ 3 files changed, 44 deletions(-)
+
+commit 2f341fc09689cc669eee019be57c9613a55481a5
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Mon Apr 7 20:39:54 2025 +0545
+
+    added loading state for register
+
+ frontend/src/pages/Register.jsx | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+commit adb3874861851977ba31080f5ec1139cba22e73d
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Mon Apr 7 20:28:11 2025 +0545
+
+    make the registration page workable
+
+ backend/models/User.js                     |  44 +++---
+ frontend/src/App.jsx                       |  18 +--
+ frontend/src/components/ManageDoctors.jsx  | 163 ++++++++++++++++++---
+ frontend/src/components/ManagePatients.jsx |  16 ++-
+ frontend/src/components/Navbar.jsx         |  10 +-
+ frontend/src/pages/DoctorDashboard.jsx     |  48 ++++++-
+ frontend/src/pages/DoctorsList.jsx         | 182 +++++++++++++++++++-----
+ frontend/src/pages/Register.jsx            | 219 ++++++++++++++++++++++++++---
+ 8 files changed, 588 insertions(+), 112 deletions(-)
+
+commit cab6f7e5ae8e9f3e5c849f696697828964bc113b
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Mon Apr 7 18:03:30 2025 +0545
+
+    importing two .jsx files
+
+ frontend/src/App.jsx | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+commit f559c2f417827d133c5f9f9c512577cce411b6be
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Mon Apr 7 17:50:29 2025 +0545
+
+    added doctordashboard in pages with css
+
+ frontend/src/pages/DoctorDashboard.jsx | 255 +++++++++++++++++++++++++++++++++
+ 1 file changed, 255 insertions(+)
+
+commit 3c13179535037536abe7b12bbba87ad23c8eb681
+Author: AslesaLamsal <166993233+AslesaLamsal@users.noreply.github.com>
+Date:   Mon Apr 7 16:01:08 2025 +0545
+
+    changes css but button is not workable
+
+ frontend/src/pages/AppointmentNotifications.jsx | 310 +++++++++++++++---------
+ 1 file changed, 191 insertions(+), 119 deletions(-)
+
+commit 7686384a3c7d6397f4bb5de4275067e111f3c3ba
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Sat Apr 5 21:26:59 2025 +0545
+
+    did some changes in navbar, created sos file added css, created appointmnet_management, appointment_notification, book appointment, Dashboard,doctorsList, patientRegistration,profile, created all these files and did css as per discussed.
+
+ frontend/package.json                           |   1 +
+ frontend/src/App.jsx                            |  54 +++-
+ frontend/src/components/BookAppointment.jsx     | 280 --------------------
+ frontend/src/components/Navbar.jsx              | 123 +++------
+ frontend/src/components/SOS.jsx                 | 133 ++++++++++
+ frontend/src/pages/AppointmentNotifications.jsx | 149 +++++++++++
+ frontend/src/pages/BookAppointment.jsx          | 201 +++++++++++++++
+ frontend/src/pages/Dashboard.jsx                | 328 +++++++++++++++---------
+ frontend/src/pages/DoctorsList.jsx              |  56 ++--
+ frontend/src/pages/Profile.jsx                  |  94 ++++---
+ frontend/src/pages/appointment_management.jsx   |  74 ++++++
+ frontend/src/pages/patientRegistration.jsx      | 123 +++++++++
+ 12 files changed, 1057 insertions(+), 559 deletions(-)
+
+commit 1fef2c9f4caf18f7e1481870cbcec70835b876cf
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Sat Apr 5 19:49:59 2025 +0545
+
+    created homepage added css as per discussed, created login and register page and added css.
+    Did necessary chnages in app.jsx so that other pages can work properly.
+
+ backend/package.json                 |   4 +-
+ frontend/src/App.jsx                 |  19 +-
+ frontend/src/components/HomePage.jsx | 192 +++++++++++++++++
+ frontend/src/pages/Dashboard.jsx     |  82 ++++----
+ frontend/src/pages/Login.jsx         | 164 ++++++---------
+ frontend/src/pages/Register.jsx      | 395 ++++++++---------------------------
+ 6 files changed, 406 insertions(+), 450 deletions(-)
+
+commit 284bcb7edac1b8795bfeb7f13964eb5206a24a20
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Wed Apr 2 21:46:47 2025 +0545
+
+    made the buttons workable
+
+ backend/controllers/auth.js           |  51 +++++++----
+ backend/controllers/users.js          |  10 +--
+ backend/routes/users.js               |   6 ++
+ frontend/src/pages/AdminDashboard.jsx | 165 +++++++++++++++++++++++++++++-----
+ frontend/src/pages/Register.jsx       |  78 +++++++++++++---
+ 5 files changed, 255 insertions(+), 55 deletions(-)
+
+commit 36b63e1456157ae307c745eea81b6c5388805a7b
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Tue Mar 25 19:59:39 2025 +0545
+
+    made the book appoint button workable and added the fuctionality for doctor to add their availability
+
+ backend/controllers/appointments.js            | 53 +++++++++++++++++++-------
+ backend/index.js                               |  1 +
+ backend/models/User.js                         | 23 ++++++++++-
+ frontend/src/components/BookAppointment.jsx    |  1 +
+ frontend/src/components/DoctorAvailability.jsx | 51 +++++++++++++++++++------
+ frontend/src/components/ManagePatients.jsx     | 27 +++++++++++--
+ frontend/src/main.jsx                          |  1 +
+ frontend/src/pages/Appointments.jsx            | 10 +++--
+ frontend/src/pages/DoctorsList.jsx             | 20 ++++++++++
+ frontend/src/utils/axiosConfig.js              | 42 ++++++++++++++++++++
+ 10 files changed, 196 insertions(+), 33 deletions(-)
+
+commit 51ef0d8507f64c8c99251053c57aedf2b6e85826
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Tue Mar 25 18:41:20 2025 +0545
+
+    fixed a typo error
+
+ backend/index.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 432e2091f376936cf59e9546e9c2619b95bfe6b6
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Tue Mar 25 12:10:04 2025 +0545
+
+    added profiles
+
+ backend/index.js | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+commit 24e62456ec10b481a7bc3cfc0367640934dc3fcf
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Tue Mar 25 11:57:42 2025 +0545
+
+    changed directory
+
+ backend/index.js                |  5 ++++-
+ frontend/src/pages/Register.jsx | 42 ++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 41 insertions(+), 6 deletions(-)
+
+commit 5d64821e13784c62c34ca282f176ee15fef8348a
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Tue Mar 25 11:43:17 2025 +0545
+
+    fixed the image upload problem
+
+ .gitignore                                |  1 -
+ backend/uploads/qualifications/.gitignore |  5 +++++
+ frontend/src/components/Navbar.jsx        | 26 +++++++++++++++++++++-----
+ frontend/src/pages/PatientsList.jsx       | 14 +++++++-------
+ 4 files changed, 33 insertions(+), 13 deletions(-)
+
+commit 6ec5f883603dddc247e3dd9aaae3832c71501471
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Mon Mar 24 20:37:13 2025 +0545
+
+    added style to these files according to the colors which was fnalized
+
+ frontend/src/pages/AdminDashboard.jsx     | 240 ++++++---------------
+ frontend/src/pages/Appointments.jsx       | 172 ++++++---------
+ frontend/src/pages/Dashboard.jsx          | 148 +++++++------
+ frontend/src/pages/DoctorsList.jsx        | 206 +++++++-----------
+ frontend/src/pages/Login.jsx              | 106 +++++++--
+ frontend/src/pages/ManageAvailability.jsx |  32 ++-
+ frontend/src/pages/NotFound.jsx           |  53 ++++-
+ frontend/src/pages/PatientsList.jsx       | 134 ++++++++++--
+ frontend/src/pages/Profile.jsx            | 313 +++++++++++++--------------
+ frontend/src/pages/Register.jsx           | 345 +++++++++++++-----------------
+ 10 files changed, 861 insertions(+), 888 deletions(-)
+
+commit b76fe621d98a84cf3da5553b495d25ade03d3aed
+Author: vedya29 <tiwarivedya84@gmail.com>
+Date:   Mon Mar 24 19:31:42 2025 +0545
+
+    added css to these files accp=ording to the color palette which was decided.
+
+ frontend/package.json                          |   6 +-
+ frontend/postcss.config.js                     |   6 +
+ frontend/src/components/DoctorAvailability.jsx | 271 ++++++++++++--------
+ frontend/src/components/ManageDoctors.jsx      | 340 ++++---------------------
+ frontend/src/components/ManagePatients.jsx     | 295 +++++++++------------
+ frontend/src/components/Navbar.jsx             | 120 +++++++--
+ frontend/src/components/ProtectedRoute.jsx     |  19 +-
+ 7 files changed, 458 insertions(+), 599 deletions(-)
+
+commit 3a1f522e17fa1887e9cc197d672252fd6b47260f
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Mon Mar 24 15:27:28 2025 +0545
+
+    added full name
+
+ backend/controllers/appointments.js        | 16 ++---
+ backend/controllers/auth.js                | 19 ++++--
+ backend/controllers/users.js               |  4 +-
+ backend/models/User.js                     | 94 ++++++++++++++++--------------
+ frontend/src/components/ManageDoctors.jsx  | 14 ++++-
+ frontend/src/components/ManagePatients.jsx | 14 +++++
+ frontend/src/components/Navbar.jsx         |  2 +-
+ frontend/src/pages/DoctorsList.jsx         |  3 +-
+ frontend/src/pages/Profile.jsx             | 13 +++++
+ frontend/src/pages/Register.jsx            | 17 ++++++
+ 10 files changed, 136 insertions(+), 60 deletions(-)
+
+commit 7179cae970f0e0614518d88ddf3dbfe49fda6e27
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sat Mar 22 18:41:31 2025 +0545
+
+    feat(appointments): add appointment management system
+    
+    Introduce a comprehensive appointment management system including:
+    - Appointment model with CRUD operations
+    - Doctor availability management
+    - Frontend pages for booking and managing appointments
+    - Integration with date-fns for date/time formatting
+    - Protected routes for appointment-related features
+
+ backend/controllers/appointments.js            | 319 +++++++++++++++++++++++++
+ backend/models/Appointment.js                  |  95 ++++++++
+ backend/routes/appointments.js                 | 245 +++++++++++++++++++
+ frontend/package.json                          |   1 +
+ frontend/src/App.jsx                           |  20 ++
+ frontend/src/components/BookAppointment.jsx    | 279 +++++++++++++++++++++
+ frontend/src/components/DoctorAvailability.jsx | 236 ++++++++++++++++++
+ frontend/src/pages/Appointments.jsx            | 214 +++++++++++++++++
+ frontend/src/pages/Dashboard.jsx               |  16 +-
+ frontend/src/pages/DoctorsList.jsx             |  62 +++++
+ frontend/src/pages/ManageAvailability.jsx      |  13 +
+ 11 files changed, 1496 insertions(+), 4 deletions(-)
+
+commit b941a04547ddf0b8234aee7bd9b88b5d41629b67
+Author: bivek7xdd <bivekshrestha238@gmail.com>
+Date:   Sat Mar 22 17:58:04 2025 +0545
+
+    First
+
+ .gitignore                                 |  49 ++++
+ README.md                                  | 231 ++++++++++++++++
+ backend/.env                               |   3 +
+ backend/config/credentials.json            |  14 +
+ backend/config/db.js                       |  15 ++
+ backend/config/swagger.config.js           |  23 ++
+ backend/controllers/auth.js                | 161 +++++++++++
+ backend/controllers/users.js               | 122 +++++++++
+ backend/index.js                           |  32 +++
+ backend/models/Appointment.js              |   0
+ backend/models/User.js                     | 149 ++++++++++
+ backend/package.json                       |  25 ++
+ backend/routes/auth.js                     | 374 +++++++++++++++++++++++++
+ backend/routes/users.js                    | 167 ++++++++++++
+ backend/utils/googleDrive.js               |  47 ++++
+ frontend/README.md                         |  81 ++++++
+ frontend/index.html                        |  13 +
+ frontend/package.json                      |  32 +++
+ frontend/public/favicon.svg                |   6 +
+ frontend/src/App.jsx                       |  92 +++++++
+ frontend/src/components/ManageDoctors.jsx  | 419 +++++++++++++++++++++++++++++
+ frontend/src/components/ManagePatients.jsx | 287 ++++++++++++++++++++
+ frontend/src/components/Navbar.jsx         |  86 ++++++
+ frontend/src/components/ProtectedRoute.jsx |  31 +++
+ frontend/src/contexts/AuthContext.jsx      |  83 ++++++
+ frontend/src/index.css                     |  54 ++++
+ frontend/src/main.jsx                      |  19 ++
+ frontend/src/pages/AdminDashboard.jsx      | 251 +++++++++++++++++
+ frontend/src/pages/Dashboard.jsx           | 152 +++++++++++
+ frontend/src/pages/DoctorsList.jsx         | 195 ++++++++++++++
+ frontend/src/pages/Login.jsx               | 102 +++++++
+ frontend/src/pages/NotFound.jsx            |  19 ++
+ frontend/src/pages/PatientsList.jsx        |  87 ++++++
+ frontend/src/pages/Profile.jsx             | 290 ++++++++++++++++++++
+ frontend/src/pages/Register.jsx            | 274 +++++++++++++++++++
+ frontend/tailwind.config.js                |   8 +
+ frontend/vite.config.js                    |  16 ++
+ 37 files changed, 4009 insertions(+)

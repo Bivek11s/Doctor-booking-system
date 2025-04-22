@@ -28,6 +28,7 @@ const Navbar = () => {
       display: "flex",
       alignItems: "center",
       gap: "20px",
+      height: "20px",
     },
     navLinks: {
       display: "flex",
