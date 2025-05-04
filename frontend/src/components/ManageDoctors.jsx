@@ -94,32 +94,61 @@ const ManageDoctors = () => {
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setEditDoctor((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    // Convert isVerified string value to boolean
+    if (name === "isVerified") {
+      setEditDoctor((prev) => ({
+        ...prev,
+        [name]: value === "true",
+      }));
+    } else {
+      setEditDoctor((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsUpdating(true);
-      await axios.put(`/api/users/${editDoctor._id}`, editDoctor);
+
+      // First, handle verification status separately if it has changed
+      const originalDoctor = doctors.find((doc) => doc._id === editDoctor._id);
+      const verificationChanged =
+        originalDoctor && originalDoctor.isVerified !== editDoctor.isVerified;
+
+      // If verification status changed, use the dedicated endpoint
+      if (verificationChanged) {
+        await axios.patch(`/api/users/${editDoctor._id}/verify`, {
+          isVerified: editDoctor.isVerified,
+        });
+      }
+
+      // For other fields, use the regular update endpoint
+      const doctorData = { ...editDoctor };
+
+      // Remove fields that shouldn't be updated via the regular endpoint
+      delete doctorData.isVerified; // Already handled by the verify endpoint if changed
+      delete doctorData._id; // Remove _id as it's not needed for update
+
+      await axios.put(`/api/users/${editDoctor._id}`, doctorData);
       toast.success("Doctor updated successfully");
       fetchDoctors();
       setShowEditModal(false);
     } catch (error) {
-      toast.error("Failed to update doctor");
+      console.error("Update error:", error);
+      toast.error(error.response?.data?.message || "Failed to update doctor");
     } finally {
       setIsUpdating(false);
     }
   };
 
-  const handleVerifyDoctor = async (doctorId, isApproved) => {
+  const handleVerifyDoctor = async (doctorId, isVerified) => {
     try {
-      await axios.post("/api/auth/verify-doctor", { doctorId, isApproved });
+      await axios.patch(`/api/users/${doctorId}/verify`, { isVerified });
       toast.success(
-        `Doctor ${isApproved ? "approved" : "rejected"} successfully`
+        `Doctor ${isVerified ? "verified" : "unverified"} successfully`
       );
       fetchDoctors();
     } catch (error) {
@@ -230,6 +259,7 @@ const ManageDoctors = () => {
               }}
             >
               <th style={{ padding: "12px" }}>Profile</th>
+              <th style={{ padding: "12px" }}>Name</th>
               <th style={{ padding: "12px" }}>Email</th>
               <th style={{ padding: "12px" }}>Phone</th>
               <th style={{ padding: "12px" }}>Specialty</th>
@@ -272,6 +302,9 @@ const ManageDoctors = () => {
                     }}
                   />
                 </td>
+                <td style={{ padding: "12px" }}>
+                  {doctor.fullName || "Not specified"}
+                </td>
                 <td style={{ padding: "12px" }}>{doctor.email}</td>
                 <td style={{ padding: "12px" }}>{doctor.phone}</td>
                 <td style={{ padding: "12px" }}>
@@ -291,30 +324,33 @@ const ManageDoctors = () => {
                   <button
                     onClick={() => handleEditClick(doctor)}
                     style={{ color: "#4A90E2", marginRight: "8px" }}
+                    title="Edit doctor"
                   >
                     ✏️
                   </button>
                   <button
                     onClick={() => handleDeleteClick(doctor)}
                     style={{ color: "#E11D48", marginRight: "8px" }}
+                    title="Delete doctor"
                   >
                     🗑️
                   </button>
-                  {!doctor.isVerified && (
-                    <>
-                      <button
-                        onClick={() => handleVerifyDoctor(doctor._id, true)}
-                        style={{ color: "#22C55E", marginRight: "8px" }}
-                      >
-                        ✔️
-                      </button>
-                      <button
-                        onClick={() => handleVerifyDoctor(doctor._id, false)}
-                        style={{ color: "#E11D48" }}
-                      >
-                        ❌
-                      </button>
-                    </>
+                  {doctor.isVerified ? (
+                    <button
+                      onClick={() => handleVerifyDoctor(doctor._id, false)}
+                      style={{ color: "#F59E0B", marginRight: "8px" }}
+                      title="Unverify doctor"
+                    >
+                      ⚠️
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleVerifyDoctor(doctor._id, true)}
+                      style={{ color: "#22C55E", marginRight: "8px" }}
+                      title="Verify doctor"
+                    >
+                      ✔️
+                    </button>
                   )}
                 </td>
               </tr>

@@ -139,9 +139,51 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// Update doctor verification status
+const updateDoctorVerification = async (req, res) => {
+  const { userId } = req.params;
+  const { isVerified } = req.body;
+  const adminUser = req.body; // From auth middleware
+
+  try {
+    // Check if the user making the request is an admin
+    // Uncomment when auth middleware is properly implemented
+    // if (adminUser.role !== "admin") {
+    //   return res.status(403).json({ message: "Only admin can verify doctors" });
+    // }
+
+    // Find the doctor
+    const doctor = await User.findById(userId);
+    if (!doctor) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is a doctor
+    if (doctor.role !== "doctor") {
+      return res.status(400).json({ message: "User is not a doctor" });
+    }
+
+    // Update verification status
+    const updatedDoctor = await User.findByIdAndUpdate(
+      userId,
+      { isVerified },
+      { new: true }
+    ).select("-password");
+
+    res.status(200).json({
+      user: updatedDoctor,
+      message: `Doctor ${isVerified ? "verified" : "unverified"} successfully`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   listUsers,
   getUserById,
   updateUser,
   deleteUser,
+  updateDoctorVerification,
 };

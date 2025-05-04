@@ -5,6 +5,7 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  updateDoctorVerification,
 } = require("../controllers/users");
 const multer = require("multer");
 
@@ -36,5 +37,8 @@ router.put(
 );
 
 router.delete("/:userId", deleteUser);
+
+// Update doctor verification status
+router.patch("/:userId/verify", updateDoctorVerification);
 
 module.exports = router;
