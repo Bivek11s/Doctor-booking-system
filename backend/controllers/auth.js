@@ -10,6 +10,7 @@ const register = async (req, res) => {
     password,
     role,
     doctorSpecialty,
+    nmcNumber,
     gender,
     dateOfBirth,
     fullName,
@@ -25,9 +26,13 @@ const register = async (req, res) => {
   }
 
   // Doctor-specific validation
-  if (role === "doctor" && (!doctorSpecialty || !files?.qualificationProof)) {
+  if (
+    role === "doctor" &&
+    (!doctorSpecialty || !files?.qualificationProof || !nmcNumber)
+  ) {
     return res.status(400).json({
-      message: "Please provide doctor specialty and qualification proof",
+      message:
+        "Please provide doctor specialty, qualification proof, and NMC number",
     });
   }
 
@@ -63,6 +68,7 @@ const register = async (req, res) => {
       fullName,
       role: role || "patient",
       doctorSpecialty: role === "doctor" ? doctorSpecialty : undefined,
+      nmcNumber: role === "doctor" ? nmcNumber : undefined,
       profilePic: profilePicUrl,
       qualificationProof: qualificationProofUrl,
     });
@@ -81,6 +87,7 @@ const register = async (req, res) => {
         role: user.role,
         isVerified: user.isVerified,
         doctorSpecialty: user.doctorSpecialty,
+        nmcNumber: user.nmcNumber,
         profilePic: user.profilePic,
         qualificationProof: user.qualificationProof,
       },
@@ -130,6 +137,7 @@ const login = async (req, res) => {
         role: user.role,
         isVerified: user.isVerified,
         doctorSpecialty: user.doctorSpecialty,
+        nmcNumber: user.nmcNumber,
         profilePic: user.profilePic,
         qualificationProof: user.qualificationProof,
       },
@@ -169,6 +177,7 @@ const verifyDoctor = async (req, res) => {
           role: updatedDoctor.role,
           isVerified: updatedDoctor.isVerified,
           doctorSpecialty: updatedDoctor.doctorSpecialty,
+          nmcNumber: updatedDoctor.nmcNumber,
           qualificationProof: updatedDoctor.qualificationProof,
         },
       });

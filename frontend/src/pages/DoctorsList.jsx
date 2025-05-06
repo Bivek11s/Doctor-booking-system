@@ -142,6 +142,10 @@ const DoctorsList = () => {
             {doctor.doctorSpecialty || "Not specified"}
           </p>
           <p style={styles.text}>
+            <span style={styles.label}>NMC Number:</span>{" "}
+            {doctor.nmcNumber || "Not available"}
+          </p>
+          <p style={styles.text}>
             <span style={styles.label}>Status:</span>{" "}
             <span
               style={{
@@ -226,7 +230,7 @@ const DoctorsList = () => {
             onChange={(e) => setVerificationFilter(e.target.value)}
             style={styles.select}
           >
-          {/* for side writtens */}
+            {/* for side writtens */}
             <option value="all">All Doctors</option>
             <option value="verified">Verified Only</option>
             <option value="pending">Pending Verification</option>

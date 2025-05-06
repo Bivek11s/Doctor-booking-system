@@ -208,6 +208,9 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
                 <p className="text-sm text-gray-600">
                   {doctor.doctorSpecialty}
                 </p>
+                <p className="text-sm text-gray-600">
+                  NMC Number: {doctor.nmcNumber || "Not available"}
+                </p>
               </div>
             </div>
           </div>

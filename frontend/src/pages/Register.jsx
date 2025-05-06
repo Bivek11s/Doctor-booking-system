@@ -17,6 +17,7 @@ const Register = () => {
     profilePic: null,
     qualificationProof: null,
     doctorSpecialty: "",
+    nmcNumber: "",
   });
 
   const [previewProfilePic, setPreviewProfilePic] = useState("");
@@ -38,6 +39,10 @@ const Register = () => {
         };
         reader.readAsDataURL(file);
       }
+    } else if (e.target.name === "nmcNumber") {
+      // Only allow numeric values for NMC Number
+      const numericValue = e.target.value.replace(/[^0-9]/g, "");
+      setFormData({ ...formData, [e.target.name]: numericValue });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -243,6 +248,16 @@ const Register = () => {
                 value={formData.doctorSpecialty}
                 onChange={handleChange}
                 placeholder="Enter your medical specialty"
+                style={inputStyle}
+                required={formData.role === "doctor"}
+              />
+              <label style={labelStyle}>NMC Number</label>
+              <input
+                type="number"
+                name="nmcNumber"
+                value={formData.nmcNumber}
+                onChange={handleChange}
+                placeholder="Enter your National Medical Council number"
                 style={inputStyle}
                 required={formData.role === "doctor"}
               />

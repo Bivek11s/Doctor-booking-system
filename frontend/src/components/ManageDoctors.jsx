@@ -263,6 +263,7 @@ const ManageDoctors = () => {
               <th style={{ padding: "12px" }}>Email</th>
               <th style={{ padding: "12px" }}>Phone</th>
               <th style={{ padding: "12px" }}>Specialty</th>
+              <th style={{ padding: "12px" }}>NMC Number</th>
               <th style={{ padding: "12px" }}>Status</th>
               <th style={{ padding: "12px", textAlign: "center" }}>Actions</th>
             </tr>
@@ -309,6 +310,9 @@ const ManageDoctors = () => {
                 <td style={{ padding: "12px" }}>{doctor.phone}</td>
                 <td style={{ padding: "12px" }}>
                   {doctor.doctorSpecialty || "Not specified"}
+                </td>
+                <td style={{ padding: "12px" }}>
+                  {doctor.nmcNumber || "Not available"}
                 </td>
                 <td style={{ padding: "12px" }}>
                   <span

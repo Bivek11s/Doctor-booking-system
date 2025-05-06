@@ -56,6 +56,12 @@ const userSchema = new mongoose.Schema({
       return this.role === "doctor";
     },
   },
+  nmcNumber: {
+    type: String,
+    required: function () {
+      return this.role === "doctor";
+    },
+  },
   availability: {
     type: [
       {
@@ -152,6 +158,9 @@ module.exports = User;
  *         doctorSpecialty:
  *           type: string
  *           description: Medical specialty of the doctor (required when role is doctor)
+ *         nmcNumber:
+ *           type: string
+ *           description: National Medical Council registration number (required when role is doctor)
  *         availability:
  *           type: array
  *           description: Doctor's availability schedule (only for doctors)
