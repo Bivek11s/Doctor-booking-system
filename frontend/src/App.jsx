@@ -18,6 +18,7 @@ import ManageAvailability from "./pages/ManageAvailability";
 import BookAppointment from "./pages/BookAppointment";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import AppointmentNotifications from "./pages/AppointmentNotifications";
+import MyReviews from "./pages/MyReviews";
 
 // New Import
 import AppointmentManagement from "./pages/appointment_management"; // Import Appointment Management Page
@@ -166,6 +167,16 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <AppointmentManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* My Reviews Page (Protected, Patient Only) */}
+          <Route
+            path="/my-reviews"
+            element={
+              <ProtectedRoute>
+                <MyReviews />
               </ProtectedRoute>
             }
           />

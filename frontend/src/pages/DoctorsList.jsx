@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
 import BookAppointment from "../components/BookAppointment";
+import DoctorReviews from "../components/DoctorReviews";
 import { useSearchParams } from "react-router-dom";
 
 const DoctorsList = () => {
@@ -199,6 +200,8 @@ const DoctorsList = () => {
           )}
         </div>
       </div>
+
+      {doctor.isVerified && <DoctorReviews doctorId={doctor._id} />}
     </div>
   );
 

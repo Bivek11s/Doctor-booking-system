@@ -84,6 +84,18 @@ const Navbar = () => {
                 Doctors
               </Link>
 
+              {user.role === "patient" && (
+                <Link to="/appointments" style={styles.navItem}>
+                  My Appointments
+                </Link>
+              )}
+
+              {user.role === "patient" && (
+                <Link to="/my-reviews" style={styles.navItem}>
+                  My Reviews
+                </Link>
+              )}
+
               {(user.role === "doctor" || user.role === "admin") && (
                 <Link to="/patients" style={styles.navItem}>
                   Patients

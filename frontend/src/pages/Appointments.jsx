@@ -17,12 +17,26 @@ const Appointments = () => {
   const fetchAppointments = async () => {
     try {
       setLoading(true);
+      // Check if user object and its properties exist
+      if (!user || !user.id || !user.role) {
+        console.error("User information is missing:", user);
+        toast.error(
+          "User information is missing. Please try logging in again."
+        );
+        return;
+      }
+
       let url = `/api/appointments?userId=${user.id}&userRole=${user.role}`;
       if (statusFilter !== "all") url += `&status=${statusFilter}`;
+
+      console.log("Fetching appointments from URL:", url);
       const response = await axios.get(url);
-      setAppointments(response.data.appointments);
+      console.log("Appointments data received:", response.data);
+      setAppointments(response.data.appointments || []);
     } catch (error) {
+      console.error("Error fetching appointments:", error);
       toast.error("Failed to load appointments");
+      setAppointments([]);
     } finally {
       setLoading(false);
     }
@@ -30,10 +44,10 @@ const Appointments = () => {
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     try {
-      await axios.put(`/api/appointments/${appointmentId}/status`, { 
+      await axios.put(`/api/appointments/${appointmentId}/status`, {
         status: newStatus,
         userId: user.id,
-        userRole: user.role
+        userRole: user.role,
       });
       toast.success(`Appointment ${newStatus} successfully`);
       fetchAppointments();
@@ -50,14 +64,16 @@ const Appointments = () => {
     };
 
     return (
-      <span style={{ 
-        padding: "6px 12px", 
-        borderRadius: "10px", 
-        fontSize: "12px", 
-        fontWeight: "bold",
-        backgroundColor: statusColors[status].background, 
-        color: statusColors[status].color 
-      }}>
+      <span
+        style={{
+          padding: "6px 12px",
+          borderRadius: "10px",
+          fontSize: "12px",
+          fontWeight: "bold",
+          backgroundColor: statusColors[status].background,
+          color: statusColors[status].color,
+        }}
+      >
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     );
@@ -74,31 +90,58 @@ const Appointments = () => {
     const formattedTime = `${hour12}:${minutes} ${ampm}`;
 
     return (
-      <div key={appointment._id} style={{ 
-        backgroundColor: "#E6F2E6", 
-        padding: "20px", 
-        borderRadius: "10px", 
-        marginBottom: "20px", 
-        boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)" 
-      }}>
+      <div
+        key={appointment._id}
+        style={{
+          backgroundColor: "#E6F2E6",
+          padding: "20px",
+          borderRadius: "10px",
+          marginBottom: "20px",
+          boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
         <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
           <div style={{ textAlign: "center" }}>
             <img
-              src={user.role === "patient" ? appointment.doctor.profilePic : appointment.patient.profilePic}
+              src={
+                user.role === "patient"
+                  ? appointment.doctor?.profilePic || "/default-profile.png"
+                  : appointment.patient?.profilePic || "/default-profile.png"
+              }
               alt="Profile"
-              style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover" }}
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
             />
             <h4 style={{ fontWeight: "bold", marginTop: "10px" }}>
-              {user.role === "patient" ? appointment.doctor.email : appointment.patient.email}
+              {user.role === "patient"
+                ? appointment.doctor?.email || "Doctor information unavailable"
+                : appointment.patient?.email ||
+                  "Patient information unavailable"}
             </h4>
             <p style={{ fontSize: "14px", color: "#666" }}>
-              {user.role === "patient" ? appointment.doctor.doctorSpecialty : appointment.patient.phone}
+              {user.role === "patient"
+                ? appointment.doctor?.doctorSpecialty ||
+                  "Specialty not specified"
+                : appointment.patient?.phone || "Phone not available"}
             </p>
           </div>
 
           <div style={{ flexGrow: "1" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-              <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>Appointment on {formattedDate}</h3>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>
+                Appointment on {formattedDate}
+              </h3>
               {renderStatusBadge(appointment.status)}
             </div>
             <p style={{ marginBottom: "10px" }}>Time: {formattedTime}</p>
@@ -114,23 +157,53 @@ const Appointments = () => {
             {appointment.status === "scheduled" && (
               <div style={{ marginTop: "10px" }}>
                 {user.role === "patient" && (
-                  <button 
-                    onClick={() => handleStatusChange(appointment._id, "cancelled")} 
-                    style={{ backgroundColor: "#F9B3B3", color: "#fff", padding: "10px 15px", borderRadius: "5px", border: "none", cursor: "pointer" }}>
+                  <button
+                    onClick={() =>
+                      handleStatusChange(appointment._id, "cancelled")
+                    }
+                    style={{
+                      backgroundColor: "#F9B3B3",
+                      color: "#fff",
+                      padding: "10px 15px",
+                      borderRadius: "5px",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
                     Cancel Appointment
                   </button>
                 )}
 
                 {user.role === "doctor" && (
                   <div style={{ display: "flex", gap: "10px" }}>
-                    <button 
-                      onClick={() => handleStatusChange(appointment._id, "completed")} 
-                      style={{ backgroundColor: "#B3B3E6", color: "#fff", padding: "10px 15px", borderRadius: "5px", border: "none", cursor: "pointer" }}>
+                    <button
+                      onClick={() =>
+                        handleStatusChange(appointment._id, "completed")
+                      }
+                      style={{
+                        backgroundColor: "#B3B3E6",
+                        color: "#fff",
+                        padding: "10px 15px",
+                        borderRadius: "5px",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
                       Mark as Completed
                     </button>
-                    <button 
-                      onClick={() => handleStatusChange(appointment._id, "cancelled")} 
-                      style={{ backgroundColor: "#F9B3B3", color: "#fff", padding: "10px 15px", borderRadius: "5px", border: "none", cursor: "pointer" }}>
+                    <button
+                      onClick={() =>
+                        handleStatusChange(appointment._id, "cancelled")
+                      }
+                      style={{
+                        backgroundColor: "#F9B3B3",
+                        color: "#fff",
+                        padding: "10px 15px",
+                        borderRadius: "5px",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
                       Cancel Appointment
                     </button>
                   </div>
@@ -144,15 +217,40 @@ const Appointments = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#D8E6EC", minHeight: "100vh", padding: "20px" }}>
-      <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px", color: "#4A4A7D" }}>My Appointments</h1>
+    <div
+      style={{
+        backgroundColor: "#D8E6EC",
+        minHeight: "100vh",
+        padding: "20px",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+          color: "#4A4A7D",
+        }}
+      >
+        My Appointments
+      </h1>
 
       <div style={{ marginBottom: "20px" }}>
-        <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>Filter by Status</label>
+        <label
+          style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}
+        >
+          Filter by Status
+        </label>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          style={{ padding: "10px", width: "100%", borderRadius: "5px", border: "1px solid #B3B3E6" }}>
+          style={{
+            padding: "10px",
+            width: "100%",
+            borderRadius: "5px",
+            border: "1px solid #B3B3E6",
+          }}
+        >
           <option value="all">All Appointments</option>
           <option value="scheduled">Scheduled</option>
           <option value="completed">Completed</option>
@@ -161,13 +259,30 @@ const Appointments = () => {
       </div>
 
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "64px" }}>
-          <div style={{ border: "4px solid #B3B3E6", borderRadius: "50%", width: "50px", height: "50px", animation: "spin 1s linear infinite" }}></div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "64px",
+          }}
+        >
+          <div
+            style={{
+              border: "4px solid #B3B3E6",
+              borderRadius: "50%",
+              width: "50px",
+              height: "50px",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
         </div>
       ) : appointments.length > 0 ? (
         <div>{appointments.map(renderAppointmentCard)}</div>
       ) : (
-        <p style={{ textAlign: "center", color: "#666", padding: "10px 0" }}>No appointments found</p>
+        <p style={{ textAlign: "center", color: "#666", padding: "10px 0" }}>
+          No appointments found
+        </p>
       )}
     </div>
   );
