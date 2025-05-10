@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
+import PatientHistory from "../pages/PatientHistory";
 
 const BookAppointment = ({ doctorId, onSuccess }) => {
   const { user } = useAuth();
@@ -15,6 +16,7 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
     reason: "",
     notes: "",
   });
+  const [showPatientHistory, setShowPatientHistory] = useState(false);
 
   const handleClose = () => {
     setSelectedDate("");
@@ -169,7 +171,7 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
     .sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
 
   return (
-    <div className="fixed inset-0 z-[50] flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-auto bg-black bg-opacity-50 pt-16">
       <div className="relative w-full max-w-2xl p-6 mx-4 mt-12 bg-white rounded-lg shadow-lg">
         <button
           onClick={handleClose}
@@ -213,6 +215,18 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
                 </p>
               </div>
             </div>
+
+            {user.role === "doctor" && (
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowPatientHistory(true)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+                >
+                  View Patient Medical History
+                </button>
+              </div>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -317,6 +331,14 @@ const BookAppointment = ({ doctorId, onSuccess }) => {
           </form>
         </div>
       </div>
+
+      {/* Patient History Modal */}
+      {showPatientHistory && user.role === "doctor" && (
+        <PatientHistory
+          patientId={user.id}
+          onClose={() => setShowPatientHistory(false)}
+        />
+      )}
     </div>
   );
 };

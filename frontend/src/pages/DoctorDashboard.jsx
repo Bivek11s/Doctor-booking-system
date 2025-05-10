@@ -3,17 +3,24 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import DoctorAvailability from "../components/DoctorAvailability";
 import Appointments from "./Appointments";
+import PatientHistory from "./PatientHistory";
+import PrescriptionManagement from "../components/PrescriptionManagement";
 
 const DoctorDashboard = () => {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("appointments");
+  const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const [showPatientHistory, setShowPatientHistory] = useState(false);
+  const [showPrescriptionManagement, setShowPrescriptionManagement] =
+    useState(false);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
-// for Whole background 
+  // for Whole background
   const containerStyle = {
     fontFamily: "Arial, sans-serif",
     margin: "0 auto",
@@ -22,7 +29,7 @@ const DoctorDashboard = () => {
     color: "#000",
     background: "#f4f6f7",
   };
-// styling for navbar
+  // styling for navbar
   const navbarStyle = {
     width: "100%",
     height: "60px",
@@ -61,6 +68,7 @@ const DoctorDashboard = () => {
     display: "flex",
     flexDirection: "column",
     gap: "15px",
+    width: "250px",
   };
 
   const sidebarItemStyle = {
@@ -163,6 +171,17 @@ const DoctorDashboard = () => {
         >
           Doctor Availability
         </div>
+        <div
+          style={{
+            ...sidebarItemStyle,
+            backgroundColor:
+              activeSection === "prescriptions" ? "#025a9b" : "#80a9d7",
+            color: activeSection === "prescriptions" ? "white" : "black",
+          }}
+          onClick={() => setActiveSection("prescriptions")}
+        >
+          Prescriptions
+        </div>
       </div>
 
       {/* Main Content */}
@@ -179,9 +198,178 @@ const DoctorDashboard = () => {
 
           {/* Dynamic Content Section */}
           <div style={{ ...sectionStyle, width: "100%" }}>
-            <Appointments />
-            <DoctorAvailability />
+            {activeSection === "appointments" && (
+              <div>
+                <div
+                  style={{
+                    marginBottom: "15px",
+                    padding: "10px",
+                    backgroundColor: "#e6f7ff",
+                    borderRadius: "5px",
+                    border: "1px solid #91d5ff",
+                  }}
+                >
+                  <p style={{ color: "#1890ff", fontWeight: "500" }}>
+                    <span style={{ marginRight: "8px", fontSize: "16px" }}>
+                      ℹ️
+                    </span>
+                    You can view a patient's medical history before completing
+                    an appointment. This helps ensure proper diagnosis and
+                    treatment planning.
+                  </p>
+                </div>
+                <Appointments
+                  onViewPatientHistory={(patientId) => {
+                    setSelectedPatientId(patientId);
+                    setShowPatientHistory(true);
+                  }}
+                  onManagePrescription={(appointmentId) => {
+                    setSelectedAppointmentId(appointmentId);
+                    setShowPrescriptionManagement(true);
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Quick Access Section */}
+            <div
+              style={{
+                ...sectionStyle,
+                marginTop: "20px",
+                backgroundColor: "#f0f4f8",
+                borderTop: "3px solid #025a9b",
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  marginBottom: "15px",
+                }}
+              >
+                Quick Actions
+              </h3>
+              <div style={{ display: "flex", gap: "15px", flexWrap: "wrap" }}>
+                <button
+                  onClick={() => setActiveSection("availability")}
+                  style={{
+                    backgroundColor: "#80a9d7",
+                    color: "white",
+                    padding: "10px 15px",
+                    borderRadius: "5px",
+                    border: "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <span>⏰</span> Manage Availability
+                </button>
+                <button
+                  onClick={() => navigate("/profile")}
+                  style={{
+                    backgroundColor: "#80a9d7",
+                    color: "white",
+                    padding: "10px 15px",
+                    borderRadius: "5px",
+                    border: "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <span>👤</span> Update Profile
+                </button>
+              </div>
+            </div>
+
+            {activeSection === "availability" && <DoctorAvailability />}
+
+            {activeSection === "prescriptions" && (
+              <div>
+                <h2 style={titleStyle}>Prescription Management</h2>
+                <p
+                  style={{
+                    textAlign: "center",
+                    color: "black",
+                    marginBottom: "20px",
+                  }}
+                >
+                  View and manage patient prescriptions. You can create new
+                  prescriptions for completed appointments.
+                </p>
+                <p style={{ textAlign: "center", color: "black" }}>
+                  Please select a patient from the appointments section to view
+                  their prescription history or create a new prescription.
+                </p>
+              </div>
+            )}
           </div>
+
+          {/* Patient History Modal */}
+          {showPatientHistory && selectedPatientId && (
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 2000, // Higher z-index to appear above navbar
+                paddingTop: "70px", // Add padding to prevent overlap with navbar
+              }}
+            >
+              <div
+                style={{ width: "90%", maxWidth: "1000px", maxHeight: "90vh" }}
+              >
+                <PatientHistory
+                  patientId={selectedPatientId}
+                  onClose={() => {
+                    setShowPatientHistory(false);
+                    setSelectedPatientId(null);
+                  }}
+                  embedded={true} // Use embedded mode to avoid nested modals
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Prescription Management Modal */}
+          {showPrescriptionManagement && selectedAppointmentId && (
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 2000, // Higher z-index to appear above navbar
+                paddingTop: "70px", // Add padding to prevent overlap with navbar
+              }}
+            >
+              <div
+                style={{ width: "90%", maxWidth: "1000px", maxHeight: "90vh" }}
+              >
+                <PrescriptionManagement
+                  appointmentId={selectedAppointmentId}
+                  onClose={() => {
+                    setShowPrescriptionManagement(false);
+                    setSelectedAppointmentId(null);
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
