@@ -84,29 +84,34 @@ const PatientsList = () => {
 
 const styles = {
   container: {
-    padding: "20px",
-    // backgroundColor: "#dcf2ff",
+    padding: "40px 20px",
+    backgroundColor: "#f9fbfc",
     minHeight: "100vh",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   title: {
-    fontSize: "2rem",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    color: "#333",
+    fontSize: "2.5rem",
+    fontWeight: "700",
+    marginBottom: "30px",
+    color: "#1f3a5f",
+    textAlign: "center",
   },
   count: {
-    marginBottom: "15px",
-    fontSize: "1rem",
+    marginBottom: "25px",
+    fontSize: "1.1rem",
     color: "#555",
+    textAlign: "center",
   },
   card: {
-    backgroundColor: "#dcf2ff",
-    padding: "16px",
-    borderRadius: "10px",
+    backgroundColor: "#ffffff",
+    padding: "20px",
+    borderRadius: "12px",
     marginBottom: "20px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.06)",
     maxWidth: "800px",
     marginInline: "auto",
+    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+    cursor: "pointer",
   },
   cardContent: {
     display: "flex",
@@ -115,36 +120,37 @@ const styles = {
   },
   imageWrapper: {
     flexShrink: 0,
-    marginRight: "20px",
+    marginRight: "25px",
   },
   image: {
-    width: "80px",
-    height: "80px",
+    width: "85px",
+    height: "85px",
     borderRadius: "50%",
     objectFit: "cover",
+    border: "2px solid #007bff",
   },
   info: {
     flex: 1,
   },
   name: {
-    fontSize: "1.2rem",
+    fontSize: "1.25rem",
     fontWeight: "600",
     color: "#007bff",
-    marginBottom: "5px",
+    marginBottom: "6px",
   },
   text: {
     fontSize: "1rem",
-    color: "#666",
-    marginBottom: "5px",
+    color: "#555",
+    marginBottom: "6px",
   },
   detail: {
-    fontSize: "1rem",
-    color: "#444",
-    marginBottom: "5px",
+    fontSize: "0.95rem",
+    color: "#333",
+    marginBottom: "4px",
   },
   label: {
     fontWeight: "bold",
-    color: "#333",
+    color: "#444",
   },
   loaderWrapper: {
     display: "flex",
@@ -155,19 +161,20 @@ const styles = {
   loader: {
     width: "50px",
     height: "50px",
-    border: "5px solid #ddd",
+    border: "5px solid #ccc",
     borderTop: "5px solid #007bff",
     borderRadius: "50%",
     animation: "spin 1s linear infinite",
   },
   noPatients: {
     textAlign: "center",
-    padding: "20px",
+    padding: "30px",
   },
   noPatientsText: {
-    fontSize: "1.2rem",
-    color: "#888",
+    fontSize: "1.25rem",
+    color: "#999",
   },
+
 };
 
 0; // Add keyframes animation for loader
