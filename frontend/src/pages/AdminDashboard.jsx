@@ -75,17 +75,19 @@ const AdminDashboard = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
+          backgroundColor: "#f4f7fa",
         }}
       >
         <div
           style={{
-            borderTop: "4px solid #B3B3E6",
+            borderTop: "4px solid #4A90E2",
+            borderRight: "4px solid transparent",
             borderRadius: "50%",
             width: "50px",
             height: "50px",
             animation: "spin 1s linear infinite",
           }}
-        ></div>
+        />
       </div>
     );
   }
@@ -95,38 +97,41 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <div
         style={{
-          width: "250px",
-          backgroundColor: "#4A90E2", 
+          width: "240px",
+          backgroundColor: "#365486",
           color: "#fff",
-          padding: "20px",
+          padding: "10px 5px",
           minHeight: "100vh",
-          marginTop: "30px", 
+          boxShadow: "2px 0 8px rgba(0,0,0,0.1)",
+          marginTop: "10px",
         }}
       >
         <h2
-        // for heading
           style={{
-            fontWeight: "bold",
-            fontSize: "20px",
-            marginBottom: "30px",
-            marginTop: "20px", 
+            fontSize: "22px",
+            fontWeight: "700",
+            marginBottom: "40px",
+            textAlign: "center",
           }}
         >
           Admin Panel
         </h2>
         <ul style={{ listStyle: "none", padding: 0 }}>
           {["dashboard", "doctors", "patients"].map((tab) => (
-            <li key={tab} style={{ marginBottom: "15px" }}>
+            <li key={tab} style={{ marginBottom: "20px" }}>
               <button
                 onClick={() => setActiveTab(tab)}
                 style={{
-                  background: "none",
+                  background: activeTab === tab ? "#4A90E2" : "transparent",
                   border: "none",
                   color: "#fff",
-                  fontWeight: "bold", 
+                  fontWeight: "600",
                   cursor: "pointer",
-                  textAlign: "left",
+                  padding: "10px 15px",
+                  borderRadius: "6px",
                   width: "100%",
+                  textAlign: "left",
+                  transition: "background 0.3s ease",
                 }}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -137,11 +142,16 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: "30px", background: "#f9f9f9", marginLeft: "10px" }}>
-        {/* Dashboard Section */}
+      <div
+        style={{
+          flex: 1,
+          padding: "30px",
+          background: "#f9f9f9",
+          marginLeft: "10px",
+        }}
+      >
         {activeTab === "dashboard" && (
           <div style={{ marginTop: "20px" }}>
-            {/* Overview Text */}
             <h1
               style={{
                 fontSize: "24px",
@@ -150,15 +160,14 @@ const AdminDashboard = () => {
                 color: "#365486",
               }}
             >
-              📊 Admin Dashboard Overview
+              Admin Dashboard Overview
             </h1>
 
-            {/* Stats Cards */}
             <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                gap: "20px",
+                gap: "24px",
                 marginBottom: "30px",
               }}
             >
@@ -171,19 +180,30 @@ const AdminDashboard = () => {
                 <div
                   key={index}
                   style={{
-                    backgroundColor: "#dcf2ff",
-                    borderRadius: "10px",
-                    padding: "20px",
-                    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                    backgroundColor: "#ffffff",
+                    borderRadius: "12px",
+                    padding: "24px",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+                    textAlign: "center",
+                    transition: "transform 0.2s ease",
+                    cursor: "default",
                   }}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.02)")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
                 >
-                  <h3 style={{ fontSize: "16px", marginBottom: "10px" }}>
+                  <h3
+                    style={{ fontSize: "15px", marginBottom: "12px", color: "#888" }}
+                  >
                     {item.title}
                   </h3>
                   <p
                     style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
+                      fontSize: "26px",
+                      fontWeight: "700",
                       color: "#365486",
                     }}
                   >
@@ -196,21 +216,23 @@ const AdminDashboard = () => {
             {/* Pending Doctor Approvals */}
             <div
               style={{
-                backgroundColor: "#dcf2ff",
-                padding: "20px",
+                backgroundColor: "#ffffff",
+                padding: "24px",
                 borderRadius: "10px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
               }}
             >
               <h2
                 style={{
                   fontSize: "18px",
-                  fontWeight: "bold",
-                  marginBottom: "10px",
+                  fontWeight: "700",
+                  marginBottom: "16px",
+                  color: "#365486",
                 }}
               >
                 Pending Doctor Approvals
               </h2>
+
               {pendingDoctors.length > 0 ? (
                 pendingDoctors.map((doctor) => (
                   <div
@@ -219,13 +241,21 @@ const AdminDashboard = () => {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      padding: "10px 0",
-                      borderBottom: "1px solid #ccc",
+                      padding: "14px 0",
+                      borderBottom: "1px solid #eee",
                     }}
                   >
                     <div>
-                      <h3 style={{ fontWeight: "bold" }}>{doctor.email}</h3>
-                      <p style={{ fontSize: "14px", color: "#666" }}>
+                      <h3 style={{ fontWeight: "600", marginBottom: "4px" }}>
+                        {doctor.email}
+                      </h3>
+                      <p
+                        style={{
+                          fontSize: "14px",
+                          color: "#666",
+                          marginBottom: "2px",
+                        }}
+                      >
                         Phone: {doctor.phone}
                       </p>
                       <p style={{ fontSize: "14px", color: "#666" }}>
@@ -239,8 +269,9 @@ const AdminDashboard = () => {
                           backgroundColor: "#38b000",
                           color: "#fff",
                           padding: "8px 15px",
-                          borderRadius: "5px",
+                          borderRadius: "6px",
                           border: "none",
+                          fontWeight: "600",
                           cursor: "pointer",
                         }}
                       >
@@ -252,8 +283,9 @@ const AdminDashboard = () => {
                           backgroundColor: "#d62828",
                           color: "#fff",
                           padding: "8px 15px",
-                          borderRadius: "5px",
+                          borderRadius: "6px",
                           border: "none",
+                          fontWeight: "600",
                           cursor: "pointer",
                         }}
                       >
@@ -266,8 +298,9 @@ const AdminDashboard = () => {
                 <p
                   style={{
                     textAlign: "center",
-                    color: "#666",
-                    padding: "10px 0",
+                    color: "#999",
+                    padding: "20px 0",
+                    fontStyle: "italic",
                   }}
                 >
                   No pending approvals
@@ -277,14 +310,23 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* Patients Tab */}
         {activeTab === "patients" && <ManagePatients />}
-
-        {/* Doctors Tab */}
         {activeTab === "doctors" && <ManageDoctors />}
       </div>
     </div>
   );
 };
 
+// Inject keyframes for spinner animation
+const styleElement = document.createElement("style");
+styleElement.textContent = `
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+document.head.appendChild(styleElement);
+
 export default AdminDashboard;
+
+
