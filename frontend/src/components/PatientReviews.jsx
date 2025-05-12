@@ -21,7 +21,9 @@ const PatientReviews = () => {
   const fetchPatientReviews = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/reviews/patient");
+      const response = await axios.get(
+        `/api/reviews/patient?patientId=${user.id}`
+      );
       setReviews(response.data.reviews);
     } catch (error) {
       console.error("Error fetching patient reviews:", error);
@@ -68,12 +70,17 @@ const PatientReviews = () => {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
 
     try {
-      await axios.delete(`/api/reviews/${reviewId}`);
+      await axios.delete(`/api/reviews/${reviewId}`, {
+        data: {
+          userId: user.id,
+          userRole: user.role,
+        },
+      });
       toast.success("Review deleted successfully");
       fetchPatientReviews();
     } catch (error) {
       console.error("Error deleting review:", error);
-      toast.error("Failed to delete review");
+      toast.error(error.response?.data?.message || "Failed to delete review");
     }
   };
 

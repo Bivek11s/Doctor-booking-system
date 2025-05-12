@@ -46,7 +46,19 @@ const Appointments = ({ onViewPatientHistory, onManagePrescription }) => {
       console.log("Fetching appointments from URL:", url);
       const response = await axios.get(url);
       console.log("Appointments data received:", response.data);
-      setAppointments(response.data.appointments || []);
+
+      // Sort appointments to show scheduled ones at the top
+      const sortedAppointments = [...(response.data.appointments || [])];
+      sortedAppointments.sort((a, b) => {
+        // If a is scheduled and b is not, a comes first
+        if (a.status === "scheduled" && b.status !== "scheduled") return -1;
+        // If b is scheduled and a is not, b comes first
+        if (b.status === "scheduled" && a.status !== "scheduled") return 1;
+        // Otherwise maintain the original order
+        return 0;
+      });
+
+      setAppointments(sortedAppointments);
     } catch (error) {
       console.error("Error fetching appointments:", error);
       toast.error("Failed to load appointments");

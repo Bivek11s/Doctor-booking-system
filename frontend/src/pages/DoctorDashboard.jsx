@@ -251,22 +251,6 @@ const DoctorDashboard = () => {
               </h3>
               <div style={{ display: "flex", gap: "15px", flexWrap: "wrap" }}>
                 <button
-                  onClick={() => setActiveSection("availability")}
-                  style={{
-                    backgroundColor: "#80a9d7",
-                    color: "white",
-                    padding: "10px 15px",
-                    borderRadius: "5px",
-                    border: "none",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
-                >
-                  <span>⏰</span> Manage Availability
-                </button>
-                <button
                   onClick={() => navigate("/profile")}
                   style={{
                     backgroundColor: "#80a9d7",
