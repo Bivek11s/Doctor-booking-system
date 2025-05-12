@@ -75,17 +75,17 @@ const Register = () => {
   };
 
   return (
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background:
-          'url("https://img.freepik.com/free-photo/frame-medical-equipment-desk_23-2148519742.jpg") no-repeat center center/cover',
-      }}
-    >
+   <div
+  style={{
+    fontFamily: "Arial, sans-serif",
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff", // Solid white background
+  }}
+>
+
       <div
         style={{
           padding: "30px",
@@ -93,7 +93,7 @@ const Register = () => {
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
           width: "100%",
           maxWidth: "400px",
-          background: "rgba(255, 255, 255, 0.85)", // Light transparent background for readability
+          background: "linear-gradient(to bottom right, #f1f5f9, #e2e8f0)"
         }}
       >
         <h2
