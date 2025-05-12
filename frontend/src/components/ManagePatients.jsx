@@ -84,69 +84,81 @@ const ManagePatients = () => {
   };
 
   const styles = {
-    container: {
-      backgroundColor: "#E5EFE5",
-      padding: "20px",
-      borderRadius: "8px",
-    },
-    table: {
-      width: "100%",
-      backgroundColor: "#D8E6EC",
-      borderRadius: "8px",
-      overflow: "hidden",
-    },
-    tableHeader: {
-      backgroundColor: "#B7B9D1",
-      color: "#fff",
-    },
-    tableRow: {
-      borderBottom: "1px solid #ccc",
-    },
-    tableCell: {
-      padding: "12px",
-    },
-    button: {
-      padding: "8px 12px",
-      margin: "4px",
-      borderRadius: "4px",
-      cursor: "pointer",
-    },
-    buttonEdit: {
-      backgroundColor: "#B7B9D1",
-      color: "#fff",
-      border: "none",
-    },
-    buttonDelete: {
-      backgroundColor: "#F9F9E9",
-      color: "#000",
-      border: "1px solid #ccc",
-    },
-    modal: {
-      position: "fixed",
-      top: "0",
-      left: "0",
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    modalContent: {
-      backgroundColor: "#fff",
-      padding: "20px",
-      borderRadius: "8px",
-      maxWidth: "400px",
-      width: "100%",
-    },
-    input: {
-      width: "100%",
-      padding: "8px",
-      margin: "5px 0",
-      border: "1px solid #ccc",
-      borderRadius: "4px",
-    },
-  };
+  container: {
+    backgroundColor: "#f8fafc",
+    padding: "30px",
+    borderRadius: "10px",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+  },
+  table: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    borderRadius: "10px",
+    overflow: "hidden",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+  },
+  tableHeader: {
+    backgroundColor: "#E5E7EB", // same gray header as ManageDoctors
+    color: "#374151", // dark gray text
+    textAlign: "left",
+  },
+  tableRow: {
+    borderBottom: "1px solid #E5E7EB",
+    backgroundColor: "#F9FAFB",
+    transition: "background 0.2s ease",
+  },
+  tableCell: {
+    padding: "12px 16px",
+    fontSize: "0.95rem",
+    color: "#334155",
+  },
+  button: {
+    padding: "8px 12px",
+    marginRight: "6px",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "600",
+    border: "none",
+  },
+  buttonEdit: {
+    backgroundColor: "#4A90E2", // consistent blue
+    color: "#fff",
+  },
+  buttonDelete: {
+    backgroundColor: "#EF4444", // consistent red
+    color: "#fff",
+  },
+  modal: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  modalContent: {
+    backgroundColor: "#ffffff",
+    padding: "24px",
+    borderRadius: "10px",
+    width: "90%",
+    maxWidth: "400px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    margin: "10px 0",
+    borderRadius: "6px",
+    border: "1px solid #cbd5e1",
+    fontSize: "0.95rem",
+  },
+};
+
+
 
   if (loading) {
     return (
@@ -231,18 +243,27 @@ const ManagePatients = () => {
       {showDeleteModal && (
         <div style={styles.modal}>
           <div style={styles.modalContent}>
-            <h3>Confirm Delete</h3>
-            <p>
-              Are you sure you want to delete{" "}
-              <strong>{patientToDelete.email}</strong>?
+            <h3 style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "10px" }}>
+              Confirm Delete
+            </h3>
+            <p style={{ marginBottom: "20px", color: "#374151" }}>
+              Are you sure you want to delete {patientToDelete.email}?
             </p>
+
             <button
               onClick={() => setShowDeleteModal(false)}
               style={styles.button}
             >
               Cancel
             </button>
-            <button onClick={handleDeleteConfirm} style={styles.buttonDelete}>
+            <button
+              onClick={handleDeleteConfirm}
+              style={{
+                ...styles.button,
+                backgroundColor: "#e5e7eb", 
+                color: "#1f2937",           
+              }}
+            >
               Delete
             </button>
           </div>
@@ -252,7 +273,9 @@ const ManagePatients = () => {
       {showEditModal && (
         <div style={styles.modal}>
           <div style={styles.modalContent}>
-            <h3>Edit Patient</h3>
+            <h3 style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "10px" }}>
+              Edit Patient
+            </h3>
             <form onSubmit={handleEditSubmit}>
               <input
                 type="text"
@@ -275,7 +298,14 @@ const ManagePatients = () => {
               >
                 Cancel
               </button>
-              <button type="submit" style={styles.buttonEdit}>
+              <button
+                type="submit"
+                style={{
+                  ...styles.button,
+                  backgroundColor: "#e5e7eb", 
+                  color: "#1f2937",           
+                }}
+              >
                 Save Changes
               </button>
             </form>
