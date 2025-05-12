@@ -248,7 +248,7 @@ const styles = {
     flex: "2",
   },
   label: {
-    display: "block",
+    display: "centre",
     fontWeight: "600",
     fontSize: "14px",
     color: "#1e293b",
