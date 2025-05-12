@@ -41,56 +41,50 @@ const Login = () => {
   };
 
   return (
-    // style for whole page 
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: 'url("https://img.freepik.com/free-photo/frame-medical-equipment-desk_23-2148519742.jpg") no-repeat center center/cover',
-      }}
-    >
-      <div
-      // for the box
-        style={{
-          padding: "30px",
-          borderRadius: "10px",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-          width: "100%",
-          maxWidth: "400px",
-          background: "rgba(255, 255, 255, 0.85)", // Light transparent background for readability
-        }}
-      >
-        <h2 style={{ textAlign: "center", fontSize: "24px", marginBottom: "20px" }}>
-          Login
-        </h2>
+    <div style={styles.page}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Login</h2>
 
-        {error && (
-          <div style={errorStyle}>{error}</div>
-        )}
+        {error && <div style={styles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          {/* Email or Phone */}
-          <label style={labelStyle}>Email or Phone</label>
-          <input type="text" name="emailOrPhone" value={formData.emailOrPhone} onChange={handleChange} placeholder="Enter your email or phone" required style={inputStyle} />
+          <label style={styles.label}>Email or Phone</label>
+          <input
+            type="text"
+            name="emailOrPhone"
+            value={formData.emailOrPhone}
+            onChange={handleChange}
+            placeholder="Enter your email or phone"
+            required
+            style={styles.input}
+          />
 
-          {/* Password */}
-          <label style={labelStyle}>Password</label>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter your password" required style={inputStyle} />
+          <label style={styles.label}>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter your password"
+            required
+            style={styles.input}
+          />
 
-          {/* Submit Button */}
-          <button type="submit" style={buttonStyle} onMouseOver={(e) => (e.target.style.opacity = "0.8")} onMouseOut={(e) => (e.target.style.opacity = "1")} disabled={loading}>
+          <button
+            type="submit"
+            style={styles.button}
+            disabled={loading}
+            onMouseOver={(e) => (e.target.style.opacity = "0.9")}
+            onMouseOut={(e) => (e.target.style.opacity = "1")}
+          >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        {/* Register Link */}
-        <div style={{ textAlign: "center", marginTop: "15px", fontSize: "14px" }}>
+        <div style={styles.registerText}>
           <p>
             Don't have an account?{" "}
-            <Link to="/register" style={{ textDecoration: "underline" }}>
+            <Link to="/register" style={styles.link}>
               Register here
             </Link>
           </p>
@@ -100,35 +94,84 @@ const Login = () => {
   );
 };
 
-// Reusable Styles
-const labelStyle = { fontWeight: "bold", fontSize: "14px" };
-const inputStyle = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: "10px",
-  border: "1px solid rgba(0, 0, 0, 0.3)",
-  borderRadius: "5px",
-  outline: "none",
-};
-const buttonStyle = {
-  width: "100%",
-  padding: "12px",
-  fontSize: "16px",
-  fontWeight: "bold",
-  borderRadius: "5px",
-  border: "none",
-  cursor: "pointer",
-  transition: "opacity 0.3s",
-  background: "rgba(0, 0, 0, 0.7)", // Dark button with opacity effect
-  color: "white",
-};
-const errorStyle = {
-  background: "rgba(255, 0, 0, 0.1)",
-  padding: "10px",
-  borderRadius: "5px",
-  marginBottom: "15px",
-  fontSize: "14px",
-  textAlign: "center",
+const styles = {
+  page: {
+    fontFamily: "'Segoe UI', sans-serif",
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",
+    background: "linear-gradient(to bottom right, #f1f5f9, #e2e8f0)",
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    padding: "36px 30px",
+    borderRadius: "12px",
+    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.1)",
+    width: "100%",
+    maxWidth: "400px",
+    boxSizing: "border-box",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: "24px",
+    fontWeight: "700",
+    marginBottom: "24px",
+    color: "#1E3A8A",
+  },
+  label: {
+    fontWeight: "600",
+    fontSize: "14px",
+    color: "#1e293b",
+    marginBottom: "6px",
+    display: "block",
+  },
+  input: {
+    width: "100%",
+    padding: "10px 12px",
+    marginBottom: "16px",
+    border: "1px solid #cbd5e1",
+    borderRadius: "6px",
+    fontSize: "15px",
+    backgroundColor: "#ffffff",
+    outline: "none",
+  },
+  button: {
+    width: "100%",
+    padding: "12px",
+    fontSize: "16px",
+    fontWeight: "600",
+    borderRadius: "6px",
+    border: "none",
+    backgroundColor: "#2563eb",
+    color: "#ffffff",
+    cursor: "pointer",
+    transition: "opacity 0.3s ease",
+  },
+  error: {
+    backgroundColor: "#fee2e2",
+    color: "#b91c1c",
+    padding: "10px",
+    borderRadius: "6px",
+    marginBottom: "16px",
+    fontSize: "14px",
+    textAlign: "center",
+    fontWeight: "500",
+  },
+  registerText: {
+    textAlign: "center",
+    marginTop: "15px",
+    fontSize: "14px",
+    color: "#475569",
+  },
+  link: {
+    textDecoration: "underline",
+    color: "#2563eb",
+    fontWeight: "500",
+  },
 };
 
 export default Login;
+
+
