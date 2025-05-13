@@ -150,7 +150,7 @@ const HomePage = () => {
           Your Health, Just a Click Away!
           </p>
           <div style={styles.heroBtns}>
-            <button style={styles.primaryBtn}>Schedule Appointment</button>
+             <button style={styles.primaryBtn} onClick={() => navigate("/login")}>Schedule Appointment</button>
             <button style={styles.secondaryBtn}>Learn More</button>
           </div>
         </div>
