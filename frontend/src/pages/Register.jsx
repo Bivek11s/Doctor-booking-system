@@ -21,7 +21,6 @@ const Register = () => {
   });
 
   const [previewProfilePic, setPreviewProfilePic] = useState("");
-
   const [showDoctorFields, setShowDoctorFields] = useState(false);
 
   const handleChange = (e) => {
@@ -40,7 +39,6 @@ const Register = () => {
         reader.readAsDataURL(file);
       }
     } else if (e.target.name === "nmcNumber") {
-      // Only allow numeric values for NMC Number
       const numericValue = e.target.value.replace(/[^0-9]/g, "");
       setFormData({ ...formData, [e.target.name]: numericValue });
     } else {
@@ -75,17 +73,16 @@ const Register = () => {
   };
 
   return (
-   <div
-  style={{
-    fontFamily: "Arial, sans-serif",
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff", // Solid white background
-  }}
->
-
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#ffffff",
+      }}
+    >
       <div
         style={{
           padding: "30px",
@@ -93,7 +90,7 @@ const Register = () => {
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
           width: "100%",
           maxWidth: "400px",
-          background: "linear-gradient(to bottom right, #f1f5f9, #e2e8f0)"
+          background: "linear-gradient(to bottom right, #f1f5f9, #e2e8f0)",
         }}
       >
         <h2
@@ -107,7 +104,6 @@ const Register = () => {
         </h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Full Name */}
           <label style={labelStyle}>Full Name</label>
           <input
             type="text"
@@ -119,7 +115,6 @@ const Register = () => {
             style={inputStyle}
           />
 
-          {/* Email */}
           <label style={labelStyle}>Email</label>
           <input
             type="email"
@@ -131,7 +126,6 @@ const Register = () => {
             style={inputStyle}
           />
 
-          {/* Password */}
           <label style={labelStyle}>Password</label>
           <input
             type="password"
@@ -143,7 +137,6 @@ const Register = () => {
             style={inputStyle}
           />
 
-          {/* Phone Number */}
           <label style={labelStyle}>Phone Number</label>
           <input
             type="tel"
@@ -155,7 +148,6 @@ const Register = () => {
             style={inputStyle}
           />
 
-          {/* Gender */}
           <label style={labelStyle}>Gender</label>
           <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
             <label style={radioStyle}>
@@ -188,7 +180,6 @@ const Register = () => {
             </label>
           </div>
 
-          {/* Date of Birth */}
           <label style={labelStyle}>Date of Birth</label>
           <input
             type="date"
@@ -199,7 +190,6 @@ const Register = () => {
             style={inputStyle}
           />
 
-          {/* Role Selection */}
           <label style={labelStyle}>Register as</label>
           <select
             name="role"
@@ -211,7 +201,6 @@ const Register = () => {
             <option value="doctor">Doctor</option>
           </select>
 
-          {/* Profile Picture Field */}
           <div>
             {previewProfilePic && (
               <div style={{ marginBottom: "10px", textAlign: "center" }}>
@@ -238,7 +227,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Doctor Specific Fields */}
           {showDoctorFields && (
             <div>
               <label style={labelStyle}>Specialty</label>
@@ -273,7 +261,6 @@ const Register = () => {
             </div>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             style={{
@@ -313,7 +300,7 @@ const buttonStyle = {
   border: "none",
   cursor: "pointer",
   transition: "opacity 0.3s",
-  background: "rgba(0, 0, 0, 0.7)", // Dark button with opacity effect
+  background: "#1d4ed8", // Updated to blue
   color: "white",
 };
 
